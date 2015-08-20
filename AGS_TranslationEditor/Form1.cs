@@ -22,20 +22,35 @@ namespace AGS_TranslationEditor
         private void öffnenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Filter = "AGS Translation File|*.tra";
-
+            fileDialog.Filter = "AGS Translation File(*.TRA,*.TRS)|*.tra;*.trs";
+            
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 dataGridView1.Rows.Clear();
-                ArrayList entryList = AGS_Translation.ParseTranslation(fileDialog.FileName);
+                int numEntries = 0;
+                ArrayList entryList = null;
 
-                foreach (string[] entry in entryList)
+                if (fileDialog.FileName.Contains(".tra"))
                 {
-                    //Populate DataGridView
-                    string[] newRow = { entry[0], entry[1] };
-                    dataGridView1.Rows.Add(newRow);
+                    entryList = AGS_Translation.ParseTRA_Translation(fileDialog.FileName);
                 }
-                 
+                else if (fileDialog.FileName.Contains(".trs"))
+                {
+                    entryList = AGS_Translation.ParseTRS_Translation(fileDialog.FileName);
+                }
+
+                if (entryList != null)
+                {
+                    foreach (string[] entry in entryList)
+                    {
+                        //Populate DataGridView
+                        string[] newRow = {entry[0], entry[1]};
+                        dataGridView1.Rows.Add(newRow);
+                        numEntries++;
+                    }
+                }
+
+                toolStripStatusLabel1.Text = "Entries: " + numEntries;
             }
 
         }
@@ -49,30 +64,66 @@ namespace AGS_TranslationEditor
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Filter = "AGS Translation File|*.trs";
+
+            DataSet ds = new DataSet();
             DataTable table = new DataTable();
-            //table.Columns.Add("Original");
-            //table.Columns.Add("Translated");
+
+            table.Clear();
+            dataGridView1.Columns.RemoveAt(0);
+            dataGridView1.Columns.RemoveAt(0);
+            table.Columns.Add("Original");
+            table.Columns.Add("Translated");
+
 
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 int numEntries = 0;
+
+                if(dataGridView1.RowCount > 0)
                 dataGridView1.Rows.Clear();
-                ArrayList entryList = AGS_Translation.ParseTRSTranslation(fileDialog.FileName);
+
+                ArrayList entryList = AGS_Translation.ParseTRS_Translation(fileDialog.FileName);
 
                 foreach (string[] entry in entryList)
                 {
                     //Populate DataGridView
                     string[] newRow = { entry[0], entry[1] };
+                    //DataRow row = table.NewRow();
+                    //row["Source Text"] = entry[0];
+                    //row["Translation"] = entry[1];
 
-                    //table.Rows.Add(newRow);
-                    dataGridView1.Rows.Add(newRow);
+                    //table.Rows.Add(row);
+                    table.Rows.Add(newRow);
+                    
                     numEntries++;
                 }
 
-                //dataGridView1.DataSource = table;
+
+                ds.Tables.Add(table);
+                DataSet set = table.DataSet;
+                dataGridView1.DataSource = table;
+                //dataGridView1.DataSource = ds;
 
                 toolStripStatusLabel1.Text = "Entries: " + numEntries;
             }
+        }
+
+        private void dataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                string test = dataGridView1[0, e.RowIndex].Value.ToString();
+                richTextBox1.Text = test;
+
+                string test2 = dataGridView1[1, e.RowIndex].Value.ToString();
+                richTextBox2.Text = test2;
+            }
+            catch (Exception)
+            {
+                
+                //throw;
+            }
+            
         }
     }
 }

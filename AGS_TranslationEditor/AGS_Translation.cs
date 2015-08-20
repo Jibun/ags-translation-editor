@@ -15,7 +15,7 @@ namespace AGS_TranslationEditor
         private static Int32 iGameUID;
         private static string sGameTitle;
 
-        public static ArrayList ParseTranslation(string Filename)
+        public static ArrayList ParseTRA_Translation(string Filename)
         {
             FileStream fs = File.OpenRead(Filename);
             BinaryReader br = new BinaryReader(fs);
@@ -80,9 +80,6 @@ namespace AGS_TranslationEditor
                         byte[] bSourceBytes = br.ReadBytes(newlen);
                         char[] cSourceText = new char[bSourceBytes.Length + 1];
 
-                        //bwasgamename = br.ReadBytes(newlen);
-                        //wasgamename = new char[bwasgamename.Length + 1];
-
                         i = 0;
                         foreach (byte number in bSourceBytes)
                         {
@@ -111,14 +108,8 @@ namespace AGS_TranslationEditor
                         decrypt_text(cTranslatedText);
                         string sDecTranslatedText = new string(cTranslatedText);
                         sDecTranslatedText = sDecTranslatedText.Trim('\0');
-
-
+                        
                         entryCounter++;
-
-                        if (entryCounter == 1383)
-                        {
-                            int z = 0;
-                        }
 
                         //Populate DataGridView
                         string[] newRow = {sDecSourceText, sDecTranslatedText};
@@ -153,6 +144,30 @@ namespace AGS_TranslationEditor
                  */
                 }
             }
+            return entryList;
+        }
+
+        public static ArrayList ParseTRS_Translation(string Filename)
+        {
+            string[] list = File.ReadAllLines(Filename);
+
+            var result = Array.FindAll(list, s => !s.StartsWith("//"));
+
+            for (int i = 0; i < result.Length;)
+            {
+                string sSourceText = result[i];
+                i++;
+                string sTranslationText = "";
+                if (i < result.Length)
+                {
+                    sTranslationText = result[i];
+                    i++;
+                }
+
+                string[] newRow = { sSourceText, sTranslationText };
+                entryList.Add(newRow);
+            }
+
             return entryList;
         }
 
@@ -223,52 +238,6 @@ namespace AGS_TranslationEditor
             }
         }
 
-        public static ArrayList ParseTRSTranslation(string Filename)
-        {
-            //FileStream fs = File.OpenRead(Filename);
-            //BinaryReader br = new BinaryReader(fs);
-            string[] list = File.ReadAllLines(Filename);
-
-            var result = Array.FindAll(list, s => !s.Contains("//"));
-            
-            for(int i=0;i < result.Length;)
-            {
-                string sSourceText = result[i];
-                i++;
-                string sTranslationText = "";
-                if (i < result.Length)
-                {
-                    sTranslationText = result[i];
-                    i++;
-                }
-
-                string[] newRow = { sSourceText, sTranslationText };
-                entryList.Add(newRow);
-            }
-            
-            //StreamReader sr = new StreamReader(Filename);
-
-            /*string line;
-            
-            while ((line = sr.ReadLine()) != null)
-            {
-                if (!line.Contains("//"))
-                {
-                    //string sSourceText = sr.ReadLine();
-                    string sSourceText = line;
-                    string sTranslationText = sr.ReadLine();
-
-                    if (!sTranslationText.Contains("//"))
-                    {
-                        string[] newRow = {sSourceText, sTranslationText};
-                        entryList.Add(newRow);
-                    }
-                }
-            }*/
-            
-            //sr.Close();
-            return entryList;
-        }
     }
 }
 
