@@ -246,7 +246,6 @@ namespace AGS_TranslationEditor
                 entryList.Add(newRow);
             }
             
-
             //StreamReader sr = new StreamReader(Filename);
 
             /*string line;
