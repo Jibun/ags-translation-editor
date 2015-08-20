@@ -48,6 +48,7 @@ namespace AGS_TranslationEditor
         private void neuToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "AGS Translation File|*.trs";
             DataTable table = new DataTable();
             //table.Columns.Add("Original");
             //table.Columns.Add("Translated");

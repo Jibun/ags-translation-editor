@@ -227,10 +227,30 @@ namespace AGS_TranslationEditor
         {
             //FileStream fs = File.OpenRead(Filename);
             //BinaryReader br = new BinaryReader(fs);
-            StreamReader sr = new StreamReader(Filename);
+            string[] list = File.ReadAllLines(Filename);
 
-            string line;
+            var result = Array.FindAll(list, s => !s.Contains("//"));
+            
+            for(int i=0;i < result.Length;)
+            {
+                string sSourceText = result[i];
+                i++;
+                string sTranslationText = "";
+                if (i < result.Length)
+                {
+                    sTranslationText = result[i];
+                    i++;
+                }
 
+                string[] newRow = { sSourceText, sTranslationText };
+                entryList.Add(newRow);
+            }
+            
+
+            //StreamReader sr = new StreamReader(Filename);
+
+            /*string line;
+            
             while ((line = sr.ReadLine()) != null)
             {
                 if (!line.Contains("//"))
@@ -245,9 +265,9 @@ namespace AGS_TranslationEditor
                         entryList.Add(newRow);
                     }
                 }
-            }
+            }*/
             
-            sr.Close();
+            //sr.Close();
             return entryList;
         }
     }
