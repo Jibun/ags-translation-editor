@@ -1,16 +1,12 @@
 # AGS Translation Editor #
 
-AGS Translation Editor is a tool to edit TRS and TRA translation files that can be used with AGS games.
+### What can you do with AGS Translation Editor ? ###
 
-### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* AGS Translation Editor is a tool to edit TRS and TRA translation files that can be used with AGS games.
+* decrypts and encrypts TRA files
 
 ### TRS file format ###
 A TRS file should look like this example
-
 
 ```
 #!python
@@ -23,8 +19,3 @@ A TRS file should look like this example
 
 
 ```
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
