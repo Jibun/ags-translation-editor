@@ -163,22 +163,10 @@
     <None Include="Resources\document-save%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\document-save-disabled.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\document-save-disabled%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\edit-delete.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\edit-delete%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MyMemoryLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MyMemoryLogo%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\poedit-fuzzy.png" />
@@ -187,16 +175,7 @@
     <None Include="Resources\poedit-fuzzy%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\poedit-fuzzy-disabled.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\poedit-fuzzy-disabled%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\poedit-status-automatic%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\poedit-status-bookmark.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\poedit-status-bookmark%402x.png" />
@@ -226,19 +205,10 @@
     <None Include="Resources\poedit-status-comment%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\poedit-status-nothing.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\poedit-update.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\poedit-update%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\poedit-update-disabled.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\poedit-update-disabled%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\poedit-validate.png" />
@@ -247,43 +217,13 @@
     <None Include="Resources\poedit-validate%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\poedit-validate-disabled.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\poedit-validate-disabled%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PoeditWelcome.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PoeditWelcome%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ProBadge.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ProBadge%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\sidebar.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\sidebar%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\sidebar-disabled.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\sidebar-disabled%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\stats%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\stats-disabled.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\stats-disabled%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SuggestionBusy.png" />
@@ -326,18 +266,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SuggestionTMTemplate%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\UnlockPro.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\UnlockPro%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\UpgradeToolbarButtonGreen.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\UpgradeToolbarButtonGreen%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\window-close.png" />
