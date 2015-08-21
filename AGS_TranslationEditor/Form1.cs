@@ -109,11 +109,6 @@ namespace AGS_TranslationEditor
             }
         }
 
-        private void dataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            
-        }
-
         private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
@@ -133,13 +128,13 @@ namespace AGS_TranslationEditor
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveDialog = new SaveFileDialog();
-
-            if (saveDialog.ShowDialog() == DialogResult.OK)
+            if (dataGridView1.Rows.Count > 0)
             {
-                if (dataGridView1.Rows.Count > 0)
+                SaveFileDialog saveDialog = new SaveFileDialog();
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
-                    FileStream fs = new FileStream(saveDialog.FileName,FileMode.Create);
+                    FileStream fs = new FileStream(saveDialog.FileName, FileMode.Create);
                     StreamWriter fw = new StreamWriter(fs);
 
                     foreach (DataGridViewRow row in dataGridView1.Rows)
@@ -147,13 +142,10 @@ namespace AGS_TranslationEditor
                         fw.WriteLine(row.Cells[0].Value);
                         fw.WriteLine(row.Cells[1].Value);
                     }
-                    
-                    fw.Close();
+
                     fs.Close();
                 }
-
             }
-
         }
     }
 }
