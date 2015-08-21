@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -110,6 +111,11 @@ namespace AGS_TranslationEditor
 
         private void dataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
+            
+        }
+
+        private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
             try
             {
                 string test = dataGridView1[0, e.RowIndex].Value.ToString();
@@ -120,10 +126,34 @@ namespace AGS_TranslationEditor
             }
             catch (Exception)
             {
-                
-                //throw;
+
+                throw;
             }
-            
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveDialog = new SaveFileDialog();
+
+            if (saveDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (dataGridView1.Rows.Count > 0)
+                {
+                    FileStream fs = new FileStream(saveDialog.FileName,FileMode.Create);
+                    StreamWriter fw = new StreamWriter(fs);
+
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        fw.WriteLine(row.Cells[0].Value);
+                        fw.WriteLine(row.Cells[1].Value);
+                    }
+                    
+                    fw.Close();
+                    fs.Close();
+                }
+
+            }
+
         }
     }
 }
