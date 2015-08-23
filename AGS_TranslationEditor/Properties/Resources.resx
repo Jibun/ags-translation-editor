@@ -256,4 +256,7 @@
   <data name="window_close_hover_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\window-close-hover@2x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="frmMain_saveToolStripMenuItem_Click_File_saved" xml:space="preserve">
+    <value>File saved</value>
+  </data>
 </root>

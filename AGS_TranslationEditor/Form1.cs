@@ -9,12 +9,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AGS_TranslationEditor.Properties;
 using static System.Windows.Forms.Application;
 
 namespace AGS_TranslationEditor
 {
     public partial class frmMain : Form
     {
+        private int selectedRow = 0;
+        private string currentfilename = "";
+        public int numEntries = 0;
+
         public frmMain()
         {
             InitializeComponent();
@@ -27,9 +32,14 @@ namespace AGS_TranslationEditor
             
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
+                //Enable Buttons
+                SaveStripButton.Enabled = true;
+                StatsStripButton.Enabled = true;
+
                 dataGridView1.Rows.Clear();
-                int numEntries = 0;
+                numEntries = 0;
                 ArrayList entryList = null;
+                currentfilename = fileDialog.FileName;
 
                 if (fileDialog.FileName.Contains(".tra"))
                 {
@@ -51,7 +61,8 @@ namespace AGS_TranslationEditor
                     }
                 }
 
-                toolStripStatusLabel1.Text = "Entries: " + numEntries;
+                lblFileStatus.Text = "File loaded";
+                lblEntriesCount.Text = "Entries: " + numEntries;
             }
 
         }
@@ -63,7 +74,7 @@ namespace AGS_TranslationEditor
 
         private void neuToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog();
+            /*OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Filter = "AGS Translation File|*.trs";
 
             DataSet ds = new DataSet();
@@ -75,14 +86,12 @@ namespace AGS_TranslationEditor
             table.Columns.Add("Original");
             table.Columns.Add("Translated");
 
-
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 int numEntries = 0;
 
                 if(dataGridView1.RowCount > 0)
                 dataGridView1.Rows.Clear();
-
                 ArrayList entryList = AGS_Translation.ParseTRS_Translation(fileDialog.FileName);
 
                 foreach (string[] entry in entryList)
@@ -99,20 +108,19 @@ namespace AGS_TranslationEditor
                     numEntries++;
                 }
 
-
                 ds.Tables.Add(table);
                 DataSet set = table.DataSet;
                 dataGridView1.DataSource = table;
                 //dataGridView1.DataSource = ds;
-
-                toolStripStatusLabel1.Text = "Entries: " + numEntries;
-            }
+                lblEntriesCount.Text = "Entries: " + numEntries;
+            }*/
         }
 
         private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
             {
+                selectedRow = e.RowIndex;
                 string test = dataGridView1[0, e.RowIndex].Value.ToString();
                 richTextBox1.Text = test;
 
@@ -130,6 +138,40 @@ namespace AGS_TranslationEditor
         {
             if (dataGridView1.Rows.Count > 0)
             {
+                FileStream fs = new FileStream(currentfilename, FileMode.Create);
+                StreamWriter fw = new StreamWriter(fs);
+
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    fw.WriteLine(row.Cells[0].Value);
+                    fw.WriteLine(row.Cells[1].Value);
+                }
+
+                fw.Close();
+                fs.Close();
+
+                lblFileStatus.Text = Resources.frmMain_saveToolStripMenuItem_Click_File_saved;
+            }
+        }
+
+        private void richTextBox2_TextChanged(object sender, EventArgs e)
+        {
+            string temp = richTextBox2.Text;
+        }
+
+        private void richTextBox2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                string newText = richTextBox2.Text;
+                dataGridView1.Rows[selectedRow].Cells[1].Value = newText;               
+            }
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.Rows.Count > 0)
+            {
                 SaveFileDialog saveDialog = new SaveFileDialog();
 
                 if (saveDialog.ShowDialog() == DialogResult.OK)
@@ -143,9 +185,42 @@ namespace AGS_TranslationEditor
                         fw.WriteLine(row.Cells[1].Value);
                     }
 
+                    fw.Close();
                     fs.Close();
                 }
             }
+        }
+
+        int CountNotTranslated()
+        {
+            int translatedCount = 0;
+
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                string value = (string) row.Cells[1].Value;
+
+                if (string.Equals(value, ""))
+                {
+                    translatedCount++;
+                }
+            }
+
+            return translatedCount;
+        }
+
+        private void StatsStripButton_Click(object sender, EventArgs e)
+        {
+            frmStats StatsWindow = new frmStats();
+            int countNotTrans = CountNotTranslated();
+
+            StatsWindow.LoadData(numEntries, countNotTrans);
+            StatsWindow.Show();
+        }
+
+        private void frmMain_Load(object sender, EventArgs e)
+        {
+            SaveStripButton.Enabled = false;
+            StatsStripButton.Enabled = false;
         }
     }
 }

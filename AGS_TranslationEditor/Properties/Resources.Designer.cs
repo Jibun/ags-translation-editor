@@ -231,6 +231,15 @@ namespace AGS_TranslationEditor.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die File saved ähnelt.
+        /// </summary>
+        internal static string frmMain_saveToolStripMenuItem_Click_File_saved {
+            get {
+                return ResourceManager.GetString("frmMain_saveToolStripMenuItem_Click_File_saved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap poedit_fuzzy {

@@ -41,11 +41,12 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.beendenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bearbeitenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.statistikToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblEntriesCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblFileStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.colSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTranslation = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -71,7 +72,6 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dateiToolStripMenuItem,
             this.bearbeitenToolStripMenuItem,
-            this.statistikToolStripMenuItem,
             this.hilfeToolStripMenuItem});
             this.menuStrip1.Name = "menuStrip1";
             // 
@@ -122,6 +122,7 @@
             // 
             resources.ApplyResources(this.saveAsToolStripMenuItem, "saveAsToolStripMenuItem");
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // exportAstrsToolStripMenuItem
             // 
@@ -144,11 +145,6 @@
             resources.ApplyResources(this.bearbeitenToolStripMenuItem, "bearbeitenToolStripMenuItem");
             this.bearbeitenToolStripMenuItem.Name = "bearbeitenToolStripMenuItem";
             // 
-            // statistikToolStripMenuItem
-            // 
-            resources.ApplyResources(this.statistikToolStripMenuItem, "statistikToolStripMenuItem");
-            this.statistikToolStripMenuItem.Name = "statistikToolStripMenuItem";
-            // 
             // hilfeToolStripMenuItem
             // 
             resources.ApplyResources(this.hilfeToolStripMenuItem, "hilfeToolStripMenuItem");
@@ -165,13 +161,26 @@
             // 
             resources.ApplyResources(this.statusStrip1, "statusStrip1");
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
+            this.lblEntriesCount,
+            this.toolStripStatusLabel2,
+            this.lblFileStatus});
             this.statusStrip1.Name = "statusStrip1";
             // 
-            // toolStripStatusLabel1
+            // lblEntriesCount
             // 
-            resources.ApplyResources(this.toolStripStatusLabel1, "toolStripStatusLabel1");
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            resources.ApplyResources(this.lblEntriesCount, "lblEntriesCount");
+            this.lblEntriesCount.Name = "lblEntriesCount";
+            // 
+            // toolStripStatusLabel2
+            // 
+            resources.ApplyResources(this.toolStripStatusLabel2, "toolStripStatusLabel2");
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            // 
+            // lblFileStatus
+            // 
+            resources.ApplyResources(this.lblFileStatus, "lblFileStatus");
+            this.lblFileStatus.Name = "lblFileStatus";
+            this.lblFileStatus.Padding = new System.Windows.Forms.Padding(100, 0, 0, 0);
             // 
             // dataGridView1
             // 
@@ -238,6 +247,7 @@
             resources.ApplyResources(this.StatsStripButton, "StatsStripButton");
             this.StatsStripButton.Image = global::AGS_TranslationEditor.Properties.Resources.stats;
             this.StatsStripButton.Name = "StatsStripButton";
+            this.StatsStripButton.Click += new System.EventHandler(this.StatsStripButton_Click);
             // 
             // toolStripSeparator2
             // 
@@ -263,6 +273,8 @@
             // 
             resources.ApplyResources(this.richTextBox2, "richTextBox2");
             this.richTextBox2.Name = "richTextBox2";
+            this.richTextBox2.TextChanged += new System.EventHandler(this.richTextBox2_TextChanged);
+            this.richTextBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.richTextBox2_KeyDown);
             // 
             // frmMain
             // 
@@ -278,6 +290,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "frmMain";
+            this.Load += new System.EventHandler(this.frmMain_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -310,18 +323,19 @@
         private System.Windows.Forms.RichTextBox richTextBox2;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTranslation;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel lblEntriesCount;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportAstrsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem statistikToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton SaveStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton StatsStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripStatusLabel lblFileStatus;
     }
 }
 
