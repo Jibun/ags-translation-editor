@@ -154,11 +154,6 @@ namespace AGS_TranslationEditor
             }
         }
 
-        private void richTextBox2_TextChanged(object sender, EventArgs e)
-        {
-            string temp = richTextBox2.Text;
-        }
-
         private void richTextBox2_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
