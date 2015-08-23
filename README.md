@@ -1,29 +1,21 @@
-# README #
+# AGS Translation Editor #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+### What can you do with AGS Translation Editor ? ###
 
-### What is this repository for? ###
+* AGS Translation Editor is a tool to edit TRS and TRA translation files that can be used with AGS games.
+* decrypts and encrypts TRA files
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+### TRS file format ###
+A TRS file should look like this example
 
-### How do I get set up? ###
+```
+#!python
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+&1 Original Text1
 
-### Contribution guidelines ###
+&2 Original Text2
+&2 Test translation
+&3 Original Text3
 
-* Writing tests
-* Code review
-* Other guidelines
 
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+```
