@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,17 +10,20 @@ namespace AGS_TranslationEditor
 {
     internal class AGS_Translation
     {
-        private static char[] passwencstring = {'A', 'v', 'i', 's', ' ', 'D', 'u', 'r', 'g', 'a', 'n'};
+        private static char[] passwencstring = { 'A', 'v', 'i', 's', ' ', 'D', 'u', 'r', 'g', 'a', 'n' };
 
-        private static Int32 iGameUID;
-        private static string sGameTitle;
-
-        public static ArrayList ParseTRA_Translation(string Filename)
+        /// <summary>
+        /// Reads and parses a TRA file
+        /// </summary>
+        /// <param name="Filename">Filename</param>
+        /// <returns>A ArrayList with the translation entries</returns>
+        public static List<string[]> ParseTRA_Translation(string Filename)
         {
+            int iGameUID = 0;
+            List<string[]> entryList = new List<string[]>();
             FileStream fs = File.OpenRead(Filename);
             BinaryReader br = new BinaryReader(fs);
-            ArrayList entryList = new ArrayList();
-
+            
             long sizeFile = fs.Length;
 
             char[] transsig = new char[16];
@@ -57,7 +61,7 @@ namespace AGS_TranslationEditor
                     }
                     //Game Name
                     decrypt_text(wasgamename);
-                    sGameTitle = new string(wasgamename);
+                    string sGameTitle = new string(wasgamename);
                     sGameTitle = sGameTitle.Trim('\0');
 
                     //dummy read
@@ -147,11 +151,12 @@ namespace AGS_TranslationEditor
             return entryList;
         }
 
-        public static ArrayList ParseTRS_Translation(string Filename)
+        public static List<string[]> ParseTRS_Translation(string Filename)
         {
-            ArrayList entryList = new ArrayList();
+            List<string[]> entryList = new List<string[]>();
             string[] list = File.ReadAllLines(Filename);
 
+            //Look for comments and remove them
             var result = Array.FindAll(list, s => !s.StartsWith("//"));
 
             for (int i = 0; i < result.Length;)
@@ -172,6 +177,10 @@ namespace AGS_TranslationEditor
             return entryList;
         }
 
+        /// <summary>
+        /// Decrypt a char array
+        /// </summary>
+        /// <param name="toEnc">char array to decrypt</param>
         public static void decrypt_text(char[] toEnc)
         {
             int adx = 0;
@@ -192,34 +201,10 @@ namespace AGS_TranslationEditor
             }
         }
 
-        private static void decrypt_text(string sToEnc)
-        {
-
-            char[] toenc = new char[100];
-
-            toenc = sToEnc.ToCharArray();
-
-
-            int adx = 0;
-            int toencx = 0;
-
-            while (true)
-            {
-                if (toenc[toencx] == 0)
-                    break;
-
-                toenc[toencx] -= passwencstring[adx];
-
-                adx++;
-                toencx++;
-
-                if (adx > 10)
-                    adx = 0;
-            }
-
-            sToEnc = new String(toenc);
-        }
-
+        /// <summary>
+        /// Encrypt a char array
+        /// </summary>
+        /// <param name="toenc">char array to encrypt</param>
         private static void encrypt_text(char[] toenc)
         {
             int adx = 0, tobreak = 0;

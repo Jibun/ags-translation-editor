@@ -40,7 +40,7 @@ namespace AGS_TranslationEditor
                 dataGridView1.Refresh();
 
                 numEntries = 0;
-                ArrayList entryList = null;
+                List<string[]> entryList = null;
                 currentfilename = fileDialog.FileName;
 
                 if (fileDialog.FileName.Contains(".tra"))
@@ -51,6 +51,8 @@ namespace AGS_TranslationEditor
                 {
                     entryList = AGS_Translation.ParseTRS_Translation(fileDialog.FileName);
                 }
+
+                List<string[]> testList = new List<string[]>();
 
                 if (entryList != null)
                 {
@@ -63,8 +65,11 @@ namespace AGS_TranslationEditor
                     }
                 }
 
+                //dataGridView1.DataSource = entryList;
                 lblFileStatus.Text = "File loaded";
                 lblEntriesCount.Text = "Entries: " + numEntries;
+
+                this.Text = currentfilename + " - AGS Translation Editor";
             }
 
         }
@@ -132,20 +137,16 @@ namespace AGS_TranslationEditor
             }
         }
 
-        int CountNotTranslated()
+        private int CountNotTranslated()
         {
             int translatedCount = 0;
-
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 string value = (string) row.Cells[1].Value;
 
                 if (string.Equals(value, ""))
-                {
                     translatedCount++;
-                }
             }
-
             return translatedCount;
         }
 
@@ -160,6 +161,8 @@ namespace AGS_TranslationEditor
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            saveToolStripMenuItem.Enabled = false;
+            saveAsToolStripMenuItem.Enabled = false;
             SaveStripButton.Enabled = false;
             StatsStripButton.Enabled = false;
         }
@@ -181,5 +184,38 @@ namespace AGS_TranslationEditor
 
             }
         }
+
+        private void exportAstrsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openDialog = new OpenFileDialog();
+            SaveFileDialog saveDialog = new SaveFileDialog();
+
+            if (openDialog.ShowDialog() == DialogResult.OK)
+            {
+                string tra_filename = openDialog.FileName;
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string trs_filename = saveDialog.FileName;
+                    List<string[]> entryList = AGS_Translation.ParseTRA_Translation(tra_filename);
+
+                    using (FileStream fs = new FileStream(trs_filename, FileMode.Create))
+                    {
+                        StreamWriter fw = new StreamWriter(fs);
+
+                        foreach (string[] entry in entryList)
+                        {
+                            fw.WriteLine(entry[0]);
+                            fw.WriteLine(entry[1]);
+                        }
+
+                        MessageBox.Show("Converted " + tra_filename + " to " + trs_filename, "Converted",
+                            MessageBoxButtons.OK);
+                    }
+                }
+
+            }
+        }
+
     }
 }

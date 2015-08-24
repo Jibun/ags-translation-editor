@@ -128,6 +128,7 @@
             // 
             resources.ApplyResources(this.exportAstrsToolStripMenuItem, "exportAstrsToolStripMenuItem");
             this.exportAstrsToolStripMenuItem.Name = "exportAstrsToolStripMenuItem";
+            this.exportAstrsToolStripMenuItem.Click += new System.EventHandler(this.exportAstrsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
