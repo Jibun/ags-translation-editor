@@ -16,9 +16,9 @@ namespace AGS_TranslationEditor
 {
     public partial class frmMain : Form
     {
-        private int selectedRow = 0;
-        private string currentfilename = "";
-        public int numEntries = 0;
+        private int _selectedRow = 0;
+        private string _currentfilename = "";
+        private int _numEntries = 0;
 
         public frmMain()
         {
@@ -35,13 +35,18 @@ namespace AGS_TranslationEditor
                 //Enable Buttons
                 SaveStripButton.Enabled = true;
                 StatsStripButton.Enabled = true;
-
+                saveToolStripMenuItem.Enabled = true;
+                saveAsToolStripMenuItem.Enabled = true;
+                addToolStripMenuItem.Enabled = true;
+                removeToolStripMenuItem.Enabled = true;
+                
+                //Clear the DataGrid
                 dataGridView1.Rows.Clear();
                 dataGridView1.Refresh();
 
-                numEntries = 0;
+                _numEntries = 0;
                 List<string[]> entryList = null;
-                currentfilename = fileDialog.FileName;
+                _currentfilename = fileDialog.FileName;
 
                 if (fileDialog.FileName.Contains(".tra"))
                 {
@@ -61,15 +66,15 @@ namespace AGS_TranslationEditor
                         //Populate DataGridView
                         string[] newRow = {entry[0], entry[1]};
                         dataGridView1.Rows.Add(newRow);
-                        numEntries++;
+                        _numEntries++;
                     }
                 }
 
                 //dataGridView1.DataSource = entryList;
                 lblFileStatus.Text = "File loaded";
-                lblEntriesCount.Text = "Entries: " + numEntries;
+                lblEntriesCount.Text = "Entries: " + _numEntries;
 
-                this.Text = currentfilename + " - AGS Translation Editor";
+                this.Text = _currentfilename + " - AGS Translation Editor";
             }
 
         }
@@ -88,7 +93,7 @@ namespace AGS_TranslationEditor
         {
             if (dataGridView1.Rows.Count > 0)
             {
-                FileStream fs = new FileStream(currentfilename, FileMode.Create);
+                FileStream fs = new FileStream(_currentfilename, FileMode.Create);
                 StreamWriter fw = new StreamWriter(fs);
 
                 foreach (DataGridViewRow row in dataGridView1.Rows)
@@ -109,7 +114,7 @@ namespace AGS_TranslationEditor
             if (e.KeyCode == Keys.Enter)
             {
                 string newText = richTextBox2.Text;
-                dataGridView1.Rows[selectedRow].Cells[1].Value = newText;
+                dataGridView1.Rows[_selectedRow].Cells[1].Value = newText;
                 dataGridView1.Focus();
             }
         }
@@ -155,7 +160,7 @@ namespace AGS_TranslationEditor
             frmStats StatsWindow = new frmStats();
             int countNotTrans = CountNotTranslated();
 
-            StatsWindow.LoadData(numEntries, countNotTrans);
+            StatsWindow.LoadData(_numEntries, countNotTrans);
             StatsWindow.Show();
         }
 
@@ -163,20 +168,25 @@ namespace AGS_TranslationEditor
         {
             saveToolStripMenuItem.Enabled = false;
             saveAsToolStripMenuItem.Enabled = false;
+
+            addToolStripMenuItem.Enabled = false;
+            removeToolStripMenuItem.Enabled = false;
+
             SaveStripButton.Enabled = false;
             StatsStripButton.Enabled = false;
+
         }
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
             try
             {
-                selectedRow = dataGridView1.SelectedRows[0].Index;
+                _selectedRow = dataGridView1.SelectedRows[0].Index;
 
-                string test = (string) dataGridView1.Rows[selectedRow].Cells[0].Value;
+                string test = (string) dataGridView1.Rows[_selectedRow].Cells[0].Value;
                 richTextBox1.Text = test;
 
-                string test2 = (string) dataGridView1.Rows[selectedRow].Cells[1].Value;
+                string test2 = (string) dataGridView1.Rows[_selectedRow].Cells[1].Value;
                 richTextBox2.Text = test2;
             }
             catch (Exception)
@@ -189,6 +199,9 @@ namespace AGS_TranslationEditor
         {
             OpenFileDialog openDialog = new OpenFileDialog();
             SaveFileDialog saveDialog = new SaveFileDialog();
+
+            openDialog.Filter = "TRA File(*.tra)|*.tra";
+            saveDialog.Filter = "TRS File(*.trs)|*.trs";
 
             if (openDialog.ShowDialog() == DialogResult.OK)
             {
@@ -217,5 +230,16 @@ namespace AGS_TranslationEditor
             }
         }
 
+        private void addToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dataGridView1.Rows.Add();
+            dataGridView1.Rows[dataGridView1.RowCount - 1].Selected = true;
+            dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
+        }
+
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dataGridView1.Rows.RemoveAt(_selectedRow);
+        }
     }
 }
