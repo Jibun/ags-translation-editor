@@ -145,9 +145,6 @@
   <data name="beendenToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>
   </data>
-  <data name="aboutToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
   <data name="lblEntriesCount.Text" xml:space="preserve">
     <value>Entries: 0</value>
   </data>

@@ -76,64 +76,7 @@ namespace AGS_TranslationEditor
 
         private void neuToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            /*OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Filter = "AGS Translation File|*.trs";
 
-            DataSet ds = new DataSet();
-            DataTable table = new DataTable();
-
-            table.Clear();
-            dataGridView1.Columns.RemoveAt(0);
-            dataGridView1.Columns.RemoveAt(0);
-            table.Columns.Add("Original");
-            table.Columns.Add("Translated");
-
-            if (fileDialog.ShowDialog() == DialogResult.OK)
-            {
-                int numEntries = 0;
-
-                if(dataGridView1.RowCount > 0)
-                dataGridView1.Rows.Clear();
-                ArrayList entryList = AGS_Translation.ParseTRS_Translation(fileDialog.FileName);
-
-                foreach (string[] entry in entryList)
-                {
-                    //Populate DataGridView
-                    string[] newRow = { entry[0], entry[1] };
-                    //DataRow row = table.NewRow();
-                    //row["Source Text"] = entry[0];
-                    //row["Translation"] = entry[1];
-
-                    //table.Rows.Add(row);
-                    table.Rows.Add(newRow);
-                    
-                    numEntries++;
-                }
-
-                ds.Tables.Add(table);
-                DataSet set = table.DataSet;
-                dataGridView1.DataSource = table;
-                //dataGridView1.DataSource = ds;
-                lblEntriesCount.Text = "Entries: " + numEntries;
-            }*/
-        }
-
-        private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            try
-            {
-                selectedRow = e.RowIndex;
-                string test = dataGridView1[0, e.RowIndex].Value.ToString();
-                richTextBox1.Text = test;
-
-                string test2 = dataGridView1[1, e.RowIndex].Value.ToString();
-                richTextBox2.Text = test2;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -219,6 +162,24 @@ namespace AGS_TranslationEditor
         {
             SaveStripButton.Enabled = false;
             StatsStripButton.Enabled = false;
+        }
+
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                selectedRow = dataGridView1.SelectedRows[0].Index;
+
+                string test = (string) dataGridView1.Rows[selectedRow].Cells[0].Value;
+                richTextBox1.Text = test;
+
+                string test2 = (string) dataGridView1.Rows[selectedRow].Cells[1].Value;
+                richTextBox2.Text = test2;
+            }
+            catch (Exception)
+            {
+
+            }
         }
     }
 }
