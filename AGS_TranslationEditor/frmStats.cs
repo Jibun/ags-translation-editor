@@ -17,20 +17,15 @@ namespace AGS_TranslationEditor
             InitializeComponent();
         }
 
-        private void frmStats_Load(object sender, EventArgs e)
-        {
-            
-        }
-
         internal void LoadData(int countEntries, int NotTranslatedCount)
         {
             if (countEntries > 0)
             {
                 int translatedCount = countEntries - NotTranslatedCount;
-                int progressValue = (translatedCount*100)/countEntries;
-                progressBar1.Value = progressValue;
+                float progressValue = (translatedCount*100)/countEntries;
+                progressBar1.Value = Convert.ToInt32(progressValue);
 
-                lblTranslatedCount.Text = translatedCount.ToString();
+                lblTranslatedCount.Text = translatedCount.ToString() + " (" + progressValue + "%)";
                 lblNotTranslatedCount.Text = NotTranslatedCount.ToString();
             }
         }

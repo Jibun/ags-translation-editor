@@ -37,6 +37,8 @@ namespace AGS_TranslationEditor
                 StatsStripButton.Enabled = true;
 
                 dataGridView1.Rows.Clear();
+                dataGridView1.Refresh();
+
                 numEntries = 0;
                 ArrayList entryList = null;
                 currentfilename = fileDialog.FileName;
@@ -159,7 +161,8 @@ namespace AGS_TranslationEditor
             if (e.KeyCode == Keys.Enter)
             {
                 string newText = richTextBox2.Text;
-                dataGridView1.Rows[selectedRow].Cells[1].Value = newText;               
+                dataGridView1.Rows[selectedRow].Cells[1].Value = newText;
+                dataGridView1.Focus();
             }
         }
 

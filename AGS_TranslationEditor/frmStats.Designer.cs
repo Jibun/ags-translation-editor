@@ -106,7 +106,6 @@
             this.ShowIcon = false;
             this.Text = "Statistic";
             this.TopMost = true;
-            this.Load += new System.EventHandler(this.frmStats_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

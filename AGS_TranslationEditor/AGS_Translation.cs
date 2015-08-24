@@ -10,7 +10,7 @@ namespace AGS_TranslationEditor
     internal class AGS_Translation
     {
         private static char[] passwencstring = {'A', 'v', 'i', 's', ' ', 'D', 'u', 'r', 'g', 'a', 'n'};
-        private static ArrayList entryList = new ArrayList();
+        private static ArrayList entryList = null;
 
         private static Int32 iGameUID;
         private static string sGameTitle;
@@ -19,6 +19,7 @@ namespace AGS_TranslationEditor
         {
             FileStream fs = File.OpenRead(Filename);
             BinaryReader br = new BinaryReader(fs);
+            entryList = new ArrayList();
 
             long sizeFile = fs.Length;
 
@@ -149,6 +150,7 @@ namespace AGS_TranslationEditor
 
         public static ArrayList ParseTRS_Translation(string Filename)
         {
+            entryList = new ArrayList();
             string[] list = File.ReadAllLines(Filename);
 
             var result = Array.FindAll(list, s => !s.StartsWith("//"));
