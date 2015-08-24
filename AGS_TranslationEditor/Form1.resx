@@ -125,6 +125,9 @@
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
+  <data name="toolStripStatusLabel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>700, 17</value>
+  </data>
   <data name="exportAstrsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 22</value>
   </data>
@@ -143,8 +146,8 @@
   <data name="bearbeitenToolStripMenuItem.Text" xml:space="preserve">
     <value>Edit</value>
   </data>
-  <data name="richTextBox2.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+  <data name="richTextBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>962, 107</value>
   </data>
   <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
     <value>995, 24</value>
@@ -152,11 +155,11 @@
   <data name="dataGridView1.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
+  <data name="dateiToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 20</value>
+  </data>
   <data name="hilfeToolStripMenuItem.Text" xml:space="preserve">
     <value>Help</value>
-  </data>
-  <data name="neuToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 22</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>AGS Translator</value>
@@ -174,9 +177,6 @@
   <data name="richTextBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
   </data>
-  <data name="statusStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>995, 22</value>
-  </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 25</value>
   </data>
@@ -185,6 +185,9 @@
   </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
+  </data>
+  <data name="dateiToolStripMenuItem.Text" xml:space="preserve">
+    <value>File</value>
   </data>
   <data name="toolStripStatusLabel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>54, 17</value>
@@ -204,8 +207,8 @@
   <data name="dataGridView1.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 52</value>
   </data>
-  <data name="StatsStripButton.Text" xml:space="preserve">
-    <value>Stats</value>
+  <data name="ediToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 20</value>
   </data>
   <data name="statusStrip1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -222,26 +225,20 @@
   <data name="saveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 22</value>
   </data>
-  <data name="statusStrip1.Text" xml:space="preserve">
-    <value>statusStrip1</value>
-  </data>
   <data name="toolStripButton1.Size" type="System.Drawing.Size, System.Drawing">
     <value>23, 22</value>
   </data>
   <data name="toolStripMenuItem3.Size" type="System.Drawing.Size, System.Drawing">
     <value>145, 6</value>
   </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 405</value>
+  </data>
   <data name="dataGridView1.Size" type="System.Drawing.Size, System.Drawing">
     <value>971, 350</value>
   </data>
-  <data name="dateiToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
-  </data>
-  <data name="richTextBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="dateiToolStripMenuItem.Text" xml:space="preserve">
-    <value>File</value>
+  <data name="richTextBox2.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
   </data>
   <data name="addToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>
@@ -264,6 +261,9 @@
   <data name="lblEntriesCount.Size" type="System.Drawing.Size, System.Drawing">
     <value>54, 17</value>
   </data>
+  <data name="neuToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 22</value>
+  </data>
   <data name="tttToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>
   </data>
@@ -285,6 +285,12 @@
   <data name="StatsStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
+  <data name="richTextBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Source Text:</value>
+  </data>
   <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -300,8 +306,8 @@
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
-  <data name="OpenStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
+  <data name="StatsStripButton.Text" xml:space="preserve">
+    <value>Stats</value>
   </data>
   <data name="OpenStripButton.Text" xml:space="preserve">
     <value>Open</value>
@@ -309,17 +315,14 @@
   <data name="aboutToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>107, 22</value>
   </data>
+  <data name="lblFileStatus.Text" xml:space="preserve">
+    <value>Nothing loaded</value>
+  </data>
   <data name="exportAstrsToolStripMenuItem.Text" xml:space="preserve">
     <value>TRA -&gt; TRS</value>
   </data>
-  <data name="toolStrip1.Text" xml:space="preserve">
-    <value>toolStrip1</value>
-  </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 25</value>
-  </data>
-  <data name="toolStripStatusLabel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>700, 17</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Translation:</value>
@@ -333,17 +336,23 @@
   <data name="beendenToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 22</value>
   </data>
+  <data name="OpenStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
   <data name="toolStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 24</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 15</value>
   </data>
-  <data name="richTextBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>962, 107</value>
+  <data name="toolStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>995, 25</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Source Text:</value>
+  <data name="statusStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>995, 22</value>
+  </data>
+  <data name="lblEntriesCount.Text" xml:space="preserve">
+    <value>Entries: 0</value>
   </data>
   <data name="öffnenToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Strg+O</value>
@@ -354,9 +363,6 @@
   <data name="label1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
   </data>
-  <data name="menuStrip1.Text" xml:space="preserve">
-    <value>menuStrip1</value>
-  </data>
   <data name="SaveStripButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>51, 22</value>
   </data>
@@ -366,8 +372,8 @@
   <data name="toolStripStatusLabel1.Text" xml:space="preserve">
     <value>Entries: 0</value>
   </data>
-  <data name="ediToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>35, 20</value>
+  <data name="addToolStripMenuItem.Text" xml:space="preserve">
+    <value>Add</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 530</value>
@@ -381,17 +387,14 @@
   <data name="richTextBox2.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 549</value>
   </data>
+  <data name="removeToolStripMenuItem.Text" xml:space="preserve">
+    <value>Remove</value>
+  </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="toolStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>995, 25</value>
-  </data>
   <data name="saveToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Strg+S</value>
-  </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 405</value>
   </data>
   <data name="colTranslation.HeaderText" xml:space="preserve">
     <value>Translation</value>
@@ -399,17 +402,17 @@
   <data name="aboutToolStripMenuItem.Text" xml:space="preserve">
     <value>About</value>
   </data>
-  <data name="colTranslation.UserAddedColumn" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="$this.Language" type="System.Globalization.CultureInfo, mscorlib">
     <value>en</value>
+  </data>
+  <data name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>132, 17</value>
   </data>
   <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
-    <value>132, 17</value>
+  <data name="colTranslation.UserAddedColumn" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>17, 17</value>
@@ -419,17 +422,5 @@
   </data>
   <data name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>248, 17</value>
-  </data>
-  <data name="addToolStripMenuItem.Text" xml:space="preserve">
-    <value>Add</value>
-  </data>
-  <data name="lblEntriesCount.Text" xml:space="preserve">
-    <value>Entries: 0</value>
-  </data>
-  <data name="lblFileStatus.Text" xml:space="preserve">
-    <value>Nothing loaded</value>
-  </data>
-  <data name="removeToolStripMenuItem.Text" xml:space="preserve">
-    <value>Remove</value>
   </data>
 </root>
