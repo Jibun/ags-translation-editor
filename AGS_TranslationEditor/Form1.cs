@@ -194,8 +194,20 @@ namespace AGS_TranslationEditor
 
             }
         }
+        
+        private void addToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dataGridView1.Rows.Add();
+            dataGridView1.Rows[dataGridView1.RowCount - 1].Selected = true;
+            dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
+        }
 
-        private void exportAstrsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dataGridView1.Rows.RemoveAt(_selectedRow);
+        }
+
+        private void tRATRSToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openDialog = new OpenFileDialog();
             SaveFileDialog saveDialog = new SaveFileDialog();
@@ -226,23 +238,10 @@ namespace AGS_TranslationEditor
                             MessageBoxButtons.OK);
                     }
                 }
-
             }
         }
 
-        private void addToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            dataGridView1.Rows.Add();
-            dataGridView1.Rows[dataGridView1.RowCount - 1].Selected = true;
-            dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
-        }
-
-        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            dataGridView1.Rows.RemoveAt(_selectedRow);
-        }
-
-        private void findGameUIDToolStripMenuItem_Click(object sender, EventArgs e)
+        private void getGameInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openDialog = new OpenFileDialog();
             openDialog.Filter = "Game EXE File (*.exe)|*.exe";
@@ -250,9 +249,21 @@ namespace AGS_TranslationEditor
             if (openDialog.ShowDialog() == DialogResult.OK)
             {
                 AGS_Translation.GetGamedata(openDialog.FileName);
-                AGS_Translation.CreateTRA_File("tettt.tra",AGS_Translation.ParseTRS_Translation("german.trs"));
+            }
+        }
 
+        private void createTRAToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openDialog = new OpenFileDialog();
+            openDialog.Filter = "TRS Translation File (*.trs)|*.trs";
+            
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.Filter = "TRA Translation File (*.tra)|*.tra";
 
+            if (openDialog.ShowDialog() == DialogResult.OK)
+            {
+                if(saveDialog.ShowDialog() == DialogResult.OK)
+                    AGS_Translation.CreateTRA_File(saveDialog.FileName, AGS_Translation.ParseTRS_Translation(openDialog.FileName));
             }
         }
     }

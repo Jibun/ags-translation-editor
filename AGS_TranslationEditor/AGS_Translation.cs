@@ -12,18 +12,18 @@ namespace AGS_TranslationEditor
 {
     internal class AGS_Translation
     {
-        private static char[] passwencstring = { 'A', 'v', 'i', 's', ' ', 'D', 'u', 'r', 'g', 'a', 'n' };
+        private static readonly char[] _passwencstring = { 'A', 'v', 'i', 's', ' ', 'D', 'u', 'r', 'g', 'a', 'n' };
 
         /// <summary>
         /// Reads and parses a TRA file
         /// </summary>
-        /// <param name="Filename">Filename</param>
+        /// <param name="filename">Filename</param>
         /// <returns>A ArrayList with the translation entries</returns>
-        public static List<string[]> ParseTRA_Translation(string Filename)
+        public static List<string[]> ParseTRA_Translation(string filename)
         {
             int iGameUID = 0;
             List<string[]> entryList = new List<string[]>();
-            FileStream fs = File.OpenRead(Filename);
+            FileStream fs = File.OpenRead(filename);
             BinaryReader br = new BinaryReader(fs);
             
             long sizeFile = fs.Length;
@@ -34,9 +34,8 @@ namespace AGS_TranslationEditor
             //Check AGS Translation Header
             if (string.Compare(new string(transsig), "AGSTranslation") == 0)
             {
-                //Read Translation File BlockType fore Example 1,2,3
+                //Read Translation File BlockType for Example 1,2,3
                 int blockType = br.ReadInt32();
-
                 if (blockType == 1)
                 {
 
@@ -48,18 +47,15 @@ namespace AGS_TranslationEditor
                     //Read GameID
                     iGameUID = br.ReadInt32();
 
-                    //Loop throught File
+                    //Get GameTitle
                     int GameTitleLength = br.ReadInt32();
                     byte[] bGameTitle = br.ReadBytes(GameTitleLength);
                     char[] cGameTitle = new char[GameTitleLength];
-
-                    //wasgamename = Encoding.ASCII.GetChars(bwasgamename, 0, bwasgamename.Length);
                     Array.Copy(bGameTitle, 0, cGameTitle, 0, bGameTitle.Length);
-                    
                     //Game Name
                     decrypt_text(cGameTitle);
                     string sGameTitle = new string(cGameTitle);
-                    sGameTitle = sGameTitle.Trim('\0');
+                    //sGameTitle = sGameTitle.Trim('\0');
 
                     //dummy read
                     br.ReadInt32();
@@ -68,22 +64,16 @@ namespace AGS_TranslationEditor
                     long translationLength = br.ReadInt32();
                     translationLength += fs.Position;
 
+                    //Loop throught File and read entries
                     int newlen = 0;
                     while (fs.Position < translationLength)
                     {
-
-                        /*if ((newlen < 0) || (newlen > 5000000))
-                        MessageBox.Show("ReadString: file is corrupt");*/
-
-                        //Read original Text
                         newlen = br.ReadInt32();
-
+                        
+                        //Read original Text
                         byte[] bSourceBytes = br.ReadBytes(newlen);
                         char[] cSourceText = new char[bSourceBytes.Length + 1];
-
                         Array.Copy(bSourceBytes, 0, cSourceText, 0, bSourceBytes.Length);
-
-                        //string sEncSourceText = new string(cSourceText);
                         decrypt_text(cSourceText);
                         string sDecSourceText = new string(cSourceText);
                         sDecSourceText = sDecSourceText.Trim('\0');
@@ -93,13 +83,11 @@ namespace AGS_TranslationEditor
                         byte[] bTranslatedBytes = br.ReadBytes(newlen);
                         char[] cTranslatedText = new char[bTranslatedBytes.Length + 1];
                         Array.Copy(bTranslatedBytes, 0, cTranslatedText, 0, bTranslatedBytes.Length);
-                        
-                        //string sEncTranslatedText = new string(cTranslatedText);
                         decrypt_text(cTranslatedText);
                         string sDecTranslatedText = new string(cTranslatedText);
                         sDecTranslatedText = sDecTranslatedText.Trim('\0');
                         
-                        //Populate DataGridView
+                        //Populate List with the data
                         string[] newRow = {sDecSourceText, sDecTranslatedText};
                         entryList.Add(newRow);
                     }
@@ -108,7 +96,7 @@ namespace AGS_TranslationEditor
                 }
                 else if (blockType == 3)
                 {
-                    /*// game settings
+                /*// game settings
                 int temp = language_file->ReadInt32();
                 // normal font
                 if (temp >= 0)
@@ -135,10 +123,15 @@ namespace AGS_TranslationEditor
             return entryList;
         }
 
-        public static List<string[]> ParseTRS_Translation(string Filename)
+        /// <summary>
+        /// Parse a TRS file for AGS
+        /// </summary>
+        /// <param name="filename">Input filename</param>
+        /// <returns>List with Translation entries</returns>
+        public static List<string[]> ParseTRS_Translation(string filename)
         {
             List<string[]> entryList = new List<string[]>();
-            string[] list = File.ReadAllLines(Filename);
+            string[] list = File.ReadAllLines(filename);
 
             //Look for comments and remove them
             var result = Array.FindAll(list, s => !s.StartsWith("//"));
@@ -157,32 +150,26 @@ namespace AGS_TranslationEditor
                 string[] newRow = { sSourceText, sTranslationText };
                 entryList.Add(newRow);
             }
-
             return entryList;
         }
 
+        /// <summary>
+        /// Get Game information (GameTitle and GameUID) from AGS EXE File
+        /// </summary>
+        /// <param name="filename">Game EXE File</param>
         public static void GetGamedata(string filename)
         {
-            //Technobabylon
-            //
-            //
-            //
-
             using (FileStream fs = new FileStream(filename,FileMode.Open))
             {
                 const int block_size = 1024;
                 long file_size = fs.Length;
                 long position = 0;
                 const string search_string = "Adventure Creator Game File v2";
-                //416476656E747572652043726561746F722047616D652046696C65207632
 
                 BinaryReader br = new BinaryReader(fs);
 
                 while (position < file_size)
                 {
-                    //if(position > file_size)
-
-
                     byte[] data = br.ReadBytes(block_size);
                     
                     string temp_data = Encoding.Default.GetString(data);
@@ -208,18 +195,14 @@ namespace AGS_TranslationEditor
                         GameUID = SwapEndianness(GameUID);
                         string temp = GameUID.ToString("X");
 
-
-
                         MessageBox.Show(
                             "AGS Version: " + version + "\nGame Title: " + GameTitle + "\nGameUID: " + temp,
                             "Game Information");
 
                         return;
-                        
                     }
 
                     position = position + block_size;
-
                 }
             }
         }
@@ -228,14 +211,11 @@ namespace AGS_TranslationEditor
         /// Create a TRA File for AGS
         /// </summary>
         /// <param name="filename">Output filename</param>
-        /// <param name="entries">A List with entries</param>
+        /// <param name="entries">List with Translation entries</param>
         public static void CreateTRA_File(string filename, List<string[]> entries)
         {
             using (FileStream fs = new FileStream(filename,FileMode.Create))
             {
-                StreamWriter sw = new StreamWriter(fs);
-                BinaryWriter bw = new BinaryWriter(fs);
-
                 //Tail
                 //Length: 38 / 0x00000026 (bytes)
                 byte[] tail =
@@ -269,12 +249,9 @@ namespace AGS_TranslationEditor
                 string GameTitle = "Technobabylon\0";
                 byte[] bGameTitle = Encoding.UTF8.GetBytes(GameTitle);
                 char[] cGameTitle = new char[bGameTitle.Length];
-
-
                 //Write Title Length
                 byte[] bGameTitleLength = BitConverter.GetBytes(bGameTitle.Length);
                 fs.Write(bGameTitleLength, 0, bGameTitleLength.Length);
-
                 //Encrypt and write the Title
                 Array.Copy(bGameTitle, cGameTitle, bGameTitle.Length);
                 encrypt_text(cGameTitle);
@@ -285,19 +262,23 @@ namespace AGS_TranslationEditor
                     i++;
                 }
                 fs.Write(bGameTitle, 0, bGameTitle.Length);
-                
+
+
                 //dummy write
-                string dummy = "01000000";
-                decAgain = int.Parse(dummy, System.Globalization.NumberStyles.HexNumber);
-                byte[] bDummy = BitConverter.GetBytes(SwapEndianness(decAgain));
+                //Length: 4 / 0x00000004 (bytes)
+                byte[] bDummy = {0x01, 0x00, 0x00, 0x00,};
+
+                //string dummy = "01000000";
+                //decAgain = int.Parse(dummy, System.Globalization.NumberStyles.HexNumber);
+                //byte[] bDummy = BitConverter.GetBytes(SwapEndianness(decAgain));
                 fs.Write(bDummy, 0, bDummy.Length);
 
                 //Write Length translation
-                long TranslationLengthPosition = fs.Position;
+                long translationLengthPosition = fs.Position;
                 //Dummy write for later
                 fs.Write(bDummy,0,bDummy.Length);
                 
-                long TranslationLength = 0;
+                long translationLength = 0;
 
                 if (entries != null)
                 foreach (string[] entry in entries)
@@ -306,7 +287,7 @@ namespace AGS_TranslationEditor
                     string entry1 = entry[0];
                     byte[] bEntry1 = Encoding.UTF8.GetBytes(entry1);
 
-                    //Write string entry length
+                    //Write string entry1 length
                     byte[] bEntry1Length = BitConverter.GetBytes(bEntry1.Length);
                     fs.Write(bEntry1Length,0,bEntry1Length.Length);
 
@@ -321,10 +302,11 @@ namespace AGS_TranslationEditor
                     }
                     fs.Write(bEntry1, 0, bEntry1.Length);
 
+                    //Encrypt Entry2 write length  
                     string entry2 = entry[1];
                     byte[] bEntry2 = Encoding.UTF8.GetBytes(entry2);
 
-                    //Write string entry length
+                    //Write string entry2 length
                     byte[] bEntry2Length = BitConverter.GetBytes(bEntry2.Length);
                     fs.Write(bEntry2Length, 0, bEntry2Length.Length);
 
@@ -339,16 +321,16 @@ namespace AGS_TranslationEditor
                     }
                     fs.Write(bEntry2, 0, bEntry2.Length);
 
-                    long length_temp = BitConverter.ToInt32(bEntry1Length, 0) + 4 + BitConverter.ToInt32(bEntry2Length, 0) + 4;
-                    TranslationLength = TranslationLength + length_temp;
+                    long lengthTemp = BitConverter.ToInt32(bEntry1Length, 0) + 4 + BitConverter.ToInt32(bEntry2Length, 0) + 4;
+                    translationLength = translationLength + lengthTemp;
                 }
 
                 //Write Tail
                 fs.Write(tail,0,tail.Length);
 
                 //Write Translation length + 10
-                byte[] b = BitConverter.GetBytes((int)(TranslationLength+10));
-                fs.Position = TranslationLengthPosition;
+                byte[] b = BitConverter.GetBytes((int)(translationLength+10));
+                fs.Position = translationLengthPosition;
                 fs.Write(b, 0, b.Length);
 
                 fs.Close();
@@ -357,7 +339,7 @@ namespace AGS_TranslationEditor
             
         }
 
-        public static int SwapEndianness(int value)
+        private static int SwapEndianness(int value)
         {
             var b1 = (value >> 0) & 0xff;
             var b2 = (value >> 8) & 0xff;
@@ -381,7 +363,7 @@ namespace AGS_TranslationEditor
                 if (toEnc[toencx] == 0)
                     break;
 
-                toEnc[toencx] -= passwencstring[adx];
+                toEnc[toencx] -= _passwencstring[adx];
 
                 adx++;
                 toencx++;
@@ -395,18 +377,18 @@ namespace AGS_TranslationEditor
         /// Encrypt a char array
         /// </summary>
         /// <param name="toenc">char array to encrypt</param>
-        private static void encrypt_text(char[] toenc)
+        public static void encrypt_text(char[] toenc)
         {
-            int adx = 0, tobreak = 0;
+            int adx = 0;//, tobreak = 0;
             int toencx = 0;
 
             //while (tobreak == 0)
             while (toencx < toenc.Length)
             {
-                if (toenc[toencx] == 0)
+                /*if (toenc[toencx] == 0)
                     tobreak = 1;
-
-                toenc[toencx] += passwencstring[adx];
+                    */
+                toenc[toencx] += _passwencstring[adx];
                 adx++;
                 toencx++;
 

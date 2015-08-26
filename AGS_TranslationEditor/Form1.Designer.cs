@@ -37,12 +37,15 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportAstrsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.beendenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bearbeitenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tRATRSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getGameInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createTRAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -62,7 +65,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
-            this.findGameUIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -75,6 +77,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dateiToolStripMenuItem,
             this.bearbeitenToolStripMenuItem,
+            this.toolsToolStripMenuItem,
             this.hilfeToolStripMenuItem});
             this.menuStrip1.Name = "menuStrip1";
             // 
@@ -88,7 +91,6 @@
             this.toolStripMenuItem3,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
-            this.exportAstrsToolStripMenuItem,
             this.toolStripMenuItem1,
             this.beendenToolStripMenuItem});
             this.dateiToolStripMenuItem.Name = "dateiToolStripMenuItem";
@@ -127,12 +129,6 @@
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
-            // exportAstrsToolStripMenuItem
-            // 
-            resources.ApplyResources(this.exportAstrsToolStripMenuItem, "exportAstrsToolStripMenuItem");
-            this.exportAstrsToolStripMenuItem.Name = "exportAstrsToolStripMenuItem";
-            this.exportAstrsToolStripMenuItem.Click += new System.EventHandler(this.exportAstrsToolStripMenuItem_Click);
-            // 
             // toolStripMenuItem1
             // 
             resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
@@ -165,12 +161,38 @@
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
+            // toolsToolStripMenuItem
+            // 
+            resources.ApplyResources(this.toolsToolStripMenuItem, "toolsToolStripMenuItem");
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tRATRSToolStripMenuItem,
+            this.getGameInfoToolStripMenuItem,
+            this.createTRAToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            // 
+            // tRATRSToolStripMenuItem
+            // 
+            resources.ApplyResources(this.tRATRSToolStripMenuItem, "tRATRSToolStripMenuItem");
+            this.tRATRSToolStripMenuItem.Name = "tRATRSToolStripMenuItem";
+            this.tRATRSToolStripMenuItem.Click += new System.EventHandler(this.tRATRSToolStripMenuItem_Click);
+            // 
+            // getGameInfoToolStripMenuItem
+            // 
+            resources.ApplyResources(this.getGameInfoToolStripMenuItem, "getGameInfoToolStripMenuItem");
+            this.getGameInfoToolStripMenuItem.Name = "getGameInfoToolStripMenuItem";
+            this.getGameInfoToolStripMenuItem.Click += new System.EventHandler(this.getGameInfoToolStripMenuItem_Click);
+            // 
+            // createTRAToolStripMenuItem
+            // 
+            resources.ApplyResources(this.createTRAToolStripMenuItem, "createTRAToolStripMenuItem");
+            this.createTRAToolStripMenuItem.Name = "createTRAToolStripMenuItem";
+            this.createTRAToolStripMenuItem.Click += new System.EventHandler(this.createTRAToolStripMenuItem_Click);
+            // 
             // hilfeToolStripMenuItem
             // 
             resources.ApplyResources(this.hilfeToolStripMenuItem, "hilfeToolStripMenuItem");
             this.hilfeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem,
-            this.findGameUIDToolStripMenuItem});
+            this.aboutToolStripMenuItem});
             this.hilfeToolStripMenuItem.Name = "hilfeToolStripMenuItem";
             // 
             // aboutToolStripMenuItem
@@ -296,12 +318,6 @@
             this.richTextBox2.Name = "richTextBox2";
             this.richTextBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.richTextBox2_KeyDown);
             // 
-            // findGameUIDToolStripMenuItem
-            // 
-            resources.ApplyResources(this.findGameUIDToolStripMenuItem, "findGameUIDToolStripMenuItem");
-            this.findGameUIDToolStripMenuItem.Name = "findGameUIDToolStripMenuItem";
-            this.findGameUIDToolStripMenuItem.Click += new System.EventHandler(this.findGameUIDToolStripMenuItem_Click);
-            // 
             // frmMain
             // 
             resources.ApplyResources(this, "$this");
@@ -355,7 +371,6 @@
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportAstrsToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton SaveStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton StatsStripButton;
@@ -364,7 +379,10 @@
         private System.Windows.Forms.ToolStripStatusLabel lblFileStatus;
         private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem findGameUIDToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tRATRSToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem getGameInfoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createTRAToolStripMenuItem;
     }
 }
 
