@@ -241,5 +241,19 @@ namespace AGS_TranslationEditor
         {
             dataGridView1.Rows.RemoveAt(_selectedRow);
         }
+
+        private void findGameUIDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openDialog = new OpenFileDialog();
+            openDialog.Filter = "Game EXE File (*.exe)|*.exe";
+
+            if (openDialog.ShowDialog() == DialogResult.OK)
+            {
+                AGS_Translation.GetGamedata(openDialog.FileName);
+                AGS_Translation.CreateTRA_File("tettt.tra",AGS_Translation.ParseTRS_Translation("german.trs"));
+
+
+            }
+        }
     }
 }
