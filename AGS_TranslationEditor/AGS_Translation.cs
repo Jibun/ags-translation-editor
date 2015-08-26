@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -225,6 +224,11 @@ namespace AGS_TranslationEditor
             }
         }
 
+        /// <summary>
+        /// Create a TRA File for AGS
+        /// </summary>
+        /// <param name="filename">Output filename</param>
+        /// <param name="entries">A List with entries</param>
         public static void CreateTRA_File(string filename, List<string[]> entries)
         {
             using (FileStream fs = new FileStream(filename,FileMode.Create))
@@ -232,50 +236,54 @@ namespace AGS_TranslationEditor
                 StreamWriter sw = new StreamWriter(fs);
                 BinaryWriter bw = new BinaryWriter(fs);
 
-                //Write header "AGSTranslation"
-                byte[] bHeader = System.Text.Encoding.UTF8.GetBytes("AGSTranslation");
-                fs.Write(bHeader, 0, bHeader.Length);
-                fs.WriteByte(0);
+                //Tail
+                //Length: 38 / 0x00000026 (bytes)
+                byte[] tail =
+                {
+                0x01, 0x00, 0x00, 0x00, 0x41, 0x01, 0x00, 0x00, 0x00, 0x41, 0x03, 0x00, 0x00, 0x00, 0x0C, 0x00,
+                0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+                0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00,
+                };
 
+                //Write header "AGSTranslation\0
+                //Length: 8 / 0x00000008 (bytes)
+                byte[] AGSHeader =
+                {
+                    0x41, 0x47, 0x53, 0x54, 0x72, 0x61, 0x6E, 0x73, 0x6C, 0x61, 0x74, 0x69, 0x6F, 0x6E, 0x00,
+                };
+                fs.Write(AGSHeader,0,AGSHeader.Length);
 
-                fs.WriteByte(2);
-                fs.WriteByte(0);
-                fs.WriteByte(0);
-                fs.WriteByte(0);
+                //Padding
+                //Length: 8 / 0x00000008 (bytes)
+                byte[] paddingBytes = {0x02, 0x00, 0x00, 0x00, 0x16, 0x00, 0x00, 0x00,};
+                fs.Write(paddingBytes,0,paddingBytes.Length);
 
-                fs.WriteByte(0x16);
-                fs.WriteByte(0);
-                fs.WriteByte(0);
-                fs.WriteByte(0);
-
+                //Write GameUID important or Translation doesnt load!
                 //byte[] GameUID = Encoding.UTF8.GetBytes("751C1200");
                 string GameUID = "751C1200";
                 int decAgain = int.Parse(GameUID, System.Globalization.NumberStyles.HexNumber);
-
                 byte[] bGameUID = BitConverter.GetBytes(SwapEndianness(decAgain));
                 fs.Write(bGameUID,0,bGameUID.Length);
 
                 //Write GameTitle
                 string GameTitle = "Technobabylon\0";
                 byte[] bGameTitle = Encoding.UTF8.GetBytes(GameTitle);
-                byte[] bGameTitleLength = BitConverter.GetBytes(bGameTitle.Length);
                 char[] cGameTitle = new char[bGameTitle.Length];
 
+
                 //Write Title Length
+                byte[] bGameTitleLength = BitConverter.GetBytes(bGameTitle.Length);
                 fs.Write(bGameTitleLength, 0, bGameTitleLength.Length);
-                //Write the Title
+
+                //Encrypt and write the Title
                 Array.Copy(bGameTitle, cGameTitle, bGameTitle.Length);
                 encrypt_text(cGameTitle);
-
-                //byte[] temp2 = new 
-                byte[] temp = Encoding.ASCII.GetBytes(cGameTitle);
                 int i = 0;
                 foreach (char c in cGameTitle)
                 {
                     bGameTitle[i] = (byte)c;
                     i++;
                 }
-
                 fs.Write(bGameTitle, 0, bGameTitle.Length);
                 
                 //dummy write
@@ -283,14 +291,65 @@ namespace AGS_TranslationEditor
                 decAgain = int.Parse(dummy, System.Globalization.NumberStyles.HexNumber);
                 byte[] bDummy = BitConverter.GetBytes(SwapEndianness(decAgain));
                 fs.Write(bDummy, 0, bDummy.Length);
+
+                //Write Length translation
+                long TranslationLengthPosition = fs.Position;
+                //Dummy write for later
+                fs.Write(bDummy,0,bDummy.Length);
                 
+                long TranslationLength = 0;
+
                 if (entries != null)
                 foreach (string[] entry in entries)
                 {
                     //encrypt string write length  
+                    string entry1 = entry[0];
+                    byte[] bEntry1 = Encoding.UTF8.GetBytes(entry1);
 
+                    //Write string entry length
+                    byte[] bEntry1Length = BitConverter.GetBytes(bEntry1.Length);
+                    fs.Write(bEntry1Length,0,bEntry1Length.Length);
+
+                    char[] cEntry1 = new char[bEntry1.Length];
+                    Array.Copy(bEntry1, cEntry1, bEntry1.Length);
+                    encrypt_text(cEntry1);
+                    int x = 0;
+                    foreach (char c in cEntry1)
+                    {
+                        bEntry1[x] = (byte)c;
+                        x++;
+                    }
+                    fs.Write(bEntry1, 0, bEntry1.Length);
+
+                    string entry2 = entry[1];
+                    byte[] bEntry2 = Encoding.UTF8.GetBytes(entry2);
+
+                    //Write string entry length
+                    byte[] bEntry2Length = BitConverter.GetBytes(bEntry2.Length);
+                    fs.Write(bEntry2Length, 0, bEntry2Length.Length);
+
+                    char[] cEntry2 = new char[bEntry2.Length];
+                    Array.Copy(bEntry2, cEntry2, bEntry2.Length);
+                    encrypt_text(cEntry2);
+                    x = 0;
+                    foreach (char c in cEntry2)
+                    {
+                        bEntry2[x] = (byte)c;
+                        x++;
+                    }
+                    fs.Write(bEntry2, 0, bEntry2.Length);
+
+                    long length_temp = BitConverter.ToInt32(bEntry1Length, 0) + 4 + BitConverter.ToInt32(bEntry2Length, 0) + 4;
+                    TranslationLength = TranslationLength + length_temp;
                 }
-                
+
+                //Write Tail
+                fs.Write(tail,0,tail.Length);
+
+                //Write Translation length + 10
+                byte[] b = BitConverter.GetBytes((int)(TranslationLength+10));
+                fs.Position = TranslationLengthPosition;
+                fs.Write(b, 0, b.Length);
 
                 fs.Close();
             }
@@ -341,7 +400,8 @@ namespace AGS_TranslationEditor
             int adx = 0, tobreak = 0;
             int toencx = 0;
 
-            while (tobreak == 0)
+            //while (tobreak == 0)
+            while (toencx < toenc.Length)
             {
                 if (toenc[toencx] == 0)
                     tobreak = 1;
@@ -357,4 +417,3 @@ namespace AGS_TranslationEditor
 
     }
 }
-
