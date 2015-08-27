@@ -53,6 +53,8 @@
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblFileStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.colSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTranslation = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.OpenStripButton = new System.Windows.Forms.ToolStripButton();
             this.SaveStripButton = new System.Windows.Forms.ToolStripButton();
@@ -63,8 +65,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
-            this.colSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTranslation = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -198,6 +198,7 @@
             // 
             resources.ApplyResources(this.aboutToolStripMenuItem, "aboutToolStripMenuItem");
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
@@ -239,6 +240,21 @@
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
+            // 
+            // colSource
+            // 
+            this.colSource.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            resources.ApplyResources(this.colSource, "colSource");
+            this.colSource.Name = "colSource";
+            this.colSource.ReadOnly = true;
+            this.colSource.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // colTranslation
+            // 
+            this.colTranslation.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            resources.ApplyResources(this.colTranslation, "colTranslation");
+            this.colTranslation.Name = "colTranslation";
+            this.colTranslation.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
             // toolStrip1
             // 
@@ -303,21 +319,6 @@
             resources.ApplyResources(this.richTextBox2, "richTextBox2");
             this.richTextBox2.Name = "richTextBox2";
             this.richTextBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.richTextBox2_KeyDown);
-            // 
-            // colSource
-            // 
-            this.colSource.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            resources.ApplyResources(this.colSource, "colSource");
-            this.colSource.Name = "colSource";
-            this.colSource.ReadOnly = true;
-            this.colSource.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // colTranslation
-            // 
-            this.colTranslation.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            resources.ApplyResources(this.colTranslation, "colTranslation");
-            this.colTranslation.Name = "colTranslation";
-            this.colTranslation.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
             // frmMain
             // 

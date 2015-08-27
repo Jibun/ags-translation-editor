@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmStats));
             this.lblTranslated = new System.Windows.Forms.Label();
             this.lblNotTranslated = new System.Windows.Forms.Label();
             this.lblCountEntries = new System.Windows.Forms.Label();
@@ -38,61 +39,38 @@
             // 
             // lblTranslated
             // 
-            this.lblTranslated.AutoSize = true;
-            this.lblTranslated.Location = new System.Drawing.Point(12, 68);
+            resources.ApplyResources(this.lblTranslated, "lblTranslated");
             this.lblTranslated.Name = "lblTranslated";
-            this.lblTranslated.Size = new System.Drawing.Size(57, 13);
-            this.lblTranslated.TabIndex = 0;
-            this.lblTranslated.Text = "Translated";
             // 
             // lblNotTranslated
             // 
-            this.lblNotTranslated.AutoSize = true;
-            this.lblNotTranslated.Location = new System.Drawing.Point(12, 91);
+            resources.ApplyResources(this.lblNotTranslated, "lblNotTranslated");
             this.lblNotTranslated.Name = "lblNotTranslated";
-            this.lblNotTranslated.Size = new System.Drawing.Size(77, 13);
-            this.lblNotTranslated.TabIndex = 1;
-            this.lblNotTranslated.Text = "Not Translated";
             // 
             // lblCountEntries
             // 
-            this.lblCountEntries.AutoSize = true;
-            this.lblCountEntries.Location = new System.Drawing.Point(192, 50);
+            resources.ApplyResources(this.lblCountEntries, "lblCountEntries");
             this.lblCountEntries.Name = "lblCountEntries";
-            this.lblCountEntries.Size = new System.Drawing.Size(39, 13);
-            this.lblCountEntries.TabIndex = 2;
-            this.lblCountEntries.Text = "Entries";
             // 
             // lblTranslatedCount
             // 
-            this.lblTranslatedCount.AutoSize = true;
-            this.lblTranslatedCount.Location = new System.Drawing.Point(192, 68);
+            resources.ApplyResources(this.lblTranslatedCount, "lblTranslatedCount");
             this.lblTranslatedCount.Name = "lblTranslatedCount";
-            this.lblTranslatedCount.Size = new System.Drawing.Size(13, 13);
-            this.lblTranslatedCount.TabIndex = 3;
-            this.lblTranslatedCount.Text = "0";
             // 
             // lblNotTranslatedCount
             // 
-            this.lblNotTranslatedCount.AutoSize = true;
-            this.lblNotTranslatedCount.Location = new System.Drawing.Point(192, 91);
+            resources.ApplyResources(this.lblNotTranslatedCount, "lblNotTranslatedCount");
             this.lblNotTranslatedCount.Name = "lblNotTranslatedCount";
-            this.lblNotTranslatedCount.Size = new System.Drawing.Size(13, 13);
-            this.lblNotTranslatedCount.TabIndex = 4;
-            this.lblNotTranslatedCount.Text = "0";
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(15, 13);
+            resources.ApplyResources(this.progressBar1, "progressBar1");
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(315, 23);
-            this.progressBar1.TabIndex = 5;
             // 
             // frmStats
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(343, 142);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.lblNotTranslatedCount);
             this.Controls.Add(this.lblTranslatedCount);
@@ -104,7 +82,6 @@
             this.MinimizeBox = false;
             this.Name = "frmStats";
             this.ShowIcon = false;
-            this.Text = "Statistic";
             this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();

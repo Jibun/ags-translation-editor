@@ -153,14 +153,23 @@ namespace AGS_TranslationEditor
             return entryList;
         }
 
+        public class Gameinfo
+        {
+            public string Version { get; set; }
+            public string GameTitle { get; set; }
+            public string GameUID { get; set; }
+        }
+
         /// <summary>
         /// Get Game information (GameTitle and GameUID) from AGS EXE File
         /// </summary>
         /// <param name="filename">Game EXE File</param>
-        public static void GetGamedata(string filename)
+        public static Gameinfo GetGamedata(string filename)
         {
             using (FileStream fs = new FileStream(filename,FileMode.Open))
             {
+                Gameinfo info = new Gameinfo();
+
                 const int block_size = 1024;
                 long file_size = fs.Length;
                 long position = 0;
@@ -184,27 +193,38 @@ namespace AGS_TranslationEditor
                         br.ReadInt32();
                         int version_string_length = br.ReadInt32();
 
+                        //Get the AGS version the game was compiled with
                         string version = new string(br.ReadChars(version_string_length));
+                        info.Version = version;
+
+                        //save GameUID position for later
                         long gameuid_pos = fs.Position + 0x6f4;
+
+                        //Get the game title
                         string GameTitle = new string(br.ReadChars(0x40));
                         GameTitle = GameTitle.Substring(0,GameTitle.IndexOf("\0"));
+                        info.GameTitle = GameTitle;
 
                         //Read the GameUID
                         fs.Position = gameuid_pos;
                         int GameUID = br.ReadInt32();
                         GameUID = SwapEndianness(GameUID);
-                        string temp = GameUID.ToString("X");
+                        string sGameUID = GameUID.ToString("X");
+                        info.GameUID = sGameUID;
 
                         MessageBox.Show(
-                            "AGS Version: " + version + "\nGame Title: " + GameTitle + "\nGameUID: " + temp,
+                            "AGS Version: " + version + "\nGame Title: " + GameTitle + "\nGameUID: " + sGameUID,
                             "Game Information");
 
-                        return;
+                        return info;
                     }
 
                     position = position + block_size;
                 }
             }
+
+            //nothing found
+            return null;
         }
 
         /// <summary>
@@ -212,7 +232,7 @@ namespace AGS_TranslationEditor
         /// </summary>
         /// <param name="filename">Output filename</param>
         /// <param name="entries">List with Translation entries</param>
-        public static void CreateTRA_File(string filename, List<string[]> entries)
+        public static void CreateTRA_File(Gameinfo info, string filename, List<string[]> entries)
         {
             using (FileStream fs = new FileStream(filename,FileMode.Create))
             {
@@ -241,12 +261,14 @@ namespace AGS_TranslationEditor
                 //Write GameUID important or Translation doesnt load!
                 //byte[] GameUID = Encoding.UTF8.GetBytes("751C1200");
                 string GameUID = "751C1200";
+                GameUID = info.GameUID;
                 int decAgain = int.Parse(GameUID, System.Globalization.NumberStyles.HexNumber);
                 byte[] bGameUID = BitConverter.GetBytes(SwapEndianness(decAgain));
                 fs.Write(bGameUID,0,bGameUID.Length);
 
                 //Write GameTitle
                 string GameTitle = "Technobabylon\0";
+                GameTitle = info.GameTitle + "\0";
                 byte[] bGameTitle = Encoding.UTF8.GetBytes(GameTitle);
                 char[] cGameTitle = new char[bGameTitle.Length];
                 //Write Title Length

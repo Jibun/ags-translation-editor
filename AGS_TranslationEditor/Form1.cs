@@ -195,6 +195,7 @@ namespace AGS_TranslationEditor
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            _documentChanged = false;
             saveToolStripMenuItem.Enabled = false;
             saveAsToolStripMenuItem.Enabled = false;
 
@@ -283,16 +284,25 @@ namespace AGS_TranslationEditor
 
         private void createTRAToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            OpenFileDialog openExeDialog = new OpenFileDialog();
+            openExeDialog.Filter = "AGS EXE File (*.exe)|*.exe";
+
             OpenFileDialog openDialog = new OpenFileDialog();
             openDialog.Filter = "TRS Translation File (*.trs)|*.trs";
             
             SaveFileDialog saveDialog = new SaveFileDialog();
             saveDialog.Filter = "TRA Translation File (*.tra)|*.tra";
 
-            if (openDialog.ShowDialog() == DialogResult.OK)
+            if (openExeDialog.ShowDialog() == DialogResult.OK)
             {
-                if(saveDialog.ShowDialog() == DialogResult.OK)
-                    AGS_Translation.CreateTRA_File(saveDialog.FileName, AGS_Translation.ParseTRS_Translation(openDialog.FileName));
+                AGS_Translation.Gameinfo info = AGS_Translation.GetGamedata(openExeDialog.FileName);
+
+                if (openDialog.ShowDialog() == DialogResult.OK)
+                {
+                    if (saveDialog.ShowDialog() == DialogResult.OK)
+                        AGS_Translation.CreateTRA_File(info, saveDialog.FileName,
+                            AGS_Translation.ParseTRS_Translation(openDialog.FileName));
+                }
             }
         }
 
@@ -329,6 +339,13 @@ namespace AGS_TranslationEditor
                     }
                 }
             }
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAbout about = new frmAbout();
+
+            about.ShowDialog();
         }
     }
 }

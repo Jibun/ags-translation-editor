@@ -117,4 +117,183 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="lblTranslated.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 68</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="lblCountEntries.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="progressBar1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>315, 23</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>343, 142</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="lblTranslatedCount.Location" type="System.Drawing.Point, System.Drawing">
+    <value>192, 68</value>
+  </data>
+  <data name="&gt;&gt;lblNotTranslated.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="lblTranslatedCount.Size" type="System.Drawing.Size, System.Drawing">
+    <value>13, 13</value>
+  </data>
+  <data name="lblNotTranslatedCount.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="lblNotTranslated.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 13</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lblNotTranslatedCount.Text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblTranslated.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 13</value>
+  </data>
+  <data name="&gt;&gt;lblNotTranslated.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lblCountEntries.Text" xml:space="preserve">
+    <value>Entries</value>
+  </data>
+  <data name="&gt;&gt;progressBar1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblTranslatedCount.Name" xml:space="preserve">
+    <value>lblTranslatedCount</value>
+  </data>
+  <data name="&gt;&gt;lblNotTranslatedCount.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="lblCountEntries.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;lblNotTranslated.Name" xml:space="preserve">
+    <value>lblNotTranslated</value>
+  </data>
+  <data name="lblTranslated.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblNotTranslatedCount.Location" type="System.Drawing.Point, System.Drawing">
+    <value>192, 91</value>
+  </data>
+  <data name="lblNotTranslatedCount.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblTranslatedCount.Text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblNotTranslated.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 91</value>
+  </data>
+  <data name="&gt;&gt;lblCountEntries.Name" xml:space="preserve">
+    <value>lblCountEntries</value>
+  </data>
+  <data name="&gt;&gt;lblCountEntries.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;progressBar1.Name" xml:space="preserve">
+    <value>progressBar1</value>
+  </data>
+  <data name="&gt;&gt;lblCountEntries.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="lblNotTranslatedCount.Size" type="System.Drawing.Size, System.Drawing">
+    <value>13, 13</value>
+  </data>
+  <data name="&gt;&gt;lblNotTranslated.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="lblNotTranslated.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;lblNotTranslatedCount.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblTranslatedCount.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lblNotTranslated.Text" xml:space="preserve">
+    <value>Not Translated</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>frmStats</value>
+  </data>
+  <data name="&gt;&gt;lblCountEntries.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lblTranslated.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;progressBar1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;lblNotTranslatedCount.Name" xml:space="preserve">
+    <value>lblNotTranslatedCount</value>
+  </data>
+  <data name="&gt;&gt;lblNotTranslatedCount.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;lblTranslated.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lblNotTranslated.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblCountEntries.Location" type="System.Drawing.Point, System.Drawing">
+    <value>192, 50</value>
+  </data>
+  <data name="&gt;&gt;lblTranslated.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="lblTranslatedCount.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblCountEntries.Size" type="System.Drawing.Size, System.Drawing">
+    <value>39, 13</value>
+  </data>
+  <data name="&gt;&gt;lblTranslatedCount.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="progressBar1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 13</value>
+  </data>
+  <data name="progressBar1.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;lblTranslated.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;lblTranslatedCount.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="lblTranslated.Text" xml:space="preserve">
+    <value>Translated</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Statistic</value>
+  </data>
+  <data name="lblTranslatedCount.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;progressBar1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblTranslated.Name" xml:space="preserve">
+    <value>lblTranslated</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>de</value>
+  </metadata>
 </root>

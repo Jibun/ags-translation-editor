@@ -81,6 +81,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAbout.Designer.cs">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmStats.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,6 +100,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAbout.resx">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmStats.de.resx">
+      <DependentUpon>frmStats.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmStats.resx">
       <DependentUpon>frmStats.cs</DependentUpon>
@@ -307,6 +319,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\preferences-desktop-personal.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editor.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
