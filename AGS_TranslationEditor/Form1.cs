@@ -58,8 +58,6 @@ namespace AGS_TranslationEditor
                     entryList = AGS_Translation.ParseTRS_Translation(fileDialog.FileName);
                 }
 
-                List<string[]> testList = new List<string[]>();
-
                 if (entryList != null)
                 {
                     foreach (string[] entry in entryList)
