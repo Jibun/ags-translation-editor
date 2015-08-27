@@ -19,6 +19,7 @@ namespace AGS_TranslationEditor
         private int _selectedRow = 0;
         private string _currentfilename = "";
         private int _numEntries = 0;
+        private bool _documentChanged = false;
 
         public frmMain()
         {
@@ -75,18 +76,46 @@ namespace AGS_TranslationEditor
                 lblEntriesCount.Text = "Entries: " + _numEntries;
 
                 this.Text = _currentfilename + " - AGS Translation Editor";
+
+                _documentChanged = false;
             }
 
         }
 
         private void beendenToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (_documentChanged)
+            {
+                string question = "Save changes to " + _currentfilename.Substring(_currentfilename.LastIndexOf("\\") + 1);
+
+                //Ask if user wants to save if data was changed
+                if (MessageBox.Show(question, "AGS Translation Editor", MessageBoxButtons.YesNo) ==
+                    DialogResult.Yes)
+                {
+                    //Save changes then exit
+                    if (dataGridView1.Rows.Count > 0)
+                    {
+                        FileStream fs = new FileStream(_currentfilename, FileMode.Create);
+                        StreamWriter fw = new StreamWriter(fs);
+
+                        foreach (DataGridViewRow row in dataGridView1.Rows)
+                        {
+                            fw.WriteLine(row.Cells[0].Value);
+                            fw.WriteLine(row.Cells[1].Value);
+                        }
+
+                        fw.Close();
+                        fs.Close();
+                    }
+                    Exit();
+                }
+                else
+                {
+                    Exit();
+                }
+            }
+
             Exit();
-        }
-
-        private void neuToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -264,6 +293,41 @@ namespace AGS_TranslationEditor
             {
                 if(saveDialog.ShowDialog() == DialogResult.OK)
                     AGS_Translation.CreateTRA_File(saveDialog.FileName, AGS_Translation.ParseTRS_Translation(openDialog.FileName));
+            }
+        }
+
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            this.Text = _currentfilename + " • - AGS Translation Editor";
+            _documentChanged = true;
+        }
+
+        private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (_documentChanged)
+            {
+                string question = "Save changes to " + _currentfilename.Substring(_currentfilename.LastIndexOf("\\")+1);
+
+                //Ask if user wants to save if data was changed
+                if (MessageBox.Show(question, "AGS Translation Editor", MessageBoxButtons.YesNo) ==
+                    DialogResult.Yes)
+                {
+                    //Save changes then exit
+                    if (dataGridView1.Rows.Count > 0)
+                    {
+                        FileStream fs = new FileStream(_currentfilename, FileMode.Create);
+                        StreamWriter fw = new StreamWriter(fs);
+
+                        foreach (DataGridViewRow row in dataGridView1.Rows)
+                        {
+                            fw.WriteLine(row.Cells[0].Value);
+                            fw.WriteLine(row.Cells[1].Value);
+                        }
+
+                        fw.Close();
+                        fs.Close();
+                    }
+                }
             }
         }
     }

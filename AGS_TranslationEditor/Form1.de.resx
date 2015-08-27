@@ -164,13 +164,13 @@
     <value>Datei</value>
   </data>
   <data name="addToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>136, 22</value>
   </data>
   <data name="addToolStripMenuItem.Text" xml:space="preserve">
     <value>Hinzufügen</value>
   </data>
   <data name="removeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>136, 22</value>
   </data>
   <data name="removeToolStripMenuItem.Text" xml:space="preserve">
     <value>Entfernen</value>
@@ -181,8 +181,17 @@
   <data name="bearbeitenToolStripMenuItem.Text" xml:space="preserve">
     <value>Bearbeiten</value>
   </data>
+  <data name="tRATRSToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 22</value>
+  </data>
+  <data name="getGameInfoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 22</value>
+  </data>
   <data name="getGameInfoToolStripMenuItem.Text" xml:space="preserve">
     <value>Lies Spielinfos</value>
+  </data>
+  <data name="createTRAToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 22</value>
   </data>
   <data name="createTRAToolStripMenuItem.Text" xml:space="preserve">
     <value>TRA erstellen</value>
@@ -192,6 +201,9 @@
   </data>
   <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
     <value>Werkzeuge</value>
+  </data>
+  <data name="aboutToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 22</value>
   </data>
   <data name="aboutToolStripMenuItem.Text" xml:space="preserve">
     <value>Über</value>

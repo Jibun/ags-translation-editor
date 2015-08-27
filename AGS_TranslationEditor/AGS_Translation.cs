@@ -263,7 +263,6 @@ namespace AGS_TranslationEditor
                 }
                 fs.Write(bGameTitle, 0, bGameTitle.Length);
 
-
                 //dummy write
                 //Length: 4 / 0x00000004 (bytes)
                 byte[] bDummy = {0x01, 0x00, 0x00, 0x00,};
@@ -281,62 +280,67 @@ namespace AGS_TranslationEditor
                 long translationLength = 0;
 
                 if (entries != null)
-                foreach (string[] entry in entries)
                 {
-                    //encrypt string write length  
-                    string entry1 = entry[0];
-                    byte[] bEntry1 = Encoding.UTF8.GetBytes(entry1);
-
-                    //Write string entry1 length
-                    byte[] bEntry1Length = BitConverter.GetBytes(bEntry1.Length);
-                    fs.Write(bEntry1Length,0,bEntry1Length.Length);
-
-                    char[] cEntry1 = new char[bEntry1.Length];
-                    Array.Copy(bEntry1, cEntry1, bEntry1.Length);
-                    encrypt_text(cEntry1);
-                    int x = 0;
-                    foreach (char c in cEntry1)
+                    foreach (string[] entry in entries)
                     {
-                        bEntry1[x] = (byte)c;
-                        x++;
+                        if (!string.Equals(entry[1], ""))
+                        {
+                            //encrypt string write length  
+                            string entry1 = entry[0];
+                            entry1 = entry1 + "\0";
+                            byte[] bEntry1 = Encoding.UTF8.GetBytes(entry1);
+
+                            //Write string entry1 length
+                            byte[] bEntry1Length = BitConverter.GetBytes(bEntry1.Length);
+                            fs.Write(bEntry1Length, 0, bEntry1Length.Length);
+
+                            char[] cEntry1 = new char[bEntry1.Length];
+                            Array.Copy(bEntry1, cEntry1, bEntry1.Length);
+                            encrypt_text(cEntry1);
+                            int x = 0;
+                            foreach (char c in cEntry1)
+                            {
+                                bEntry1[x] = (byte) c;
+                                x++;
+                            }
+                            fs.Write(bEntry1, 0, bEntry1.Length);
+
+                            //Encrypt Entry2 write length  
+                            string entry2 = entry[1];
+                            entry2 = entry2 + "\0";
+                            byte[] bEntry2 = Encoding.UTF8.GetBytes(entry2);
+
+                            //Write string entry2 length
+                            byte[] bEntry2Length = BitConverter.GetBytes(bEntry2.Length);
+                            fs.Write(bEntry2Length, 0, bEntry2Length.Length);
+
+                            char[] cEntry2 = new char[bEntry2.Length];
+                            Array.Copy(bEntry2, cEntry2, bEntry2.Length);
+                            encrypt_text(cEntry2);
+                            x = 0;
+                            foreach (char c in cEntry2)
+                            {
+                                bEntry2[x] = (byte) c;
+                                x++;
+                            }
+                            fs.Write(bEntry2, 0, bEntry2.Length);
+
+                            long lengthTemp = BitConverter.ToInt32(bEntry1Length, 0) + 4 +
+                                              BitConverter.ToInt32(bEntry2Length, 0) + 4;
+                            translationLength = translationLength + lengthTemp;
+                        }
                     }
-                    fs.Write(bEntry1, 0, bEntry1.Length);
+                        //Write Tail
+                        fs.Write(tail, 0, tail.Length);
 
-                    //Encrypt Entry2 write length  
-                    string entry2 = entry[1];
-                    byte[] bEntry2 = Encoding.UTF8.GetBytes(entry2);
+                        //Write Translation length + 10
+                        byte[] b = BitConverter.GetBytes((int) (translationLength + 10));
+                        fs.Position = translationLengthPosition;
+                        fs.Write(b, 0, b.Length);
 
-                    //Write string entry2 length
-                    byte[] bEntry2Length = BitConverter.GetBytes(bEntry2.Length);
-                    fs.Write(bEntry2Length, 0, bEntry2Length.Length);
-
-                    char[] cEntry2 = new char[bEntry2.Length];
-                    Array.Copy(bEntry2, cEntry2, bEntry2.Length);
-                    encrypt_text(cEntry2);
-                    x = 0;
-                    foreach (char c in cEntry2)
-                    {
-                        bEntry2[x] = (byte)c;
-                        x++;
-                    }
-                    fs.Write(bEntry2, 0, bEntry2.Length);
-
-                    long lengthTemp = BitConverter.ToInt32(bEntry1Length, 0) + 4 + BitConverter.ToInt32(bEntry2Length, 0) + 4;
-                    translationLength = translationLength + lengthTemp;
+                        fs.Close();
                 }
-
-                //Write Tail
-                fs.Write(tail,0,tail.Length);
-
-                //Write Translation length + 10
-                byte[] b = BitConverter.GetBytes((int)(translationLength+10));
-                fs.Position = translationLengthPosition;
-                fs.Write(b, 0, b.Length);
-
-                fs.Close();
-            }
-
-            
+            }           
         }
 
         private static int SwapEndianness(int value)
