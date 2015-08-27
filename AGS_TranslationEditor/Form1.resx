@@ -143,14 +143,8 @@
   <data name="neuToolStripMenuItem.Text" xml:space="preserve">
     <value>New</value>
   </data>
-  <data name="getGameInfoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
   <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9pt, style=Bold</value>
-  </data>
-  <data name="&gt;&gt;lblEntriesCount.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;saveToolStripMenuItem.Name" xml:space="preserve">
     <value>saveToolStripMenuItem</value>
@@ -160,6 +154,9 @@
   </data>
   <data name="&gt;&gt;lblFileStatus.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;addToolStripMenuItem.Name" xml:space="preserve">
+    <value>addToolStripMenuItem</value>
   </data>
   <data name="removeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>117, 22</value>
@@ -240,6 +237,9 @@
   <data name="richTextBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
   </data>
+  <data name="statusStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>995, 22</value>
+  </data>
   <data name="createTRAToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>
   </data>
@@ -264,9 +264,6 @@
   <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>145, 6</value>
   </data>
-  <data name="label2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left, Right</value>
-  </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -284,9 +281,6 @@
   </data>
   <data name="&gt;&gt;getGameInfoToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="StatsStripButton.Text" xml:space="preserve">
-    <value>Stats</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -315,11 +309,14 @@
   <data name="&gt;&gt;StatsStripButton.Name" xml:space="preserve">
     <value>StatsStripButton</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Source Text:</value>
+  <data name="&gt;&gt;menuStrip1.Name" xml:space="preserve">
+    <value>menuStrip1</value>
   </data>
   <data name="saveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 22</value>
+  </data>
+  <data name="&gt;&gt;statusStrip1.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
   <data name="&gt;&gt;toolStripMenuItem1.Name" xml:space="preserve">
     <value>toolStripMenuItem1</value>
@@ -360,9 +357,6 @@
   <data name="dateiToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>37, 20</value>
   </data>
-  <data name="richTextBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
   <data name="dateiToolStripMenuItem.Text" xml:space="preserve">
     <value>File</value>
   </data>
@@ -387,8 +381,8 @@
   <data name="&gt;&gt;richTextBox1.Type" xml:space="preserve">
     <value>System.Windows.Forms.RichTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;SaveStripButton.Name" xml:space="preserve">
-    <value>SaveStripButton</value>
+  <data name="&gt;&gt;richTextBox2.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>83, 15</value>
@@ -429,14 +423,17 @@
   <data name="bearbeitenToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>39, 20</value>
   </data>
+  <data name="lblEntriesCount.Text" xml:space="preserve">
+    <value>Entries: 0</value>
+  </data>
   <data name="StatsStripButton.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
-  <data name="&gt;&gt;toolStripMenuItem3.Name" xml:space="preserve">
-    <value>toolStripMenuItem3</value>
+  <data name="tRATRSToolStripMenuItem.Text" xml:space="preserve">
+    <value>TRA -&gt; TRS</value>
   </data>
-  <data name="&gt;&gt;richTextBox2.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="richTextBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
   </data>
   <data name="&gt;&gt;StatsStripButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -447,6 +444,9 @@
   <data name="saveAsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 22</value>
   </data>
+  <data name="saveToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Strg+S</value>
+  </data>
   <data name="&gt;&gt;dateiToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -456,8 +456,8 @@
   <data name="toolStrip1.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="tRATRSToolStripMenuItem.Text" xml:space="preserve">
-    <value>TRA -&gt; TRS</value>
+  <data name="label2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left, Right</value>
   </data>
   <data name="&gt;&gt;saveToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -495,11 +495,17 @@
   <data name="colSource.HeaderText" xml:space="preserve">
     <value>Source Text</value>
   </data>
+  <data name="&gt;&gt;bearbeitenToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="getGameInfoToolStripMenuItem.Text" xml:space="preserve">
     <value>Get Game Info</value>
   </data>
   <data name="&gt;&gt;beendenToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem3.Name" xml:space="preserve">
+    <value>toolStripMenuItem3</value>
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 25</value>
@@ -528,6 +534,9 @@
   <data name="beendenToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 22</value>
   </data>
+  <data name="colTranslation.HeaderText" xml:space="preserve">
+    <value>Translation</value>
+  </data>
   <data name="toolStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 24</value>
   </data>
@@ -540,17 +549,17 @@
   <data name="richTextBox2.Size" type="System.Drawing.Size, System.Drawing">
     <value>962, 107</value>
   </data>
-  <data name="&gt;&gt;statusStrip1.ZOrder" xml:space="preserve">
-    <value>6</value>
+  <data name="getGameInfoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
   </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
   </data>
-  <data name="statusStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>995, 22</value>
+  <data name="&gt;&gt;SaveStripButton.Name" xml:space="preserve">
+    <value>SaveStripButton</value>
   </data>
-  <data name="lblEntriesCount.Text" xml:space="preserve">
-    <value>Entries: 0</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Source Text:</value>
   </data>
   <data name="öffnenToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Strg+O</value>
@@ -576,8 +585,8 @@
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
   </data>
-  <data name="&gt;&gt;bearbeitenToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;lblEntriesCount.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="saveAsToolStripMenuItem.Text" xml:space="preserve">
     <value>Save as...</value>
@@ -587,9 +596,6 @@
   </data>
   <data name="&gt;&gt;toolStrip1.Name" xml:space="preserve">
     <value>toolStrip1</value>
-  </data>
-  <data name="addToolStripMenuItem.Text" xml:space="preserve">
-    <value>Add</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 530</value>
@@ -633,9 +639,6 @@
   <data name="removeToolStripMenuItem.Text" xml:space="preserve">
     <value>Remove</value>
   </data>
-  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="&gt;&gt;createTRAToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -648,14 +651,11 @@
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>frmMain</value>
   </data>
-  <data name="&gt;&gt;menuStrip1.Name" xml:space="preserve">
-    <value>menuStrip1</value>
+  <data name="addToolStripMenuItem.Text" xml:space="preserve">
+    <value>Add</value>
   </data>
-  <data name="&gt;&gt;createTRAToolStripMenuItem.Name" xml:space="preserve">
-    <value>createTRAToolStripMenuItem</value>
-  </data>
-  <data name="saveToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Strg+S</value>
+  <data name="StatsStripButton.Text" xml:space="preserve">
+    <value>Stats</value>
   </data>
   <data name="&gt;&gt;toolStrip1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -663,18 +663,15 @@
   <data name="&gt;&gt;aboutToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;addToolStripMenuItem.Name" xml:space="preserve">
-    <value>addToolStripMenuItem</value>
+  <data name="&gt;&gt;createTRAToolStripMenuItem.Name" xml:space="preserve">
+    <value>createTRAToolStripMenuItem</value>
   </data>
-  <data name="colTranslation.HeaderText" xml:space="preserve">
-    <value>Translation</value>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="aboutToolStripMenuItem.Text" xml:space="preserve">
     <value>About</value>
   </data>
-  <metadata name="colTranslation.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
   <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>de</value>
   </metadata>
@@ -688,6 +685,9 @@
     <value>17, 17</value>
   </metadata>
   <metadata name="colSource.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colTranslation.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
