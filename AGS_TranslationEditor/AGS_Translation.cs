@@ -288,10 +288,6 @@ namespace AGS_TranslationEditor
                 //dummy write
                 //Length: 4 / 0x00000004 (bytes)
                 byte[] bDummy = {0x01, 0x00, 0x00, 0x00,};
-
-                //string dummy = "01000000";
-                //decAgain = int.Parse(dummy, System.Globalization.NumberStyles.HexNumber);
-                //byte[] bDummy = BitConverter.GetBytes(SwapEndianness(decAgain));
                 fs.Write(bDummy, 0, bDummy.Length);
 
                 //Write Length translation
