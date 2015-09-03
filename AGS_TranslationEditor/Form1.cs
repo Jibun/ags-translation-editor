@@ -47,6 +47,7 @@ namespace AGS_TranslationEditor
 
                 _numEntries = 0;
                 List<string[]> entryList = null;
+                Dictionary<string,string> entryList2 = null;
                 _currentfilename = fileDialog.FileName;
 
                 if (fileDialog.FileName.Contains(".tra"))
@@ -55,21 +56,20 @@ namespace AGS_TranslationEditor
                 }
                 else if (fileDialog.FileName.Contains(".trs"))
                 {
-                    entryList = AGS_Translation.ParseTRS_Translation(fileDialog.FileName);
+                    entryList2 = AGS_Translation.ParseTRS_Translation2(fileDialog.FileName);
                 }
 
-                if (entryList != null)
+                if (entryList2 != null )
                 {
-                    foreach (string[] entry in entryList)
+                    foreach (KeyValuePair<string, string> pair in entryList2)
                     {
                         //Populate DataGridView
-                        string[] newRow = {entry[0], entry[1]};
+                        string[] newRow = { pair.Key, pair.Value };
                         dataGridView1.Rows.Add(newRow);
                         _numEntries++;
                     }
                 }
 
-                //dataGridView1.DataSource = entryList;
                 lblFileStatus.Text = "File loaded";
                 lblEntriesCount.Text = "Entries: " + _numEntries;
 
@@ -215,7 +215,14 @@ namespace AGS_TranslationEditor
                 richTextBox1.Text = test;
 
                 string test2 = (string) dataGridView1.Rows[_selectedRow].Cells[1].Value;
-                richTextBox2.Text = test2;
+                /*if(test2.Length <= 0)
+                {
+                    string tempText = test.Substring(test.IndexOf(" "));
+
+                    richTextBox2.Text = YandexTranslationApi.translate(null, "de", tempText, null, null);
+                }
+                else*/
+                    richTextBox2.Text = test2;
             }
             catch (Exception)
             {
@@ -345,5 +352,6 @@ namespace AGS_TranslationEditor
 
             about.ShowDialog();
         }
+
     }
 }

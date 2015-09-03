@@ -14,6 +14,11 @@ namespace AGS_TranslationEditor
     {
         private static readonly char[] _passwencstring = { 'A', 'v', 'i', 's', ' ', 'D', 'u', 'r', 'g', 'a', 'n' };
 
+        private string _name;
+        private string _fileName;
+        private bool _modified;
+        private static Dictionary<string, string> _translatedLines;
+
         /// <summary>
         /// Reads and parses a TRA file
         /// </summary>
@@ -90,6 +95,7 @@ namespace AGS_TranslationEditor
                         //Populate List with the data
                         string[] newRow = {sDecSourceText, sDecTranslatedText};
                         entryList.Add(newRow);
+                        _translatedLines.Add(sDecSourceText, sDecTranslatedText);
                     }
                     fs.Close();
                     return entryList;
@@ -124,6 +130,111 @@ namespace AGS_TranslationEditor
         }
 
         /// <summary>
+        /// Reads and parses a TRA file
+        /// </summary>
+        /// <param name="filename">Filename</param>
+        /// <returns>A Dictionary with the translation entries</returns>
+        public static Dictionary<string,string> ParseTRA_Translation2(string filename)
+        {
+            FileStream fs = File.OpenRead(filename);
+            BinaryReader br = new BinaryReader(fs);
+
+            long sizeFile = fs.Length;
+
+            char[] transsig = new char[16];
+            transsig = br.ReadChars(15);
+
+            //Check AGS Translation Header
+            if (string.Compare(new string(transsig), "AGSTranslation") == 0)
+            {
+                //Read Translation File BlockType for Example 1,2,3
+                int blockType = br.ReadInt32();
+                if (blockType == 1)
+                {
+
+                }
+                else if (blockType == 2)
+                {
+                    //Dummy Read
+                    br.ReadInt32();
+                    //Read GameID
+                    int iGameUID = br.ReadInt32();
+
+                    //Get GameTitle
+                    int GameTitleLength = br.ReadInt32();
+                    byte[] bGameTitle = br.ReadBytes(GameTitleLength);
+                    char[] cGameTitle = new char[GameTitleLength];
+                    Array.Copy(bGameTitle, 0, cGameTitle, 0, bGameTitle.Length);
+                    //Game Name
+                    decrypt_text(cGameTitle);
+                    string sGameTitle = new string(cGameTitle);
+
+                    //dummy read
+                    br.ReadInt32();
+
+                    // Translation Entries
+                    long translationLength = br.ReadInt32();
+                    translationLength += fs.Position;
+
+                    //Loop throught File and read entries
+                    int newlen = 0;
+                    while (fs.Position < translationLength)
+                    {
+                        newlen = br.ReadInt32();
+
+                        //Read original Text
+                        byte[] bSourceBytes = br.ReadBytes(newlen);
+                        char[] cSourceText = new char[bSourceBytes.Length + 1];
+                        Array.Copy(bSourceBytes, 0, cSourceText, 0, bSourceBytes.Length);
+                        decrypt_text(cSourceText);
+                        string sDecSourceText = new string(cSourceText);
+                        sDecSourceText = sDecSourceText.Trim('\0');
+
+                        //Read Translated Text
+                        newlen = br.ReadInt32();
+                        byte[] bTranslatedBytes = br.ReadBytes(newlen);
+                        char[] cTranslatedText = new char[bTranslatedBytes.Length + 1];
+                        Array.Copy(bTranslatedBytes, 0, cTranslatedText, 0, bTranslatedBytes.Length);
+                        decrypt_text(cTranslatedText);
+                        string sDecTranslatedText = new string(cTranslatedText);
+                        sDecTranslatedText = sDecTranslatedText.Trim('\0');
+
+                        //Populate List with the data
+                        _translatedLines.Add(sDecSourceText, sDecTranslatedText);
+                    }
+                    fs.Close();
+                    return _translatedLines;
+                }
+                else if (blockType == 3)
+                {
+                    /*// game settings
+                    int temp = language_file->ReadInt32();
+                    // normal font
+                    if (temp >= 0)
+                        SetNormalFont(temp);
+                    temp = language_file->ReadInt32();
+                    // speech font
+                    if (temp >= 0)
+                        SetSpeechFont(temp);
+                    temp = language_file->ReadInt32();
+                    // text direction
+                    if (temp == 1)
+                    {
+                        play.text_align = SCALIGN_LEFT;
+                        game.options[OPT_RIGHTLEFTWRITE] = 0;
+                    }
+                    else if (temp == 2)
+                    {
+                        play.text_align = SCALIGN_RIGHT;
+                        game.options[OPT_RIGHTLEFTWRITE] = 1;
+                    }
+                     */
+                }
+            }
+            return _translatedLines;
+        }
+
+        /// <summary>
         /// Parse a TRS file for AGS
         /// </summary>
         /// <param name="filename">Input filename</param>
@@ -151,6 +262,43 @@ namespace AGS_TranslationEditor
                 entryList.Add(newRow);
             }
             return entryList;
+        }
+
+        /// <summary>
+        /// Parse a TRS file for AGS
+        /// </summary>
+        /// <param name="filename">Input filename</param>
+        /// <returns>Dictionary with Translation entries</returns>
+        public static Dictionary<string,string> ParseTRS_Translation2(string filename)
+        {
+            string[] list = File.ReadAllLines(filename);
+
+            _translatedLines = new Dictionary<string, string>();
+
+            //Look for comments and remove them
+            var result = Array.FindAll(list, s => !s.StartsWith("//"));
+
+            for (int i = 0; i < result.Length;)
+            {
+                string sSourceText = result[i];
+                i++;
+                string sTranslationText = "";
+                if (i < result.Length)
+                {
+                    sTranslationText = result[i];
+                    i++;
+                }
+
+                if (!_translatedLines.ContainsKey(sSourceText))
+                {
+                    _translatedLines.Add(sSourceText, sTranslationText);
+                }
+                else
+                {
+                    //MessageBox.Show("Entry already in Dictionary!",string.Format("Key already available: {0}", sSourceText));
+                }
+            }
+            return _translatedLines;
         }
 
         public class Gameinfo
@@ -212,9 +360,9 @@ namespace AGS_TranslationEditor
                         string sGameUID = GameUID.ToString("X");
                         info.GameUID = sGameUID;
 
-                        MessageBox.Show(
+                        /*MessageBox.Show(
                             "AGS Version: " + version + "\nGame Title: " + GameTitle + "\nGameUID: " + sGameUID,
-                            "Game Information");
+                            "Game Information");*/
 
                         return info;
                     }
@@ -245,7 +393,7 @@ namespace AGS_TranslationEditor
                 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00,
                 };
 
-                //Write header "AGSTranslation\0
+                //Write always header "AGSTranslation\0
                 //Length: 8 / 0x00000008 (bytes)
                 byte[] AGSHeader =
                 {
@@ -253,22 +401,19 @@ namespace AGS_TranslationEditor
                 };
                 fs.Write(AGSHeader,0,AGSHeader.Length);
 
-                //Padding
+                //Padding not sure what exactly this is
                 //Length: 8 / 0x00000008 (bytes)
                 byte[] paddingBytes = {0x02, 0x00, 0x00, 0x00, 0x16, 0x00, 0x00, 0x00,};
                 fs.Write(paddingBytes,0,paddingBytes.Length);
 
                 //Write GameUID important or Translation doesnt load!
-                //byte[] GameUID = Encoding.UTF8.GetBytes("751C1200");
-                string GameUID = "751C1200";
-                GameUID = info.GameUID;
+                string GameUID = info.GameUID;
                 int decAgain = int.Parse(GameUID, System.Globalization.NumberStyles.HexNumber);
                 byte[] bGameUID = BitConverter.GetBytes(SwapEndianness(decAgain));
                 fs.Write(bGameUID,0,bGameUID.Length);
 
                 //Write GameTitle
-                string GameTitle = "Technobabylon\0";
-                GameTitle = info.GameTitle + "\0";
+                string GameTitle = info.GameTitle + "\0";
                 byte[] bGameTitle = Encoding.UTF8.GetBytes(GameTitle);
                 char[] cGameTitle = new char[bGameTitle.Length];
                 //Write Title Length
@@ -361,16 +506,6 @@ namespace AGS_TranslationEditor
             }           
         }
 
-        private static int SwapEndianness(int value)
-        {
-            var b1 = (value >> 0) & 0xff;
-            var b2 = (value >> 8) & 0xff;
-            var b3 = (value >> 16) & 0xff;
-            var b4 = (value >> 24) & 0xff;
-
-            return b1 << 24 | b2 << 16 | b3 << 8 | b4 << 0;
-        }
-
         /// <summary>
         /// Decrypt a char array
         /// </summary>
@@ -395,6 +530,25 @@ namespace AGS_TranslationEditor
             }
         }
 
+        public static byte[] decrypt_text(string toEnc)
+        {
+            string text = toEnc + "\0";
+            byte[] btext = Encoding.UTF8.GetBytes(text);
+            char[] ctext = new char[btext.Length];
+            //Encrypt and write the Title
+            Array.Copy(btext, ctext, btext.Length);
+            decrypt_text(ctext);
+            int i = 0;
+            foreach (char c in ctext)
+            {
+                btext[i] = (byte)c;
+                i++;
+            }
+
+            return btext;
+        }
+
+
         /// <summary>
         /// Encrypt a char array
         /// </summary>
@@ -417,6 +571,21 @@ namespace AGS_TranslationEditor
                 if (adx > 10)
                     adx = 0;
             }
+        }
+
+        /// <summary>
+        /// Help function to swap between endianns
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>Value to swap</returns>
+        private static int SwapEndianness(int value)
+        {
+            var b1 = (value >> 0) & 0xff;
+            var b2 = (value >> 8) & 0xff;
+            var b3 = (value >> 16) & 0xff;
+            var b4 = (value >> 24) & 0xff;
+
+            return b1 << 24 | b2 << 16 | b3 << 8 | b4 << 0;
         }
 
     }
