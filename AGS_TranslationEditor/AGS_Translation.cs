@@ -13,131 +13,19 @@ namespace AGS_TranslationEditor
     internal class AGS_Translation
     {
         private static readonly char[] _passwencstring = { 'A', 'v', 'i', 's', ' ', 'D', 'u', 'r', 'g', 'a', 'n' };
-
-        private string _name;
         private string _fileName;
-        private bool _modified;
         private static Dictionary<string, string> _translatedLines;
 
         /// <summary>
         /// Reads and parses a TRA file
         /// </summary>
         /// <param name="filename">Filename</param>
-        /// <returns>A ArrayList with the translation entries</returns>
-        public static List<string[]> ParseTRA_Translation(string filename)
-        {
-            int iGameUID = 0;
-            List<string[]> entryList = new List<string[]>();
-            FileStream fs = File.OpenRead(filename);
-            BinaryReader br = new BinaryReader(fs);
-            
-            long sizeFile = fs.Length;
-
-            char[] transsig = new char[16];
-            transsig = br.ReadChars(15);
-
-            //Check AGS Translation Header
-            if (string.Compare(new string(transsig), "AGSTranslation") == 0)
-            {
-                //Read Translation File BlockType for Example 1,2,3
-                int blockType = br.ReadInt32();
-                if (blockType == 1)
-                {
-
-                }
-                else if (blockType == 2)
-                {
-                    //Dummy Read
-                    br.ReadInt32();
-                    //Read GameID
-                    iGameUID = br.ReadInt32();
-
-                    //Get GameTitle
-                    int GameTitleLength = br.ReadInt32();
-                    byte[] bGameTitle = br.ReadBytes(GameTitleLength);
-                    char[] cGameTitle = new char[GameTitleLength];
-                    Array.Copy(bGameTitle, 0, cGameTitle, 0, bGameTitle.Length);
-                    //Game Name
-                    decrypt_text(cGameTitle);
-                    string sGameTitle = new string(cGameTitle);
-                    //sGameTitle = sGameTitle.Trim('\0');
-
-                    //dummy read
-                    br.ReadInt32();
-
-                    // Translation Entries
-                    long translationLength = br.ReadInt32();
-                    translationLength += fs.Position;
-
-                    //Loop throught File and read entries
-                    int newlen = 0;
-                    while (fs.Position < translationLength)
-                    {
-                        newlen = br.ReadInt32();
-                        
-                        //Read original Text
-                        byte[] bSourceBytes = br.ReadBytes(newlen);
-                        char[] cSourceText = new char[bSourceBytes.Length + 1];
-                        Array.Copy(bSourceBytes, 0, cSourceText, 0, bSourceBytes.Length);
-                        decrypt_text(cSourceText);
-                        string sDecSourceText = new string(cSourceText);
-                        sDecSourceText = sDecSourceText.Trim('\0');
-
-                        //Read Translated Text
-                        newlen = br.ReadInt32();
-                        byte[] bTranslatedBytes = br.ReadBytes(newlen);
-                        char[] cTranslatedText = new char[bTranslatedBytes.Length + 1];
-                        Array.Copy(bTranslatedBytes, 0, cTranslatedText, 0, bTranslatedBytes.Length);
-                        decrypt_text(cTranslatedText);
-                        string sDecTranslatedText = new string(cTranslatedText);
-                        sDecTranslatedText = sDecTranslatedText.Trim('\0');
-                        
-                        //Populate List with the data
-                        string[] newRow = {sDecSourceText, sDecTranslatedText};
-                        entryList.Add(newRow);
-                        _translatedLines.Add(sDecSourceText, sDecTranslatedText);
-                    }
-                    fs.Close();
-                    return entryList;
-                }
-                else if (blockType == 3)
-                {
-                /*// game settings
-                int temp = language_file->ReadInt32();
-                // normal font
-                if (temp >= 0)
-                    SetNormalFont(temp);
-                temp = language_file->ReadInt32();
-                // speech font
-                if (temp >= 0)
-                    SetSpeechFont(temp);
-                temp = language_file->ReadInt32();
-                // text direction
-                if (temp == 1)
-                {
-                    play.text_align = SCALIGN_LEFT;
-                    game.options[OPT_RIGHTLEFTWRITE] = 0;
-                }
-                else if (temp == 2)
-                {
-                    play.text_align = SCALIGN_RIGHT;
-                    game.options[OPT_RIGHTLEFTWRITE] = 1;
-                }
-                 */
-                }
-            }
-            return entryList;
-        }
-
-        /// <summary>
-        /// Reads and parses a TRA file
-        /// </summary>
-        /// <param name="filename">Filename</param>
         /// <returns>A Dictionary with the translation entries</returns>
-        public static Dictionary<string,string> ParseTRA_Translation2(string filename)
+        public static Dictionary<string,string> ParseTRA_Translation(string filename)
         {
             FileStream fs = File.OpenRead(filename);
             BinaryReader br = new BinaryReader(fs);
+            _translatedLines = new Dictionary<string, string>();
 
             long sizeFile = fs.Length;
 
@@ -238,38 +126,8 @@ namespace AGS_TranslationEditor
         /// Parse a TRS file for AGS
         /// </summary>
         /// <param name="filename">Input filename</param>
-        /// <returns>List with Translation entries</returns>
-        public static List<string[]> ParseTRS_Translation(string filename)
-        {
-            List<string[]> entryList = new List<string[]>();
-            string[] list = File.ReadAllLines(filename);
-
-            //Look for comments and remove them
-            var result = Array.FindAll(list, s => !s.StartsWith("//"));
-
-            for (int i = 0; i < result.Length;)
-            {
-                string sSourceText = result[i];
-                i++;
-                string sTranslationText = "";
-                if (i < result.Length)
-                {
-                    sTranslationText = result[i];
-                    i++;
-                }
-
-                string[] newRow = { sSourceText, sTranslationText };
-                entryList.Add(newRow);
-            }
-            return entryList;
-        }
-
-        /// <summary>
-        /// Parse a TRS file for AGS
-        /// </summary>
-        /// <param name="filename">Input filename</param>
         /// <returns>Dictionary with Translation entries</returns>
-        public static Dictionary<string,string> ParseTRS_Translation2(string filename)
+        public static Dictionary<string,string> ParseTRS_Translation(string filename)
         {
             string[] list = File.ReadAllLines(filename);
 
@@ -316,21 +174,20 @@ namespace AGS_TranslationEditor
         {
             using (FileStream fs = new FileStream(filename,FileMode.Open))
             {
-                Gameinfo info = new Gameinfo();
-
                 const int block_size = 1024;
                 long file_size = fs.Length;
                 long position = 0;
                 const string search_string = "Adventure Creator Game File v2";
-
+                Gameinfo info = new Gameinfo();
+                
+                //Read AGS EXE and search for string
                 BinaryReader br = new BinaryReader(fs);
-
                 while (position < file_size)
                 {
                     byte[] data = br.ReadBytes(block_size);
-                    
                     string temp_data = Encoding.Default.GetString(data);
 
+                    //If the search string is found get the game info
                     if (temp_data.Contains(search_string))
                     {
                         int pos = temp_data.IndexOf(search_string,0);
@@ -366,11 +223,10 @@ namespace AGS_TranslationEditor
 
                         return info;
                     }
-
+    
                     position = position + block_size;
                 }
             }
-
             //nothing found
             return null;
         }
@@ -380,12 +236,11 @@ namespace AGS_TranslationEditor
         /// </summary>
         /// <param name="filename">Output filename</param>
         /// <param name="entries">List with Translation entries</param>
-        public static void CreateTRA_File(Gameinfo info, string filename, List<string[]> entries)
+        public static void CreateTRA_File(Gameinfo info, string filename, Dictionary<string,string> entryList)
         {
             using (FileStream fs = new FileStream(filename,FileMode.Create))
             {
                 //Tail
-                //Length: 38 / 0x00000026 (bytes)
                 byte[] tail =
                 {
                 0x01, 0x00, 0x00, 0x00, 0x41, 0x01, 0x00, 0x00, 0x00, 0x41, 0x03, 0x00, 0x00, 0x00, 0x0C, 0x00,
@@ -394,19 +249,15 @@ namespace AGS_TranslationEditor
                 };
 
                 //Write always header "AGSTranslation\0
-                //Length: 8 / 0x00000008 (bytes)
                 byte[] AGSHeader =
-                {
-                    0x41, 0x47, 0x53, 0x54, 0x72, 0x61, 0x6E, 0x73, 0x6C, 0x61, 0x74, 0x69, 0x6F, 0x6E, 0x00,
-                };
+                {0x41, 0x47, 0x53, 0x54, 0x72, 0x61, 0x6E, 0x73, 0x6C, 0x61, 0x74, 0x69, 0x6F, 0x6E, 0x00,};
                 fs.Write(AGSHeader,0,AGSHeader.Length);
 
                 //Padding not sure what exactly this is
-                //Length: 8 / 0x00000008 (bytes)
                 byte[] paddingBytes = {0x02, 0x00, 0x00, 0x00, 0x16, 0x00, 0x00, 0x00,};
                 fs.Write(paddingBytes,0,paddingBytes.Length);
 
-                //Write GameUID important or Translation doesnt load!
+                //Write GameUID important or Translation does not load properly!
                 string GameUID = info.GameUID;
                 int decAgain = int.Parse(GameUID, System.Globalization.NumberStyles.HexNumber);
                 byte[] bGameUID = BitConverter.GetBytes(SwapEndianness(decAgain));
@@ -415,6 +266,7 @@ namespace AGS_TranslationEditor
                 //Write GameTitle
                 string GameTitle = info.GameTitle + "\0";
                 byte[] bGameTitle = Encoding.UTF8.GetBytes(GameTitle);
+                //byte[] bGameTitle = Encoding.ASCII.GetBytes(GameTitle);
                 char[] cGameTitle = new char[bGameTitle.Length];
                 //Write Title Length
                 byte[] bGameTitleLength = BitConverter.GetBytes(bGameTitle.Length);
@@ -442,16 +294,17 @@ namespace AGS_TranslationEditor
                 
                 long translationLength = 0;
 
-                if (entries != null)
+                if (entryList.Count > 0)
                 {
-                    foreach (string[] entry in entries)
+                    foreach (KeyValuePair<string,string> pair in entryList)
                     {
-                        if (!string.Equals(entry[1], ""))
+                        if (!string.Equals(pair.Value, ""))
                         {
                             //encrypt string write length  
-                            string entry1 = entry[0];
+                            string entry1 = pair.Key;
                             entry1 = entry1 + "\0";
                             byte[] bEntry1 = Encoding.UTF8.GetBytes(entry1);
+                            //byte[] bEntry1 = Encoding.ASCII.GetBytes(entry1);
 
                             //Write string entry1 length
                             byte[] bEntry1Length = BitConverter.GetBytes(bEntry1.Length);
@@ -469,9 +322,10 @@ namespace AGS_TranslationEditor
                             fs.Write(bEntry1, 0, bEntry1.Length);
 
                             //Encrypt Entry2 write length  
-                            string entry2 = entry[1];
+                            string entry2 = pair.Value;
                             entry2 = entry2 + "\0";
                             byte[] bEntry2 = Encoding.UTF8.GetBytes(entry2);
+                            //byte[] bEntry2 = Encoding.ASCII.GetBytes(entry2);
 
                             //Write string entry2 length
                             byte[] bEntry2Length = BitConverter.GetBytes(bEntry2.Length);

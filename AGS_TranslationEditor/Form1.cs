@@ -46,8 +46,7 @@ namespace AGS_TranslationEditor
                 dataGridView1.Refresh();
 
                 _numEntries = 0;
-                List<string[]> entryList = null;
-                Dictionary<string,string> entryList2 = null;
+                Dictionary<string,string> entryList = null;
                 _currentfilename = fileDialog.FileName;
 
                 if (fileDialog.FileName.Contains(".tra"))
@@ -56,12 +55,12 @@ namespace AGS_TranslationEditor
                 }
                 else if (fileDialog.FileName.Contains(".trs"))
                 {
-                    entryList2 = AGS_Translation.ParseTRS_Translation2(fileDialog.FileName);
+                    entryList = AGS_Translation.ParseTRS_Translation(fileDialog.FileName);
                 }
 
-                if (entryList2 != null )
+                if (entryList != null )
                 {
-                    foreach (KeyValuePair<string, string> pair in entryList2)
+                    foreach (KeyValuePair<string, string> pair in entryList)
                     {
                         //Populate DataGridView
                         string[] newRow = { pair.Key, pair.Value };
@@ -257,16 +256,16 @@ namespace AGS_TranslationEditor
                 if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
                     string trs_filename = saveDialog.FileName;
-                    List<string[]> entryList = AGS_Translation.ParseTRA_Translation(tra_filename);
+                    Dictionary<string,string> entryList = AGS_Translation.ParseTRA_Translation(tra_filename);
 
                     using (FileStream fs = new FileStream(trs_filename, FileMode.Create))
                     {
                         StreamWriter fw = new StreamWriter(fs);
 
-                        foreach (string[] entry in entryList)
+                        foreach (KeyValuePair<string,string> pair in entryList)
                         {
-                            fw.WriteLine(entry[0]);
-                            fw.WriteLine(entry[1]);
+                            fw.WriteLine(pair.Key);
+                            fw.WriteLine(pair.Value);
                         }
 
                         MessageBox.Show("Converted " + tra_filename + " to " + trs_filename, "Converted",

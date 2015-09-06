@@ -21,5 +21,14 @@ namespace AGS_TranslationEditor
         {
             Close();
         }
+
+        private void frmAbout_Load(object sender, EventArgs e)
+        {
+            string version = System.Reflection.Assembly.GetExecutingAssembly()
+                                           .GetName()
+                                           .Version
+                                           .ToString();
+            lblVersion.Text = version;
+        }
     }
 }
