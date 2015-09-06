@@ -5,15 +5,13 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace AGS_TranslationEditor
 {
     internal class AGS_Translation
     {
         private static readonly char[] _passwencstring = { 'A', 'v', 'i', 's', ' ', 'D', 'u', 'r', 'g', 'a', 'n' };
-        private string _fileName;
+        //private string _fileName;
         private static Dictionary<string, string> _translatedLines;
 
         /// <summary>
@@ -130,7 +128,6 @@ namespace AGS_TranslationEditor
         public static Dictionary<string,string> ParseTRS_Translation(string filename)
         {
             string[] list = File.ReadAllLines(filename);
-
             _translatedLines = new Dictionary<string, string>();
 
             //Look for comments and remove them
@@ -170,17 +167,20 @@ namespace AGS_TranslationEditor
         /// Get Game information (GameTitle and GameUID) from AGS EXE File
         /// </summary>
         /// <param name="filename">Game EXE File</param>
-        public static Gameinfo GetGamedata(string filename)
+        public static Gameinfo GetGameInfo(string filename)
         {
             using (FileStream fs = new FileStream(filename,FileMode.Open))
             {
+                //The string we want to search in the AGS Game executable
+                const string search_string = "Adventure Creator Game File v2";
+                // Gameinfo class to hold the information
+                Gameinfo info = new Gameinfo();
+
                 const int block_size = 1024;
                 long file_size = fs.Length;
                 long position = 0;
-                const string search_string = "Adventure Creator Game File v2";
-                Gameinfo info = new Gameinfo();
-                
-                //Read AGS EXE and search for string
+                                
+                //Read AGS EXE and search for string, should actually never reach the end 
                 BinaryReader br = new BinaryReader(fs);
                 while (position < file_size)
                 {
@@ -191,6 +191,7 @@ namespace AGS_TranslationEditor
                     if (temp_data.Contains(search_string))
                     {
                         int pos = temp_data.IndexOf(search_string,0);
+                        //Calculate and set the position to start reading
                         pos = pos + 0x1E + (int)position;
                         fs.Position = pos;
 
@@ -199,16 +200,14 @@ namespace AGS_TranslationEditor
                         int version_string_length = br.ReadInt32();
 
                         //Get the AGS version the game was compiled with
-                        string version = new string(br.ReadChars(version_string_length));
-                        info.Version = version;
+                        info.Version = new string(br.ReadChars(version_string_length));
 
-                        //save GameUID position for later
+                        //Calculate and save GameUID position for later use
                         long gameuid_pos = fs.Position + 0x6f4;
 
                         //Get the game title
                         string GameTitle = new string(br.ReadChars(0x40));
-                        GameTitle = GameTitle.Substring(0,GameTitle.IndexOf("\0"));
-                        info.GameTitle = GameTitle;
+                        info.GameTitle = GameTitle.Substring(0, GameTitle.IndexOf("\0"));
 
                         //Read the GameUID
                         fs.Position = gameuid_pos;
@@ -217,17 +216,15 @@ namespace AGS_TranslationEditor
                         string sGameUID = GameUID.ToString("X");
                         info.GameUID = sGameUID;
 
-                        /*MessageBox.Show(
-                            "AGS Version: " + version + "\nGame Title: " + GameTitle + "\nGameUID: " + sGameUID,
-                            "Game Information");*/
-
+                        //return the Game information
                         return info;
                     }
-    
+                    //Calculate new postiton
                     position = position + block_size;
                 }
             }
-            //nothing found
+
+            //if nothing found return just null
             return null;
         }
 

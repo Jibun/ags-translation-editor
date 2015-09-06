@@ -43,7 +43,6 @@
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tRATRSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getGameInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createTRAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,6 +98,7 @@
             // 
             this.neuToolStripMenuItem.Name = "neuToolStripMenuItem";
             resources.ApplyResources(this.neuToolStripMenuItem, "neuToolStripMenuItem");
+            this.neuToolStripMenuItem.Click += new System.EventHandler(this.neuToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
@@ -163,17 +163,10 @@
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tRATRSToolStripMenuItem,
             this.getGameInfoToolStripMenuItem,
             this.createTRAToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             resources.ApplyResources(this.toolsToolStripMenuItem, "toolsToolStripMenuItem");
-            // 
-            // tRATRSToolStripMenuItem
-            // 
-            this.tRATRSToolStripMenuItem.Name = "tRATRSToolStripMenuItem";
-            resources.ApplyResources(this.tRATRSToolStripMenuItem, "tRATRSToolStripMenuItem");
-            this.tRATRSToolStripMenuItem.Click += new System.EventHandler(this.tRATRSToolStripMenuItem_Click);
             // 
             // getGameInfoToolStripMenuItem
             // 
@@ -381,7 +374,6 @@
         private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tRATRSToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem getGameInfoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createTRAToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSource;
