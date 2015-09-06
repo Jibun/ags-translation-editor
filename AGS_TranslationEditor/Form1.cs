@@ -100,8 +100,6 @@ namespace AGS_TranslationEditor
                                 fw.WriteLine(row.Cells[0].Value);
                                 fw.WriteLine(row.Cells[1].Value);
                             }
-
-                            fs.Close();
                         }
                     }
                     Exit();
@@ -127,7 +125,6 @@ namespace AGS_TranslationEditor
                         fw.WriteLine(row.Cells[1].Value);
                     }
 
-                    fs.Close();
                     lblFileStatus.Text = Resources.frmMain_saveToolStripMenuItem_Click_File_saved;
                     MessageBox.Show(string.Format("File was saved as {0}.", _currentfilename), "File saved", MessageBoxButtons.OK);
                 }
@@ -162,10 +159,11 @@ namespace AGS_TranslationEditor
                             fw.WriteLine(row.Cells[0].Value);
                             fw.WriteLine(row.Cells[1].Value);
                         }
-                        fs.Close();
                     }
-
-                    MessageBox.Show(string.Format("File was saved as {0}.", saveDialog.FileName), "File saved", MessageBoxButtons.OK);
+                    MessageBox.Show(
+                        string.Format("File was saved as {0}.", saveDialog.FileName),
+                        "File saved",
+                        MessageBoxButtons.OK);
                 }
             }
         }
@@ -314,8 +312,6 @@ namespace AGS_TranslationEditor
                                 fw.WriteLine(row.Cells[0].Value);
                                 fw.WriteLine(row.Cells[1].Value);
                             }
-
-                            fs.Close();
                         }
                     }
                 }
