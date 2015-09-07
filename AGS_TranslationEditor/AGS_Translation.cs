@@ -21,79 +21,77 @@ namespace AGS_TranslationEditor
         /// <returns>A Dictionary with the translation entries</returns>
         public static Dictionary<string,string> ParseTRA_Translation(string filename)
         {
-            FileStream fs = File.OpenRead(filename);
-            BinaryReader br = new BinaryReader(fs);
-            _translatedLines = new Dictionary<string, string>();
-
-            long sizeFile = fs.Length;
-
-            char[] transsig = new char[16];
-            transsig = br.ReadChars(15);
-
-            //Check AGS Translation Header
-            if (string.Compare(new string(transsig), "AGSTranslation") == 0)
+            using (FileStream fs = File.OpenRead(filename))
             {
-                //Read Translation File BlockType for Example 1,2,3
-                int blockType = br.ReadInt32();
-                if (blockType == 1)
+                BinaryReader br = new BinaryReader(fs);
+                _translatedLines = new Dictionary<string, string>();
+
+                long sizeFile = fs.Length;
+
+                char[] transsig = new char[16];
+                transsig = br.ReadChars(15);
+
+                //Check AGS Translation Header
+                if (string.Compare(new string(transsig), "AGSTranslation") == 0)
                 {
-
-                }
-                else if (blockType == 2)
-                {
-                    //Dummy Read
-                    br.ReadInt32();
-                    //Read GameID
-                    int iGameUID = br.ReadInt32();
-
-                    //Get GameTitle
-                    int GameTitleLength = br.ReadInt32();
-                    byte[] bGameTitle = br.ReadBytes(GameTitleLength);
-                    char[] cGameTitle = new char[GameTitleLength];
-                    Array.Copy(bGameTitle, 0, cGameTitle, 0, bGameTitle.Length);
-                    //Game Name
-                    decrypt_text(cGameTitle);
-                    string sGameTitle = new string(cGameTitle);
-
-                    //dummy read
-                    br.ReadInt32();
-
-                    // Translation Entries
-                    long translationLength = br.ReadInt32();
-                    translationLength += fs.Position;
-
-                    //Loop throught File and read entries
-                    int newlen = 0;
-                    while (fs.Position < translationLength)
+                    //Read Translation File BlockType for Example 1,2,3
+                    int blockType = br.ReadInt32();
+                    if (blockType == 1)
                     {
-                        newlen = br.ReadInt32();
 
-                        //Read original Text
-                        byte[] bSourceBytes = br.ReadBytes(newlen);
-                        char[] cSourceText = new char[bSourceBytes.Length + 1];
-                        Array.Copy(bSourceBytes, 0, cSourceText, 0, bSourceBytes.Length);
-                        decrypt_text(cSourceText);
-                        string sDecSourceText = new string(cSourceText);
-                        sDecSourceText = sDecSourceText.Trim('\0');
-
-                        //Read Translated Text
-                        newlen = br.ReadInt32();
-                        byte[] bTranslatedBytes = br.ReadBytes(newlen);
-                        char[] cTranslatedText = new char[bTranslatedBytes.Length + 1];
-                        Array.Copy(bTranslatedBytes, 0, cTranslatedText, 0, bTranslatedBytes.Length);
-                        decrypt_text(cTranslatedText);
-                        string sDecTranslatedText = new string(cTranslatedText);
-                        sDecTranslatedText = sDecTranslatedText.Trim('\0');
-
-                        //Populate List with the data
-                        _translatedLines.Add(sDecSourceText, sDecTranslatedText);
                     }
-                    fs.Close();
-                    return _translatedLines;
-                }
-                else if (blockType == 3)
-                {
-                    /*// game settings
+                    else if (blockType == 2)
+                    {
+                        //Dummy Read
+                        br.ReadInt32();
+                        //Read GameID
+                        int iGameUID = br.ReadInt32();
+
+                        //Get GameTitle
+                        int GameTitleLength = br.ReadInt32();
+                        byte[] bGameTitle = br.ReadBytes(GameTitleLength);
+                        char[] cGameTitle = Encoding.UTF7.GetChars(bGameTitle);
+                        //Game Name
+                        decrypt_text(cGameTitle);
+                        string sGameTitle = new string(cGameTitle);
+
+                        //dummy read
+                        br.ReadInt32();
+                        //calculate Translation length
+                        long translationLength = br.ReadInt32() + fs.Position;
+
+                        //Loop throught File and decrypt entries
+                        int newlen = 0;
+                        while (fs.Position < translationLength)
+                        {
+                            newlen = br.ReadInt32();
+
+                            //Read original Text
+                            byte[] bSourceBytes = br.ReadBytes(newlen);
+                            char[] cSourceText = Encoding.UTF7.GetChars(bSourceBytes);
+                            decrypt_text(cSourceText);
+                            string sDecSourceText = new string(cSourceText).Trim('\0');
+
+                            //Read Translated Text
+                            newlen = br.ReadInt32();
+                            byte[] bTranslatedBytes = br.ReadBytes(newlen);
+                            char[] cTranslatedText = Encoding.UTF7.GetChars(bTranslatedBytes);
+                            decrypt_text(cTranslatedText);
+                            string sDecTranslatedText = new string(cTranslatedText).Trim('\0');
+
+                            //Populate List with the data
+                            if (!_translatedLines.ContainsKey(sDecSourceText))
+                            {
+                                _translatedLines.Add(sDecSourceText, sDecTranslatedText);
+                            }
+                        }
+                        fs.Close();
+                        return _translatedLines;
+
+                    }
+                    else if (blockType == 3)
+                    {
+                        /*// game settings
                     int temp = language_file->ReadInt32();
                     // normal font
                     if (temp >= 0)
@@ -115,9 +113,10 @@ namespace AGS_TranslationEditor
                         game.options[OPT_RIGHTLEFTWRITE] = 1;
                     }
                      */
+                    }
                 }
+                return _translatedLines;
             }
-            return _translatedLines;
         }
 
         /// <summary>

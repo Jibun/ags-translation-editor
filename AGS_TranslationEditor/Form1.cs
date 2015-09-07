@@ -109,6 +109,7 @@ namespace AGS_TranslationEditor
                     Exit();
                 }
             }
+            Exit();
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
