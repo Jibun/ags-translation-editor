@@ -4,7 +4,7 @@
 * read, edit and create TRS and TRA Translation Files for AGS Games.
 
 ### Where do i get the script of a game ? ###
-Unfortunatly i didn't found a way to get script with an application, however you can manually search for "__NEWSCRIPTSTART_" in the Game Exe it's only a bit tedious ;).
+* Unfortunatly i didn't found a proper to get the scripts with an application, however you can manually search for "__NEWSCRIPTSTART_" in the Game Exe and copy&paste the textinto a new one it's only a bit tedious ;).
 
 ### TRS file format ###
 A TRS file should look like this example
