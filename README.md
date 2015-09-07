@@ -1,7 +1,7 @@
 # AGS Translation Editor #
 
 ### What can you do with AGS Translation Editor ? ###
-* read, edit and create TRS and TRA Translation Files for AGS Games.
+* Read, edit, convert and create TRS and TRA Translation Files for AGS Games.
 
 ### Where do i get the script of a game ? ###
 * Unfortunatly i didn't found a proper to get the scripts with an application, however you can manually search for "__NEWSCRIPTSTART_" in the Game Exe and copy&paste the textinto a new one it's only a bit tedious ;).
