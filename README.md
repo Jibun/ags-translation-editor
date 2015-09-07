@@ -1,9 +1,10 @@
 # AGS Translation Editor #
 
 ### What can you do with AGS Translation Editor ? ###
+* read, edit and create TRS and TRA Translation Files for AGS Games.
 
-* AGS Translation Editor is a tool to edit TRS and TRA translation files that can be used with AGS games.
-* decrypts and encrypts TRA files
+### Where do i get the script of a game ? ###
+Unfortunatly i didn't found a way to get script with an application, however you can manually search for "__NEWSCRIPTSTART_" in the Game Exe it's only a bit tedious ;).
 
 ### TRS file format ###
 A TRS file should look like this example
@@ -19,3 +20,6 @@ A TRS file should look like this example
 
 
 ```
+
+### Known Issues ###
+* there are problems with special characters like äöüßèà since Adventure Games Studio only supports the ASCII character (thought there are workarounds you can read more about it here http://www.adventuregamestudio.co.uk/wiki/Fonts#The_MOST_IMPORTANT_part:_define_your_needs)
