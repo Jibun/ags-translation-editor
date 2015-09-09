@@ -13,7 +13,7 @@ namespace AGS_TranslationEditor
         private static readonly char[] _passwencstring = { 'A', 'v', 'i', 's', ' ', 'D', 'u', 'r', 'g', 'a', 'n' };
         //private string _fileName;
         private static Dictionary<string, string> _translatedLines;
-
+        
         /// <summary>
         /// Reads and parses a TRA file
         /// </summary>
@@ -26,7 +26,7 @@ namespace AGS_TranslationEditor
                 BinaryReader br = new BinaryReader(fs);
                 _translatedLines = new Dictionary<string, string>();
 
-                long sizeFile = fs.Length;
+                long FileSize = fs.Length;
 
                 char[] transsig = new char[16];
                 transsig = br.ReadChars(15);
@@ -46,7 +46,6 @@ namespace AGS_TranslationEditor
                         br.ReadInt32();
                         //Read GameID
                         int iGameUID = br.ReadInt32();
-
                         //Get GameTitle
                         int GameTitleLength = br.ReadInt32();
                         byte[] bGameTitle = br.ReadBytes(GameTitleLength);
@@ -155,76 +154,14 @@ namespace AGS_TranslationEditor
             return _translatedLines;
         }
 
-        public class Gameinfo
+        static void ConvertCharToByte(char[] chars, byte[] bytes)
         {
-            public string Version { get; set; }
-            public string GameTitle { get; set; }
-            public string GameUID { get; set; }
-        }
-
-        /// <summary>
-        /// Get Game information (GameTitle and GameUID) from AGS EXE File
-        /// </summary>
-        /// <param name="filename">Game EXE File</param>
-        public static Gameinfo GetGameInfo(string filename)
-        {
-            using (FileStream fs = new FileStream(filename,FileMode.Open))
+            int x = 0;
+            foreach (char c in chars)
             {
-                //The string we want to search in the AGS Game executable
-                const string search_string = "Adventure Creator Game File v2";
-                // Gameinfo class to hold the information
-                Gameinfo info = new Gameinfo();
-
-                const int block_size = 1024;
-                long file_size = fs.Length;
-                long position = 0;
-                                
-                //Read AGS EXE and search for string, should actually never reach the end 
-                BinaryReader br = new BinaryReader(fs);
-                while (position < file_size)
-                {
-                    byte[] data = br.ReadBytes(block_size);
-                    string temp_data = Encoding.Default.GetString(data);
-
-                    //If the search string is found get the game info
-                    if (temp_data.Contains(search_string))
-                    {
-                        int pos = temp_data.IndexOf(search_string,0);
-                        //Calculate and set the position to start reading
-                        pos = pos + 0x1E + (int)position;
-                        fs.Position = pos;
-
-                        //Dummy read 4 bytes
-                        br.ReadInt32();
-                        int version_string_length = br.ReadInt32();
-
-                        //Get the AGS version the game was compiled with
-                        info.Version = new string(br.ReadChars(version_string_length));
-
-                        //Calculate and save GameUID position for later use
-                        long gameuid_pos = fs.Position + 0x6f4;
-
-                        //Get the game title
-                        string GameTitle = new string(br.ReadChars(0x40));
-                        info.GameTitle = GameTitle.Substring(0, GameTitle.IndexOf("\0"));
-
-                        //Read the GameUID
-                        fs.Position = gameuid_pos;
-                        int GameUID = br.ReadInt32();
-                        GameUID = SwapEndianness(GameUID);
-                        string sGameUID = GameUID.ToString("X");
-                        info.GameUID = sGameUID;
-
-                        //return the Game information
-                        return info;
-                    }
-                    //Calculate new postiton
-                    position = position + block_size;
-                }
+                bytes[x] = (byte)c;
+                x++;
             }
-
-            //if nothing found return just null
-            return null;
         }
 
         /// <summary>
@@ -254,32 +191,32 @@ namespace AGS_TranslationEditor
                 fs.Write(paddingBytes,0,paddingBytes.Length);
 
                 //Write GameUID important or Translation does not load properly!
-                string GameUID = info.GameUID;
-                int decAgain = int.Parse(GameUID, System.Globalization.NumberStyles.HexNumber);
+                string sGameUID = info.GameUID;
+                int decAgain = int.Parse(sGameUID, System.Globalization.NumberStyles.HexNumber);
                 byte[] bGameUID = BitConverter.GetBytes(SwapEndianness(decAgain));
                 fs.Write(bGameUID,0,bGameUID.Length);
 
                 //Write GameTitle
                 string GameTitle = info.GameTitle + "\0";
                 byte[] bGameTitle = Encoding.UTF8.GetBytes(GameTitle);
-                //byte[] bGameTitle = Encoding.ASCII.GetBytes(GameTitle);
-                char[] cGameTitle = new char[bGameTitle.Length];
+                char[] cGameTitle = new char[GameTitle.Length];
+                GameTitle.CopyTo(0, cGameTitle, 0, GameTitle.Length);
+                encrypt_text(cGameTitle);
+
                 //Write Title Length
                 byte[] bGameTitleLength = BitConverter.GetBytes(bGameTitle.Length);
                 fs.Write(bGameTitleLength, 0, bGameTitleLength.Length);
                 //Encrypt and write the Title
-                Array.Copy(bGameTitle, cGameTitle, bGameTitle.Length);
-                encrypt_text(cGameTitle);
-                int i = 0;
-                foreach (char c in cGameTitle)
+                ConvertCharToByte(cGameTitle, bGameTitle);
+
+                /*foreach (char c in cGameTitle)
                 {
                     bGameTitle[i] = (byte)c;
                     i++;
-                }
+                }*/
                 fs.Write(bGameTitle, 0, bGameTitle.Length);
 
                 //dummy write
-                //Length: 4 / 0x00000004 (bytes)
                 byte[] bDummy = {0x01, 0x00, 0x00, 0x00,};
                 fs.Write(bDummy, 0, bDummy.Length);
 
@@ -299,8 +236,10 @@ namespace AGS_TranslationEditor
                             //encrypt string write length  
                             string entry1 = pair.Key;
                             entry1 = entry1 + "\0";
+
                             byte[] bEntry1 = Encoding.UTF8.GetBytes(entry1);
-                            //byte[] bEntry1 = Encoding.ASCII.GetBytes(entry1);
+                            byte[] bEntry6 = Encoding.UTF7.GetBytes(entry1);
+                            byte[] bEntry5 = Encoding.ASCII.GetBytes(entry1);
 
                             //Write string entry1 length
                             byte[] bEntry1Length = BitConverter.GetBytes(bEntry1.Length);
@@ -309,19 +248,20 @@ namespace AGS_TranslationEditor
                             char[] cEntry1 = new char[bEntry1.Length];
                             Array.Copy(bEntry1, cEntry1, bEntry1.Length);
                             encrypt_text(cEntry1);
-                            int x = 0;
+                            ConvertCharToByte(cEntry1,bEntry1);
+
+                            /*int x = 0;
                             foreach (char c in cEntry1)
                             {
                                 bEntry1[x] = (byte) c;
                                 x++;
-                            }
+                            }*/
                             fs.Write(bEntry1, 0, bEntry1.Length);
 
                             //Encrypt Entry2 write length  
                             string entry2 = pair.Value;
                             entry2 = entry2 + "\0";
                             byte[] bEntry2 = Encoding.UTF8.GetBytes(entry2);
-                            //byte[] bEntry2 = Encoding.ASCII.GetBytes(entry2);
 
                             //Write string entry2 length
                             byte[] bEntry2Length = BitConverter.GetBytes(bEntry2.Length);
@@ -330,12 +270,14 @@ namespace AGS_TranslationEditor
                             char[] cEntry2 = new char[bEntry2.Length];
                             Array.Copy(bEntry2, cEntry2, bEntry2.Length);
                             encrypt_text(cEntry2);
-                            x = 0;
+                            ConvertCharToByte(cEntry2,bEntry2);
+
+                            /*x = 0;
                             foreach (char c in cEntry2)
                             {
                                 bEntry2[x] = (byte) c;
                                 x++;
-                            }
+                            }*/
                             fs.Write(bEntry2, 0, bEntry2.Length);
 
                             long lengthTemp = BitConverter.ToInt32(bEntry1Length, 0) + 4 +
@@ -380,25 +322,6 @@ namespace AGS_TranslationEditor
             }
         }
 
-        public static byte[] decrypt_text(string toEnc)
-        {
-            string text = toEnc + "\0";
-            byte[] btext = Encoding.UTF8.GetBytes(text);
-            char[] ctext = new char[btext.Length];
-            //Encrypt and write the Title
-            Array.Copy(btext, ctext, btext.Length);
-            decrypt_text(ctext);
-            int i = 0;
-            foreach (char c in ctext)
-            {
-                btext[i] = (byte)c;
-                i++;
-            }
-
-            return btext;
-        }
-
-
         /// <summary>
         /// Encrypt a char array
         /// </summary>
@@ -421,6 +344,78 @@ namespace AGS_TranslationEditor
                 if (adx > 10)
                     adx = 0;
             }
+        }
+
+
+        public class Gameinfo
+        {
+            public string Version { get; set; }
+            public string GameTitle { get; set; }
+            public string GameUID { get; set; }
+        }
+
+        /// <summary>
+        /// Get Game information (GameTitle and GameUID) from AGS EXE File
+        /// </summary>
+        /// <param name="filename">Game EXE File</param>
+        public static Gameinfo GetGameInfo(string filename)
+        {
+            using (FileStream fs = new FileStream(filename, FileMode.Open))
+            {
+                //The string we want to search in the AGS Game executable
+                const string searchString = "Adventure Creator Game File v2";
+                // Gameinfo class to hold the information
+                Gameinfo info = new Gameinfo();
+
+                const int blockSize = 1024;
+                long fileSize = fs.Length;
+                long position = 0;
+
+                //Read AGS EXE and search for string, should actually never reach the end 
+                BinaryReader br = new BinaryReader(fs);
+                while (position < fileSize)
+                {
+                    byte[] data = br.ReadBytes(blockSize);
+                    string tempData = Encoding.Default.GetString(data);
+
+                    //If the search string is found get the game info
+                    if (tempData.Contains(searchString))
+                    {
+                        int pos = tempData.IndexOf(searchString, 0);
+                        //Calculate and set the position to start reading
+                        pos = pos + 0x1E + (int)position;
+                        fs.Position = pos;
+
+                        //Dummy read 4 bytes
+                        br.ReadInt32();
+                        int versionStringLength = br.ReadInt32();
+
+                        //Get the AGS version the game was compiled with
+                        info.Version = new string(br.ReadChars(versionStringLength));
+
+                        //Calculate and save GameUID position for later use
+                        long gameuidPos = fs.Position + 0x6f4;
+
+                        //Get the game title
+                        string gameTitle = new string(br.ReadChars(0x40));
+                        info.GameTitle = gameTitle.Substring(0, gameTitle.IndexOf("\0"));
+
+                        //Read the GameUID
+                        fs.Position = gameuidPos;
+                        int GameUID = br.ReadInt32();
+                        GameUID = SwapEndianness(GameUID);
+                        info.GameUID = GameUID.ToString("X");
+
+                        //return the Game information
+                        return info;
+                    }
+                    //Calculate new postiton
+                    position = position + blockSize;
+                }
+            }
+
+            //if nothing found return just null
+            return null;
         }
 
         /// <summary>
