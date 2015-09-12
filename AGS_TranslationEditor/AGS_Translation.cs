@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace AGS_TranslationEditor
 {
-    internal class AGS_Translation
+    class AGS_Translation
     {
-        private static readonly char[] _passwencstring = { 'A', 'v', 'i', 's', ' ', 'D', 'u', 'r', 'g', 'a', 'n' };
-        //private string _fileName;
+        private static readonly char[] _passwencstring = { 'A','v','i','s',' ','D','u','r','g','a','n' };
         private static Dictionary<string, string> _translatedLines;
         
         /// <summary>
@@ -28,9 +25,9 @@ namespace AGS_TranslationEditor
 
                 long FileSize = fs.Length;
 
+                //Tranlsation File Signature
                 char[] transsig = new char[16];
                 transsig = br.ReadChars(15);
-
                 //Check AGS Translation Header
                 if (string.Compare(new string(transsig), "AGSTranslation") == 0)
                 {
@@ -38,7 +35,6 @@ namespace AGS_TranslationEditor
                     int blockType = br.ReadInt32();
                     if (blockType == 1)
                     {
-
                     }
                     else if (blockType == 2)
                     {
@@ -60,10 +56,9 @@ namespace AGS_TranslationEditor
                         long translationLength = br.ReadInt32() + fs.Position;
 
                         //Loop throught File and decrypt entries
-                        int newlen = 0;
                         while (fs.Position < translationLength)
                         {
-                            newlen = br.ReadInt32();
+                            int newlen = br.ReadInt32();
 
                             //Read original Text
                             byte[] bSourceBytes = br.ReadBytes(newlen);
@@ -84,34 +79,13 @@ namespace AGS_TranslationEditor
                                 _translatedLines.Add(sDecSourceText, sDecTranslatedText);
                             }
                         }
+                        br.Close();
                         fs.Close();
                         return _translatedLines;
 
                     }
                     else if (blockType == 3)
                     {
-                        /*// game settings
-                    int temp = language_file->ReadInt32();
-                    // normal font
-                    if (temp >= 0)
-                        SetNormalFont(temp);
-                    temp = language_file->ReadInt32();
-                    // speech font
-                    if (temp >= 0)
-                        SetSpeechFont(temp);
-                    temp = language_file->ReadInt32();
-                    // text direction
-                    if (temp == 1)
-                    {
-                        play.text_align = SCALIGN_LEFT;
-                        game.options[OPT_RIGHTLEFTWRITE] = 0;
-                    }
-                    else if (temp == 2)
-                    {
-                        play.text_align = SCALIGN_RIGHT;
-                        game.options[OPT_RIGHTLEFTWRITE] = 1;
-                    }
-                     */
                     }
                 }
                 return _translatedLines;
@@ -167,8 +141,9 @@ namespace AGS_TranslationEditor
         /// <summary>
         /// Create a TRA File for AGS
         /// </summary>
+        /// <param name="info">Game Information like Title,UID</param>
         /// <param name="filename">Output filename</param>
-        /// <param name="entries">List with Translation entries</param>
+        /// <param name="entryList">List with Translation entries</param>
         public static void CreateTRA_File(Gameinfo info, string filename, Dictionary<string,string> entryList)
         {
             using (FileStream fs = new FileStream(filename,FileMode.Create))
@@ -182,9 +157,9 @@ namespace AGS_TranslationEditor
                 };
 
                 //Write always header "AGSTranslation\0
-                byte[] AGSHeader =
+                byte[] agsHeader =
                 {0x41, 0x47, 0x53, 0x54, 0x72, 0x61, 0x6E, 0x73, 0x6C, 0x61, 0x74, 0x69, 0x6F, 0x6E, 0x00,};
-                fs.Write(AGSHeader,0,AGSHeader.Length);
+                fs.Write(agsHeader,0,agsHeader.Length);
 
                 //Padding not sure what exactly this is
                 byte[] paddingBytes = {0x02, 0x00, 0x00, 0x00, 0x16, 0x00, 0x00, 0x00,};
@@ -328,15 +303,11 @@ namespace AGS_TranslationEditor
         /// <param name="toenc">char array to encrypt</param>
         public static void encrypt_text(char[] toenc)
         {
-            int adx = 0;//, tobreak = 0;
+            int adx = 0;
             int toencx = 0;
 
-            //while (tobreak == 0)
             while (toencx < toenc.Length)
             {
-                /*if (toenc[toencx] == 0)
-                    tobreak = 1;
-                    */
                 toenc[toencx] += _passwencstring[adx];
                 adx++;
                 toencx++;

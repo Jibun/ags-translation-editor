@@ -100,6 +100,7 @@ namespace AGS_TranslationEditor
                                 fw.WriteLine(row.Cells[0].Value);
                                 fw.WriteLine(row.Cells[1].Value);
                             }
+                            fw.Close();
                         }
                     }
                     Exit();
@@ -125,7 +126,7 @@ namespace AGS_TranslationEditor
                         fw.WriteLine(row.Cells[0].Value);
                         fw.WriteLine(row.Cells[1].Value);
                     }
-
+                    fw.Close();
                     lblFileStatus.Text = Resources.frmMain_saveToolStripMenuItem_Click_File_saved;
                     MessageBox.Show(string.Format("File was saved as {0}.", _currentfilename), "File saved", MessageBoxButtons.OK);
                 }
@@ -151,18 +152,20 @@ namespace AGS_TranslationEditor
 
                 if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
-                    using (FileStream fs = new FileStream(saveDialog.FileName, FileMode.Create))
-                    { 
-                        StreamWriter fw = new StreamWriter(fs);
+                    FileStream fs = new FileStream(saveDialog.FileName, FileMode.Create);
+                    StreamWriter fw = new StreamWriter(fs);
 
-                        foreach (DataGridViewRow row in dataGridView1.Rows)
-                        {
-                            fw.WriteLine(row.Cells[0].Value);
-                            fw.WriteLine(row.Cells[1].Value);
-                        }
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        fw.WriteLine(row.Cells[0].Value);
+                        fw.WriteLine(row.Cells[1].Value);
                     }
+
+                    fw.Close();
+                    fs.Close();
+
                     MessageBox.Show(
-                        string.Format("File was saved as {0}.", saveDialog.FileName),
+                        $"File was saved as {saveDialog.FileName}.",
                         "File saved",
                         MessageBoxButtons.OK);
                 }
@@ -313,6 +316,7 @@ namespace AGS_TranslationEditor
                                 fw.WriteLine(row.Cells[0].Value);
                                 fw.WriteLine(row.Cells[1].Value);
                             }
+                            fw.Close();
                         }
                     }
                 }
