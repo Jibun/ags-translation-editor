@@ -91,17 +91,7 @@ namespace AGS_TranslationEditor
                     //Save changes then exit
                     if (dataGridView1.Rows.Count > 0)
                     {
-                        using (FileStream fs = new FileStream(_currentfilename, FileMode.Create))
-                        {
-                            StreamWriter fw = new StreamWriter(fs);
-
-                            foreach (DataGridViewRow row in dataGridView1.Rows)
-                            {
-                                fw.WriteLine(row.Cells[0].Value);
-                                fw.WriteLine(row.Cells[1].Value);
-                            }
-                            fw.Close();
-                        }
+                        SaveFile(_currentfilename);
                     }
                     Exit();
                 }
@@ -117,19 +107,11 @@ namespace AGS_TranslationEditor
         {
             if (dataGridView1.Rows.Count > 0)
             {
-                using (FileStream fs = new FileStream(_currentfilename, FileMode.Create))
-                {
-                    StreamWriter fw = new StreamWriter(fs);
+                SaveFile(_currentfilename);
 
-                    foreach (DataGridViewRow row in dataGridView1.Rows)
-                    {
-                        fw.WriteLine(row.Cells[0].Value);
-                        fw.WriteLine(row.Cells[1].Value);
-                    }
-                    fw.Close();
-                    lblFileStatus.Text = Resources.frmMain_saveToolStripMenuItem_Click_File_saved;
-                    MessageBox.Show(string.Format("File was saved as {0}.", _currentfilename), "File saved", MessageBoxButtons.OK);
-                }
+                lblFileStatus.Text = Resources.frmMain_saveToolStripMenuItem_Click_File_saved;
+                MessageBox.Show(string.Format("File was saved as {0}.", _currentfilename), "File saved", MessageBoxButtons.OK);
+
             }
         }
 
@@ -152,17 +134,7 @@ namespace AGS_TranslationEditor
 
                 if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
-                    FileStream fs = new FileStream(saveDialog.FileName, FileMode.Create);
-                    StreamWriter fw = new StreamWriter(fs);
-
-                    foreach (DataGridViewRow row in dataGridView1.Rows)
-                    {
-                        fw.WriteLine(row.Cells[0].Value);
-                        fw.WriteLine(row.Cells[1].Value);
-                    }
-
-                    fw.Close();
-                    fs.Close();
+                    SaveFile(saveDialog.FileName);
 
                     MessageBox.Show(
                         $"File was saved as {saveDialog.FileName}.",
@@ -308,16 +280,7 @@ namespace AGS_TranslationEditor
                     //Save changes then exit
                     if (dataGridView1.Rows.Count > 0)
                     {
-                        using (FileStream fs = new FileStream(_currentfilename, FileMode.Create))
-                        {
-                            StreamWriter fw = new StreamWriter(fs);
-                            foreach (DataGridViewRow row in dataGridView1.Rows)
-                            {
-                                fw.WriteLine(row.Cells[0].Value);
-                                fw.WriteLine(row.Cells[1].Value);
-                            }
-                            fw.Close();
-                        }
+                        SaveFile(_currentfilename);
                     }
                 }
             }
@@ -333,5 +296,21 @@ namespace AGS_TranslationEditor
         {
 
         }
+
+
+        private void SaveFile(string filename)
+        {
+            FileStream fs = new FileStream(filename, FileMode.Create);
+            StreamWriter fw = new StreamWriter(fs);
+
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                fw.WriteLine(row.Cells[0].Value);
+                fw.WriteLine(row.Cells[1].Value);
+            }
+            fw.Close();
+            fs.Close();
+        }
+
     }
 }
