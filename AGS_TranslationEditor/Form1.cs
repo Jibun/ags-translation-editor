@@ -132,6 +132,8 @@ namespace AGS_TranslationEditor
             if (dataGridView1.Rows.Count > 0)
             {
                 SaveFileDialog saveDialog = new SaveFileDialog();
+                saveDialog.DefaultExt = "trs";
+                //saveDialog.AddExtension = true;
                 saveDialog.Filter = "AGS Translation File(*.TRS)|*.trs";
 
                 if (saveDialog.ShowDialog() == DialogResult.OK)
@@ -248,6 +250,7 @@ namespace AGS_TranslationEditor
             openDialog.Title = "Open TRS Translation you want to use.";
 
             SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.DefaultExt = "tra";
             saveDialog.Filter = "TRA Translation File (*.tra)|*.tra";
             saveDialog.Title = "Save TRA Translation as...";
 
@@ -327,6 +330,7 @@ namespace AGS_TranslationEditor
             if (dataGridView1.Rows.Count > 0)
             {
                 SaveFileDialog saveDialog = new SaveFileDialog();
+                saveDialog.DefaultExt = "xml";
 
                 if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
