@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using AGS_TranslationEditor.Properties;
 using static System.Windows.Forms.Application;
 
@@ -30,7 +31,7 @@ namespace AGS_TranslationEditor
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Filter = "AGS Translation File(*.TRA,*.TRS)|*.tra;*.trs";
-            
+
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 //Enable Buttons
@@ -40,13 +41,13 @@ namespace AGS_TranslationEditor
                 saveAsToolStripMenuItem.Enabled = true;
                 addToolStripMenuItem.Enabled = true;
                 removeToolStripMenuItem.Enabled = true;
-                
+
                 //Clear the DataGrid
                 dataGridView1.Rows.Clear();
                 dataGridView1.Refresh();
 
                 _numEntries = 0;
-                Dictionary<string,string> entryList = null;
+                Dictionary<string, string> entryList = null;
                 _currentfilename = fileDialog.FileName;
 
                 if (fileDialog.FileName.Contains(".tra"))
@@ -58,12 +59,12 @@ namespace AGS_TranslationEditor
                     entryList = AGS_Translation.ParseTRS_Translation(fileDialog.FileName);
                 }
 
-                if (entryList != null )
+                if (entryList != null)
                 {
                     foreach (KeyValuePair<string, string> pair in entryList)
                     {
                         //Populate DataGridView
-                        string[] newRow = { pair.Key, pair.Value };
+                        string[] newRow = {pair.Key, pair.Value};
                         dataGridView1.Rows.Add(newRow);
                         _numEntries++;
                     }
@@ -82,7 +83,8 @@ namespace AGS_TranslationEditor
         {
             if (_documentChanged)
             {
-                string question = "Save changes to " + _currentfilename.Substring(_currentfilename.LastIndexOf("\\") + 1);
+                string question = "Save changes to " +
+                                  _currentfilename.Substring(_currentfilename.LastIndexOf("\\") + 1);
 
                 //Ask if user wants to save if data was changed
                 if (MessageBox.Show(question, "AGS Translation Editor", MessageBoxButtons.YesNo) ==
@@ -110,8 +112,8 @@ namespace AGS_TranslationEditor
                 SaveFile(_currentfilename);
 
                 lblFileStatus.Text = Resources.frmMain_saveToolStripMenuItem_Click_File_saved;
-                MessageBox.Show(string.Format("File was saved as {0}.", _currentfilename), "File saved", MessageBoxButtons.OK);
-
+                MessageBox.Show(string.Format("File was saved as {0}.", _currentfilename), "File saved",
+                    MessageBoxButtons.OK);
             }
         }
 
@@ -197,14 +199,14 @@ namespace AGS_TranslationEditor
                     richTextBox2.Text = YandexTranslationApi.translate(null, "de", tempText, null, null);
                 }
                 else*/
-                    richTextBox2.Text = test2;
+                richTextBox2.Text = test2;
             }
             catch (Exception)
             {
 
             }
         }
-        
+
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
         {
             dataGridView1.Rows.Add();
@@ -228,10 +230,10 @@ namespace AGS_TranslationEditor
 
                 gameinfo = AGS_Translation.GetGameInfo(openDialog.FileName);
                 MessageBox.Show(
-                            "AGS Version: " + gameinfo.Version + 
-                            "\nGame Title: " + gameinfo.GameTitle + 
-                            "\nGameUID: " + gameinfo.GameUID,
-                            "Game Information");
+                    "AGS Version: " + gameinfo.Version +
+                    "\nGame Title: " + gameinfo.GameTitle +
+                    "\nGameUID: " + gameinfo.GameUID,
+                    "Game Information");
             }
         }
 
@@ -272,7 +274,8 @@ namespace AGS_TranslationEditor
         {
             if (_documentChanged)
             {
-                string question = "Save changes to " + _currentfilename.Substring(_currentfilename.LastIndexOf("\\")+1);
+                string question = "Save changes to " +
+                                  _currentfilename.Substring(_currentfilename.LastIndexOf("\\") + 1);
                 //Ask if user wants to save if data was changed
                 if (MessageBox.Show(question, "AGS Translation Editor", MessageBoxButtons.YesNo) ==
                     DialogResult.Yes)
@@ -312,5 +315,70 @@ namespace AGS_TranslationEditor
             fs.Close();
         }
 
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+
+
+        }
+
+        private void xMLToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Save changes then exit
+            if (dataGridView1.Rows.Count > 0)
+            {
+                SaveFileDialog saveDialog = new SaveFileDialog();
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    int counter = 0;
+
+                    XmlWriterSettings settings = new XmlWriterSettings();
+                    settings.Encoding = Encoding.ASCII;
+                    settings.Indent = true;
+
+                    XmlWriter writer = XmlWriter.Create(saveDialog.FileName, settings);
+
+                    writer.WriteStartDocument();
+                    writer.WriteStartElement("AGSTranslationScript");
+
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        writer.WriteStartElement("Entry" + counter);
+                        writer.WriteElementString("SourceText", (string) row.Cells[0].Value);
+                        writer.WriteElementString("TranslatedText", (string) row.Cells[1].Value);
+                        writer.WriteEndElement();
+                        counter++;
+                    }
+
+                    writer.WriteEndElement();
+                    writer.WriteEndDocument();
+                    writer.Close();
+                }
+            }
+        }
+
+        private void cSVToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.Rows.Count > 0)
+            {
+                SaveFileDialog saveDialog = new SaveFileDialog();
+                saveDialog.DefaultExt = "csv";
+                saveDialog.AddExtension = true;
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    FileStream fs = new FileStream(saveDialog.FileName,FileMode.Create);
+                    StreamWriter sw = new StreamWriter(fs);
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        sw.Write("{0};{1}\n",row.Cells[0].Value, row.Cells[1].Value);
+                    }
+
+
+                    sw.Close();
+                    fs.Close();
+                }
+            }
+        }
     }
 }
