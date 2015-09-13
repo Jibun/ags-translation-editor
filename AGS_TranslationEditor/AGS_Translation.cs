@@ -8,6 +8,7 @@ namespace AGS_TranslationEditor
 {
     class AGS_Translation
     {
+        //Encryption string
         private static readonly char[] _passwencstring = { 'A','v','i','s',' ','D','u','r','g','a','n' };
         private static Dictionary<string, string> _translatedLines;
         
@@ -22,8 +23,6 @@ namespace AGS_TranslationEditor
             {
                 BinaryReader br = new BinaryReader(fs);
                 _translatedLines = new Dictionary<string, string>();
-
-                long FileSize = fs.Length;
 
                 //Tranlsation File Signature
                 char[] transsig = new char[16];
@@ -78,7 +77,13 @@ namespace AGS_TranslationEditor
                             {
                                 _translatedLines.Add(sDecSourceText, sDecTranslatedText);
                             }
+                            else
+                            {
+                                //Entry already in dictionary
+                            }
                         }
+
+                        //Close File
                         br.Close();
                         fs.Close();
                         return _translatedLines;
@@ -171,24 +176,17 @@ namespace AGS_TranslationEditor
                 byte[] bGameUID = BitConverter.GetBytes(SwapEndianness(decAgain));
                 fs.Write(bGameUID,0,bGameUID.Length);
 
-                //Write GameTitle
+                //Encrypt and write the Title
                 string GameTitle = info.GameTitle + "\0";
                 byte[] bGameTitle = Encoding.UTF8.GetBytes(GameTitle);
                 char[] cGameTitle = new char[GameTitle.Length];
                 GameTitle.CopyTo(0, cGameTitle, 0, GameTitle.Length);
                 encrypt_text(cGameTitle);
-
-                //Write Title Length
+                //Write GameTitle Length
                 byte[] bGameTitleLength = BitConverter.GetBytes(bGameTitle.Length);
                 fs.Write(bGameTitleLength, 0, bGameTitleLength.Length);
-                //Encrypt and write the Title
+                //Write the encrypted GameTitle
                 ConvertCharToByte(cGameTitle, bGameTitle);
-
-                /*foreach (char c in cGameTitle)
-                {
-                    bGameTitle[i] = (byte)c;
-                    i++;
-                }*/
                 fs.Write(bGameTitle, 0, bGameTitle.Length);
 
                 //dummy write
@@ -222,18 +220,12 @@ namespace AGS_TranslationEditor
 
                             char[] cEntry1 = new char[bEntry1.Length];
                             Array.Copy(bEntry1, cEntry1, bEntry1.Length);
+
                             encrypt_text(cEntry1);
                             ConvertCharToByte(cEntry1,bEntry1);
-
-                            /*int x = 0;
-                            foreach (char c in cEntry1)
-                            {
-                                bEntry1[x] = (byte) c;
-                                x++;
-                            }*/
                             fs.Write(bEntry1, 0, bEntry1.Length);
 
-                            //Encrypt Entry2 write length  
+                            //Encrypt Entry2 and write length  
                             string entry2 = pair.Value;
                             entry2 = entry2 + "\0";
                             byte[] bEntry2 = Encoding.UTF8.GetBytes(entry2);
@@ -246,13 +238,6 @@ namespace AGS_TranslationEditor
                             Array.Copy(bEntry2, cEntry2, bEntry2.Length);
                             encrypt_text(cEntry2);
                             ConvertCharToByte(cEntry2,bEntry2);
-
-                            /*x = 0;
-                            foreach (char c in cEntry2)
-                            {
-                                bEntry2[x] = (byte) c;
-                                x++;
-                            }*/
                             fs.Write(bEntry2, 0, bEntry2.Length);
 
                             long lengthTemp = BitConverter.ToInt32(bEntry1Length, 0) + 4 +
