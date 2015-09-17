@@ -70,9 +70,9 @@
             this.lblVersion.Font = new System.Drawing.Font("Andy", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblVersion.Location = new System.Drawing.Point(14, 39);
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(70, 17);
+            this.lblVersion.Size = new System.Drawing.Size(79, 17);
             this.lblVersion.TabIndex = 3;
-            this.lblVersion.Text = "Version 1.0";
+            this.lblVersion.Text = "Version 1.0.7";
             // 
             // frmAbout
             // 

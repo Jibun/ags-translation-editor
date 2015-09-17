@@ -156,37 +156,16 @@
     <None Include="Resources\document-save.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\document-open.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\document-properties.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\poedit-status-automatic.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\stats.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\AttentionError.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AttentionError%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AttentionInfo.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\AttentionInfo%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AttentionQuestion.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\AttentionQuestion%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\AttentionWarning.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AttentionWarning%402x.png" />
@@ -204,64 +183,19 @@
     <None Include="Resources\document-properties%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\document-save%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\edit-delete.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\edit-delete%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\poedit-fuzzy.png" />
+    <None Include="Resources\fuzzy%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\poedit-fuzzy%402x.png" />
+    <None Include="Resources\status-bookmark%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\poedit-status-automatic%402x.png" />
+    <None Include="Resources\status-comment.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\poedit-status-bookmark%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\poedit-status-cat-mid.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\poedit-status-cat-mid%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\poedit-status-cat-no.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\poedit-status-cat-no%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\poedit-status-cat-ok.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\poedit-status-cat-ok%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\poedit-status-comment.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\poedit-status-comment%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\poedit-update.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\poedit-update%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\poedit-validate.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\poedit-validate%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\sidebar.png" />
+    <None Include="Resources\update%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\sidebar%402x.png" />
@@ -276,55 +210,7 @@
     <None Include="Resources\SuggestionBusy%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SuggestionError.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\SuggestionError%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SuggestionHumanTemplate.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SuggestionHumanTemplate%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SuggestionMachineTemplate.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SuggestionMachineTemplate%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SuggestionOffline.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SuggestionOffline%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SuggestionQuota.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SuggestionQuota%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SuggestionTMTemplate.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SuggestionTMTemplate%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\window-close.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\window-close%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\window-close-hover.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\window-close-hover%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\preferences-desktop-personal.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\editor.ico" />

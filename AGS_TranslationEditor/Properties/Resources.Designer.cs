@@ -252,69 +252,9 @@ namespace AGS_TranslationEditor.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap poedit_fuzzy_2x {
-            get {
-                object obj = ResourceManager.GetObject("poedit_fuzzy_2x", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap poedit_status_automatic_2x {
-            get {
-                object obj = ResourceManager.GetObject("poedit_status_automatic_2x", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap poedit_status_bookmark_2x {
             get {
                 object obj = ResourceManager.GetObject("poedit_status_bookmark_2x", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap poedit_status_cat_no {
-            get {
-                object obj = ResourceManager.GetObject("poedit_status_cat_no", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap poedit_status_cat_no_2x {
-            get {
-                object obj = ResourceManager.GetObject("poedit_status_cat_no_2x", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap poedit_status_cat_ok {
-            get {
-                object obj = ResourceManager.GetObject("poedit_status_cat_ok", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap poedit_status_cat_ok_2x {
-            get {
-                object obj = ResourceManager.GetObject("poedit_status_cat_ok_2x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -332,59 +272,9 @@ namespace AGS_TranslationEditor.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap poedit_status_comment_2x {
-            get {
-                object obj = ResourceManager.GetObject("poedit_status_comment_2x", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap poedit_update {
             get {
                 object obj = ResourceManager.GetObject("poedit_update", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap poedit_update_2x {
-            get {
-                object obj = ResourceManager.GetObject("poedit_update_2x", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap poedit_validate {
-            get {
-                object obj = ResourceManager.GetObject("poedit_validate", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap poedit_validate_2x {
-            get {
-                object obj = ResourceManager.GetObject("poedit_validate_2x", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap sidebar {
-            get {
-                object obj = ResourceManager.GetObject("sidebar", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -422,109 +312,9 @@ namespace AGS_TranslationEditor.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap SuggestionError {
-            get {
-                object obj = ResourceManager.GetObject("SuggestionError", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap SuggestionError_2x {
             get {
                 object obj = ResourceManager.GetObject("SuggestionError_2x", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap SuggestionHumanTemplate {
-            get {
-                object obj = ResourceManager.GetObject("SuggestionHumanTemplate", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap SuggestionHumanTemplate_2x {
-            get {
-                object obj = ResourceManager.GetObject("SuggestionHumanTemplate_2x", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap SuggestionMachineTemplate {
-            get {
-                object obj = ResourceManager.GetObject("SuggestionMachineTemplate", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap SuggestionMachineTemplate_2x {
-            get {
-                object obj = ResourceManager.GetObject("SuggestionMachineTemplate_2x", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap SuggestionQuota {
-            get {
-                object obj = ResourceManager.GetObject("SuggestionQuota", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap SuggestionQuota_2x {
-            get {
-                object obj = ResourceManager.GetObject("SuggestionQuota_2x", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap window_close {
-            get {
-                object obj = ResourceManager.GetObject("window_close", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap window_close_hover {
-            get {
-                object obj = ResourceManager.GetObject("window_close_hover", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap window_close_hover_2x {
-            get {
-                object obj = ResourceManager.GetObject("window_close_hover_2x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
