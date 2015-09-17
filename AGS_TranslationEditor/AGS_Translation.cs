@@ -42,8 +42,8 @@ namespace AGS_TranslationEditor
     class AGS_Translation
     {
         //Encryption string
-        private static readonly char[] _passwencstring = { 'A','v','i','s',' ','D','u','r','g','a','n' };
-        private static Dictionary<string, string> _translatedLines;
+        private static readonly char[] _passwEncString = { 'A','v','i','s',' ','D','u','r','g','a','n' };
+        private static Dictionary<string, string> _transLines;
         
         /// <summary>
         /// Reads and parses a TRA file
@@ -55,7 +55,7 @@ namespace AGS_TranslationEditor
             using (FileStream fs = File.OpenRead(filename))
             {
                 BinaryReader br = new BinaryReader(fs);
-                _translatedLines = new Dictionary<string, string>();
+                _transLines = new Dictionary<string, string>();
 
                 //Tranlsation File Signature
                 char[] transsig = new char[16];
@@ -107,9 +107,9 @@ namespace AGS_TranslationEditor
                             string sDecTranslatedText = new string(cTranslatedText).Trim('\0');
 
                             //Populate List with the data
-                            if (!_translatedLines.ContainsKey(sDecSourceText))
+                            if (!_transLines.ContainsKey(sDecSourceText))
                             {
-                                _translatedLines.Add(sDecSourceText, sDecTranslatedText);
+                                _transLines.Add(sDecSourceText, sDecTranslatedText);
                             }
                             else
                             {
@@ -120,14 +120,14 @@ namespace AGS_TranslationEditor
                         //Close File
                         br.Close();
                         fs.Close();
-                        return _translatedLines;
+                        return _transLines;
                     }
                     else if (blockType == 3)
                     {
                         //Not used
                     }
                 }
-                return _translatedLines;
+                return _transLines;
             }
         }
 
@@ -139,7 +139,7 @@ namespace AGS_TranslationEditor
         public static Dictionary<string,string> ParseTRS_Translation(string filename)
         {
             string[] list = File.ReadAllLines(filename);
-            _translatedLines = new Dictionary<string, string>();
+            _transLines = new Dictionary<string, string>();
 
             //Look for comments and remove them
             var result = Array.FindAll(list, s => !s.StartsWith("//"));
@@ -155,16 +155,16 @@ namespace AGS_TranslationEditor
                     i++;
                 }
 
-                if (!_translatedLines.ContainsKey(sSourceText))
+                if (!_transLines.ContainsKey(sSourceText))
                 {
-                    _translatedLines.Add(sSourceText, sTranslationText);
+                    _transLines.Add(sSourceText, sTranslationText);
                 }
                 else
                 {
                     //MessageBox.Show("Entry already in Dictionary!",string.Format("Key already available: {0}", sSourceText));
                 }
             }
-            return _translatedLines;
+            return _transLines;
         }
 
         static void ConvertCharToByte(char[] chars, byte[] bytes)
@@ -306,7 +306,7 @@ namespace AGS_TranslationEditor
                 if (toEnc[toencx] == 0)
                     break;
 
-                toEnc[toencx] -= _passwencstring[adx];
+                toEnc[toencx] -= _passwEncString[adx];
 
                 adx++;
                 toencx++;
@@ -327,7 +327,7 @@ namespace AGS_TranslationEditor
 
             while (toencx < toenc.Length)
             {
-                toenc[toencx] += _passwencstring[adx];
+                toenc[toencx] += _passwEncString[adx];
                 adx++;
                 toencx++;
 
