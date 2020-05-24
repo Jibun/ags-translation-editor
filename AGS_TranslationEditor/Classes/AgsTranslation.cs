@@ -39,23 +39,27 @@ using System.Text;
 
 namespace AGS_TranslationEditor
 {
-    class AGS_Translation
+    class AgsTranslation
     {
         //Encryption string
-        private static readonly char[] _passwEncString = { 'A','v','i','s',' ','D','u','r','g','a','n' };
-        private static Dictionary<string, string> _transLines;
+        private static readonly char[] pwdEncChars = { 'A','v','i','s',' ','D','u','r','g','a','n' };
+        private static readonly byte[] pwdEncBytes = { 0x41, 0x76, 0x69, 0x73, 0x20, 0x44, 0x75, 0x72, 0x67, 0x61, 0x6e };
+        private static Dictionary<string, string> translationLines;
         
         /// <summary>
         /// Reads and parses a TRA file
         /// </summary>
         /// <param name="filename">Filename</param>
         /// <returns>A Dictionary with the translation entries</returns>
-        public static Dictionary<string,string> ParseTRA_Translation(string filename)
+        public static Dictionary<string,string> ParseTraTranslation(string filename)
         {
+            Encoding encoding = Encoding.UTF7;
+            bool decrypt = true;
+
             using (FileStream fs = File.OpenRead(filename))
             {
-                BinaryReader br = new BinaryReader(fs);
-                _transLines = new Dictionary<string, string>();
+                BinaryReader br = new BinaryReader(fs, encoding);
+                translationLines = new Dictionary<string, string>();
 
                 //Tranlsation File Signature
                 char[] transsig = new char[16];
@@ -78,16 +82,18 @@ namespace AGS_TranslationEditor
                         //Get GameTitle
                         int GameTitleLength = br.ReadInt32();
                         byte[] bGameTitle = br.ReadBytes(GameTitleLength);
-                        char[] cGameTitle = Encoding.UTF7.GetChars(bGameTitle);
-                        //Game Name
-                        decrypt_text(cGameTitle);
-                        string sGameTitle = new string(cGameTitle);
+                        if (decrypt) {
+                            DecryptBytes(bGameTitle);
+                        }
+                        char[] cGameTitle = encoding.GetChars(bGameTitle);
+                        string sGameTitle = new string(cGameTitle).Trim('\0');
 
                         //dummy read
                         br.ReadInt32();
                         //calculate Translation length
                         long translationLength = br.ReadInt32() + fs.Position;
 
+                        int i = 0;
                         //Loop throught File and decrypt entries
                         while (fs.Position < translationLength)
                         {
@@ -95,39 +101,44 @@ namespace AGS_TranslationEditor
 
                             //Read original Text
                             byte[] bSourceBytes = br.ReadBytes(newlen);
-                            char[] cSourceText = Encoding.UTF7.GetChars(bSourceBytes);
-                            decrypt_text(cSourceText);
+                            if (decrypt) {
+                                DecryptBytes(bSourceBytes);
+                            }
+                            char[] cSourceText = encoding.GetChars(bSourceBytes);
                             string sDecSourceText = new string(cSourceText).Trim('\0');
 
                             //Read Translated Text
                             newlen = br.ReadInt32();
                             byte[] bTranslatedBytes = br.ReadBytes(newlen);
-                            char[] cTranslatedText = Encoding.UTF7.GetChars(bTranslatedBytes);
-                            decrypt_text(cTranslatedText);
+                            if (decrypt) {
+                                DecryptBytes(bTranslatedBytes);
+                            }
+                            char[] cTranslatedText = encoding.GetChars(bTranslatedBytes, 0, newlen);
                             string sDecTranslatedText = new string(cTranslatedText).Trim('\0');
 
                             //Populate List with the data
-                            if (!_transLines.ContainsKey(sDecSourceText))
+                            if (!translationLines.ContainsKey(sDecSourceText))
                             {
-                                _transLines.Add(sDecSourceText, sDecTranslatedText);
+                                translationLines.Add(sDecSourceText, sDecTranslatedText);
                             }
                             else
                             {
                                 //Entry already in dictionary
                             }
+                            i++;
                         }
 
                         //Close File
                         br.Close();
                         fs.Close();
-                        return _transLines;
+                        return translationLines;
                     }
                     else if (blockType == 3)
                     {
                         //Not used
                     }
                 }
-                return _transLines;
+                return translationLines;
             }
         }
 
@@ -136,10 +147,10 @@ namespace AGS_TranslationEditor
         /// </summary>
         /// <param name="filename">Input filename</param>
         /// <returns>Dictionary with Translation entries</returns>
-        public static Dictionary<string,string> ParseTRS_Translation(string filename)
+        public static Dictionary<string,string> ParseTrsTranslation(string filename)
         {
             string[] list = File.ReadAllLines(filename);
-            _transLines = new Dictionary<string, string>();
+            translationLines = new Dictionary<string, string>();
 
             //Look for comments and remove them
             var result = Array.FindAll(list, s => !s.StartsWith("//"));
@@ -155,26 +166,29 @@ namespace AGS_TranslationEditor
                     i++;
                 }
 
-                if (!_transLines.ContainsKey(sSourceText))
+                if (!translationLines.ContainsKey(sSourceText))
                 {
-                    _transLines.Add(sSourceText, sTranslationText);
+                    translationLines.Add(sSourceText, sTranslationText);
                 }
                 else
                 {
                     //MessageBox.Show("Entry already in Dictionary!",string.Format("Key already available: {0}", sSourceText));
                 }
             }
-            return _transLines;
+            return translationLines;
         }
 
-        static void ConvertCharToByte(char[] chars, byte[] bytes)
+        static byte[] CharsToBytes(char[] chars)
         {
+            byte[] bytes = new byte[chars.Length];
             int x = 0;
             foreach (char c in chars)
             {
                 bytes[x] = (byte)c;
                 x++;
             }
+
+            return bytes;
         }
 
         /// <summary>
@@ -183,8 +197,12 @@ namespace AGS_TranslationEditor
         /// <param name="info">Game Information like Title,UID</param>
         /// <param name="filename">Output filename</param>
         /// <param name="entryList">List with Translation entries</param>
-        public static void CreateTRA_File(Gameinfo info, string filename, Dictionary<string,string> entryList)
+        public static void CreateTraFile(Gameinfo info, string filename, Dictionary<string,string> entryList)
         {
+
+            Encoding encoding = Encoding.Default; //GetEncoding(1252); //Encoding.UTF8;
+            bool encrypt = true;
+
             using (FileStream fs = new FileStream(filename,FileMode.Create))
             {
                 //Tail
@@ -195,7 +213,7 @@ namespace AGS_TranslationEditor
                 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00,
                 };
 
-                //Write always header "AGSTranslation\0
+                //Write always header "AGSTranslation\0"
                 byte[] agsHeader =
                 {0x41, 0x47, 0x53, 0x54, 0x72, 0x61, 0x6E, 0x73, 0x6C, 0x61, 0x74, 0x69, 0x6F, 0x6E, 0x00,};
                 fs.Write(agsHeader,0,agsHeader.Length);
@@ -212,15 +230,17 @@ namespace AGS_TranslationEditor
 
                 //Encrypt and write the Title
                 string GameTitle = info.GameTitle + "\0";
-                byte[] bGameTitle = Encoding.UTF8.GetBytes(GameTitle);
-                char[] cGameTitle = new char[GameTitle.Length];
-                GameTitle.CopyTo(0, cGameTitle, 0, GameTitle.Length);
-                encrypt_text(cGameTitle);
+                char[] cGameTitle = GameTitle.ToCharArray();
+                
                 //Write GameTitle Length
-                byte[] bGameTitleLength = BitConverter.GetBytes(bGameTitle.Length);
+                byte[] bGameTitleLength = BitConverter.GetBytes(GameTitle.Length);
                 fs.Write(bGameTitleLength, 0, bGameTitleLength.Length);
+
                 //Write the encrypted GameTitle
-                ConvertCharToByte(cGameTitle, bGameTitle);
+                byte[] bGameTitle = CharsToBytes(cGameTitle);
+                if (encrypt) {
+                    EncryptBytes(bGameTitle);
+                }
                 fs.Write(bGameTitle, 0, bGameTitle.Length);
 
                 //dummy write
@@ -240,74 +260,115 @@ namespace AGS_TranslationEditor
                     {
                         if (!string.Equals(pair.Value, ""))
                         {
-                            //encrypt string write length  
+                            //Get original string
                             string entry1 = pair.Key;
                             entry1 = entry1 + "\0";
 
-                            byte[] bEntry1 = Encoding.UTF8.GetBytes(entry1);
-                            byte[] bEntry6 = Encoding.UTF7.GetBytes(entry1);
-                            byte[] bEntry5 = Encoding.ASCII.GetBytes(entry1);
-
-                            //Write string entry1 length
-                            byte[] bEntry1Length = BitConverter.GetBytes(bEntry1.Length);
+                            //Write original string length
+                            byte[] bEntry1Length = BitConverter.GetBytes(entry1.Length);
                             fs.Write(bEntry1Length, 0, bEntry1Length.Length);
 
-                            char[] cEntry1 = new char[bEntry1.Length];
-                            Array.Copy(bEntry1, cEntry1, bEntry1.Length);
-
-                            encrypt_text(cEntry1);
-                            ConvertCharToByte(cEntry1,bEntry1);
+                            //Write original string bytes
+                            char[] cEntry1 = entry1.ToCharArray();
+                            byte[] bEntry1 = CharsToBytes(cEntry1);
+                            if (encrypt) {
+                                EncryptBytes(bEntry1);
+                            }
                             fs.Write(bEntry1, 0, bEntry1.Length);
 
-                            //Encrypt Entry2 and write length  
+                            //Get translation string  
                             string entry2 = pair.Value;
                             entry2 = entry2 + "\0";
-                            byte[] bEntry2 = Encoding.UTF8.GetBytes(entry2);
 
-                            //Write string entry2 length
-                            byte[] bEntry2Length = BitConverter.GetBytes(bEntry2.Length);
+                            //Write translation string length
+                            byte[] bEntry2Length = BitConverter.GetBytes(entry2.Length);
                             fs.Write(bEntry2Length, 0, bEntry2Length.Length);
 
-                            char[] cEntry2 = new char[bEntry2.Length];
-                            Array.Copy(bEntry2, cEntry2, bEntry2.Length);
-                            encrypt_text(cEntry2);
-                            ConvertCharToByte(cEntry2,bEntry2);
+                            //Write translation string bytes
+                            char[] cEntry2 = entry2.ToCharArray();
+                            byte[] bEntry2 = CharsToBytes(cEntry2);
+                            if (encrypt) {
+                                EncryptBytes(bEntry2);
+                            }
                             fs.Write(bEntry2, 0, bEntry2.Length);
 
                             long lengthTemp = BitConverter.ToInt32(bEntry1Length, 0) + 4 +
                                               BitConverter.ToInt32(bEntry2Length, 0) + 4;
                             translationLength = translationLength + lengthTemp;
                         }
+                        
                     }
-                        //Write Tail
-                        fs.Write(tail, 0, tail.Length);
 
-                        //Write Translation length + 10
-                        byte[] b = BitConverter.GetBytes((int) (translationLength + 10));
-                        fs.Position = translationLengthPosition;
-                        fs.Write(b, 0, b.Length);
+                    //Write Tail
+                    fs.Write(tail, 0, tail.Length);
 
-                        fs.Close();
+                    //Write Translation length + 10
+                    byte[] b = BitConverter.GetBytes((int) (translationLength + 10));
+                    fs.Position = translationLengthPosition;
+                    fs.Write(b, 0, b.Length);
+
+                    fs.Close();
                 }
             }           
+        }
+
+        /// <summary>
+        /// Decrypt a byte array
+        /// </summary>
+        /// <param name="toEnc">byte array to decrypt</param>
+        public static void DecryptBytes(byte[] toEnc) {
+            int adx = 0;
+            int toencx = 0;
+
+            while (toencx < toEnc.Length) {
+
+                toEnc[toencx] -= pwdEncBytes[adx];
+
+                adx++;
+                toencx++;
+
+                if (adx > 10)
+                    adx = 0;
+            }
         }
 
         /// <summary>
         /// Decrypt a char array
         /// </summary>
         /// <param name="toEnc">char array to decrypt</param>
-        public static void decrypt_text(char[] toEnc)
+        public static void DecryptChars(char[] toEnc)
         {
             int adx = 0;
             int toencx = 0;
 
             while (toencx < toEnc.Length)
             {
-                if (toEnc[toencx] == 0)
-                    break;
+                /*if (toEnc[toencx] == 0)
+                    break;*/
 
-                toEnc[toencx] -= _passwEncString[adx];
+                if (toEnc[toencx] - pwdEncChars[adx] < 0) {
+                    toEnc[toencx] += (char)256;
+                }
+                toEnc[toencx] -= pwdEncChars[adx];
 
+                adx++;
+                toencx++;
+
+                if (adx > 10)
+                    adx = 0;
+            }
+        }
+
+        /// <summary>
+        /// Encrypt a byte array
+        /// </summary>
+        /// <param name="toenc">byte array to encrypt</param>
+        public static void EncryptBytes(byte[] toenc) {
+            int adx = 0;
+            int toencx = 0;
+
+            while (toencx < toenc.Length) {
+                toenc[toencx] += pwdEncBytes[adx];
                 adx++;
                 toencx++;
 
@@ -320,14 +381,14 @@ namespace AGS_TranslationEditor
         /// Encrypt a char array
         /// </summary>
         /// <param name="toenc">char array to encrypt</param>
-        public static void encrypt_text(char[] toenc)
+        public static void EncryptChars(char[] toenc)
         {
             int adx = 0;
             int toencx = 0;
 
             while (toencx < toenc.Length)
             {
-                toenc[toencx] += _passwEncString[adx];
+                toenc[toencx] += pwdEncChars[adx];
                 adx++;
                 toencx++;
 
@@ -335,7 +396,6 @@ namespace AGS_TranslationEditor
                     adx = 0;
             }
         }
-
 
         public class Gameinfo
         {

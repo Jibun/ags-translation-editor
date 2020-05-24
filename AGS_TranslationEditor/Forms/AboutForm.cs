@@ -33,29 +33,36 @@
 */
 
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AGS_TranslationEditor
 {
-    public partial class frmStats : Form
+    public partial class AboutForm : Form
     {
-        public frmStats()
+        public AboutForm()
         {
             InitializeComponent();
         }
 
-        internal void LoadData(int countEntries, int NotTranslatedCount)
+        private void button1_Click(object sender, EventArgs e)
         {
-            if (countEntries > 0)
-            {
-                int translatedCount = countEntries - NotTranslatedCount;
-                float progressValue = (translatedCount*100)/countEntries;
-                progressBar1.Value = Convert.ToInt32(progressValue);
-
-                lblTranslatedCount.Text = translatedCount.ToString() + " (" + progressValue + "%)";
-                lblNotTranslatedCount.Text = NotTranslatedCount.ToString();
-            }
+            Close();
         }
 
+        private void frmAbout_Load(object sender, EventArgs e)
+        {
+            string version = System.Reflection.Assembly.GetExecutingAssembly()
+                                           .GetName()
+                                           .Version
+                                           .ToString();
+            lblVersion.Text = version;
+        }
     }
 }

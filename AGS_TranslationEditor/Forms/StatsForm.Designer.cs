@@ -1,6 +1,6 @@
 ﻿namespace AGS_TranslationEditor
 {
-    partial class frmStats
+    partial class StatsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmStats));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StatsForm));
             this.lblTranslated = new System.Windows.Forms.Label();
             this.lblNotTranslated = new System.Windows.Forms.Label();
             this.lblCountEntries = new System.Windows.Forms.Label();
@@ -67,7 +67,7 @@
             resources.ApplyResources(this.progressBar1, "progressBar1");
             this.progressBar1.Name = "progressBar1";
             // 
-            // frmStats
+            // StatsForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -80,7 +80,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "frmStats";
+            this.Name = "StatsForm";
             this.ShowIcon = false;
             this.TopMost = true;
             this.ResumeLayout(false);
