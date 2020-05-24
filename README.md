@@ -1,10 +1,29 @@
 # AGS Translation Editor #
 
 ### What can you do with AGS Translation Editor ? ###
-* Read, edit, convert and create TRS and TRA Translation Files for AGS Games.
+* You can open and see TRS and TRA files in a comprehensible way.
+* You can edit translations in a simple way and save them back as TRS files.
+* You can convert TRS files into TRA to be read in-game.
+* You can see statistics of your translation progress. 
 
-### Where do i get the script of a game ? ###
-* Unfortunatly i didn't found a proper to get the scripts with an application, however you can manually search for "__NEWSCRIPTSTART_" in the Game Exe and copy&paste the textinto a new one it's only a bit tedious ;).
+### Pending Features ###
+* Create new TRS file.
+* Allow wrap arond search.
+
+### Known Issues ###
+
+### Changelog ###
+#### 2.0.0 ####
+* Names of some forms, methods, variables, etc. changed.
+* Some components moved to folders 'Forms' and 'Classes'.
+* Fixed TRA reading and writing methods. Special characters are now correctly loaded, displayed and saved. Some other minor fixes.
+* Fixed save option behaviour that automatically overrode TRA files with TRS content, making them unusable.
+* New 'go to line' and 'search text' options added.
+
+## AGS Files Related ##
+
+### Where do I get the script of a game ? ###
+* Unfortunatly I didn't found a proper way to get the scripts with an application, however you can manually search for "__NEWSCRIPTSTART_" in the Game Exe and copy&paste the text into a new one it's only a bit tedious ;).
 
 ### TRS file format ###
 A TRS file should look like this example
@@ -20,6 +39,3 @@ A TRS file should look like this example
 
 
 ```
-
-### Known Issues ###
-* there are problems with special characters like äöüßèà since Adventure Games Studio only supports the ASCII character (thought there are workarounds you can read more about it here http://www.adventuregamestudio.co.uk/wiki/Fonts#The_MOST_IMPORTANT_part:_define_your_needs)
