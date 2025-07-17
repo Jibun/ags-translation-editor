@@ -371,47 +371,61 @@ namespace AGS_TranslationEditor
 
         private void getGameInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openDialog = new OpenFileDialog();
-            openDialog.Filter = "Game EXE File (*.exe)|*.exe";
+            OpenFileDialog openExeDialog = new OpenFileDialog() {
+                DefaultExt = "exe",
+                Filter = "AGS EXE File (*.exe)|*.exe",
+                Title = "Game EXE for Translation"
+            };
 
-            if (openDialog.ShowDialog() == DialogResult.OK)
+            if (openExeDialog.ShowDialog() == DialogResult.OK)
             {
-                AgsTranslation.Gameinfo gameinfo = new AgsTranslation.Gameinfo();
+                AgsTranslation.GameInfo gameInfo = null;
+                //fix for unavowed
+                if (openExeDialog.FileName.Contains("Unavowed"))
+                    gameInfo = AgsTranslation.GetGameInfo(openExeDialog.FileName, 1);
+                else
+                    gameInfo = AgsTranslation.GetGameInfo(openExeDialog.FileName, 2);
 
-                gameinfo = AgsTranslation.GetGameInfo(openDialog.FileName);
                 MessageBox.Show(
-                    "AGS Version: " + gameinfo.Version +
-                    "\nGame Title: " + gameinfo.GameTitle +
-                    "\nGameUID: " + gameinfo.GameUID,
+                    "AGS Version: " + gameInfo.Version +
+                    "\nGame Title: " + gameInfo.GameTitle +
+                    "\nGame UID: " + gameInfo.GameUID,
                     "Game Information");
             }
         }
 
         private void createTraToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openExeDialog = new OpenFileDialog();
-            openExeDialog.Title = "Game EXE for Translation";
-            openExeDialog.Filter = "AGS EXE File (*.exe)|*.exe";
+            OpenFileDialog openExeDialog = new OpenFileDialog() {
+                DefaultExt = "exe",
+                Filter = "AGS EXE File (*.exe)|*.exe",
+                Title = "Game EXE for Translation"
+            };
 
-            OpenFileDialog openDialog = new OpenFileDialog();
-            openDialog.Filter = "TRS Translation File (*.trs)|*.trs";
-            openDialog.Title = "Open TRS Translation you want to use.";
+            OpenFileDialog openDialog = new OpenFileDialog() {
+                DefaultExt = "trs",
+                Filter = "TRS Translation File (*.trs)|*.trs",
+                Title = "Open TRS Translation you want to use."
+            };
 
-            SaveFileDialog saveDialog = new SaveFileDialog();
-            saveDialog.DefaultExt = "tra";
-            saveDialog.Filter = "TRA Translation File (*.tra)|*.tra";
-            saveDialog.Title = "Save TRA Translation as...";
+            SaveFileDialog saveDialog = new SaveFileDialog() {
+                DefaultExt = "tra",
+                Filter = "TRA Translation File (*.tra)|*.tra",
+                Title = "Save TRA Translation as..."
+            };
 
             if (openExeDialog.ShowDialog() == DialogResult.OK)
             {
-                AgsTranslation.Gameinfo info = AgsTranslation.GetGameInfo(openExeDialog.FileName);
-
                 if (openDialog.ShowDialog() == DialogResult.OK)
-                {
-                    if (saveDialog.ShowDialog() == DialogResult.OK)
-                        AgsTranslation.CreateTraFile(info, saveDialog.FileName,
+                    if (saveDialog.ShowDialog() == DialogResult.OK) {
+                        AgsTranslation.GameInfo info = null;
+                        if (openExeDialog.FileName.Contains("Unavowed"))
+                            info = AgsTranslation.GetGameInfo(openExeDialog.FileName, 1);
+                        else
+                            info = AgsTranslation.GetGameInfo(openExeDialog.FileName, 2);
+                        AgsTranslation.CreateTraFile(info, saveDialog.FileName, 
                             AgsTranslation.ParseTrsTranslation(openDialog.FileName));
-                }
+                    }
             }
         }
 

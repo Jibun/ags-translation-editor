@@ -61,7 +61,7 @@ namespace AGS_TranslationEditor
                 BinaryReader br = new BinaryReader(fs, encoding);
                 translationLines = new Dictionary<string, string>();
 
-                //Tranlsation File Signature
+                //Translation File Signature
                 char[] transsig = new char[16];
                 transsig = br.ReadChars(15);
                 //Check AGS Translation Header
@@ -197,7 +197,7 @@ namespace AGS_TranslationEditor
         /// <param name="info">Game Information like Title,UID</param>
         /// <param name="filename">Output filename</param>
         /// <param name="entryList">List with Translation entries</param>
-        public static void CreateTraFile(Gameinfo info, string filename, Dictionary<string,string> entryList)
+        public static void CreateTraFile(GameInfo info, string filename, Dictionary<string,string> entryList)
         {
 
             Encoding encoding = Encoding.Default; //GetEncoding(1252); //Encoding.UTF8;
@@ -397,7 +397,7 @@ namespace AGS_TranslationEditor
             }
         }
 
-        public class Gameinfo
+        public class GameInfo
         {
             public string Version { get; set; }
             public string GameTitle { get; set; }
@@ -408,14 +408,25 @@ namespace AGS_TranslationEditor
         /// Get Game information (GameTitle and GameUID) from AGS EXE File
         /// </summary>
         /// <param name="filename">Game EXE File</param>
-        public static Gameinfo GetGameInfo(string filename)
+        public static GameInfo GetGameInfo(string filename, int version = 0)
         {
             using (FileStream fs = new FileStream(filename, FileMode.Open))
             {
                 //The string we want to search in the AGS Game executable
-                const string searchString = "Adventure Creator Game File v2";
+                string searchString = "Adventure Creator Game File v2*";
+                switch (version) {
+                    case 0:
+                        searchString = "Adventure Creator Game File v2*";
+                        break;
+                    case 1: //fix for unavowed
+                        searchString = "Adventure Creator Game File v21";
+                        break;
+                    case 2: //fix for AGS 1.7
+                        searchString = "Adventure Creator Game File v22";
+                        break;
+                }
                 // Gameinfo class to hold the information
-                Gameinfo info = new Gameinfo();
+                GameInfo info = new GameInfo();
 
                 const int blockSize = 1024;
                 long fileSize = fs.Length;
@@ -431,27 +442,31 @@ namespace AGS_TranslationEditor
                     //If the search string is found get the game info
                     if (tempData.Contains(searchString))
                     {
-                        int pos = tempData.IndexOf(searchString, 0);
+                        int startPosition = tempData.IndexOf(searchString, 0, StringComparison.Ordinal);
                         //Calculate and set the position to start reading
-                        pos = pos + 0x1E + (int)position;
-                        fs.Position = pos;
+                        startPosition = startPosition + 0x1E + (int)position;
+                        fs.Position = startPosition;
 
                         //Dummy read 4 bytes
                         br.ReadInt32();
-                        int versionStringLength = br.ReadInt32();
 
                         //Get the AGS version the game was compiled with
+                        int versionStringLength = br.ReadInt32();
                         info.Version = new string(br.ReadChars(versionStringLength));
 
+                        //fix for unavowed
+                        if (version == 1 || version == 2)
+                            br.ReadInt32();
+
                         //Calculate and save GameUID position for later use
-                        long gameuidPos = fs.Position + 0x6f4;
+                        long gameUIDPosition = fs.Position + 0x6f4;
 
                         //Get the game title
                         string gameTitle = new string(br.ReadChars(0x40));
-                        info.GameTitle = gameTitle.Substring(0, gameTitle.IndexOf("\0"));
+                        info.GameTitle = gameTitle.Substring(0, gameTitle.IndexOf("\0", StringComparison.Ordinal));
 
                         //Read the GameUID
-                        fs.Position = gameuidPos;
+                        fs.Position = gameUIDPosition;
                         int GameUID = br.ReadInt32();
                         GameUID = SwapEndianness(GameUID);
                         info.GameUID = GameUID.ToString("X");
