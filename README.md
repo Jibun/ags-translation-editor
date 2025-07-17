@@ -1,4 +1,7 @@
 # AGS Translation Editor #
+This project is a continuation —or a variation, if you will— of the BitBucket version of [AGS_TranslationEditor](https://bitbucket.org/Taktloss/ags_translationeditor/src/master/) by [Taktloss](https://github.com/Taktloss).  
+I just recently realized that a more recent [version](https://github.com/Taktloss/AGS_TranslationEditor) has always been available on GitHub. At this point, the differences have grown too large to create a proper fork and merge them.  
+Keep in mind that while this version fixes some issues and introduces new features, it also lacks some of the more recent ones found in the original version.
 
 ### What can you do with AGS Translation Editor ? ###
 * You can open and see TRS and TRA files in a comprehensible way.
@@ -13,6 +16,9 @@
 ### Known Issues ###
 
 ### Changelog ###
+#### 2.1.0 ####
+* Added support for newer AGS games
+
 #### 2.0.0 ####
 * Names of some forms, methods, variables, etc. changed.
 * Some components moved to folders 'Forms' and 'Classes'.
@@ -23,7 +29,7 @@
 ## AGS Files Related ##
 
 ### Where do I get the script of a game ? ###
-* Unfortunatly I didn't found a proper way to get the scripts with an application, however you can manually search for "__NEWSCRIPTSTART_" in the Game Exe and copy&paste the text into a new one it's only a bit tedious ;).
+* Unfortunately, this version does not provide that feature. However, you can either manually search for "__NEWSCRIPTSTART_" in the game executable and copy & paste the script into a new file, or use the script available in the [original version](https://github.com/Taktloss/AGS_TranslationEditor).
 
 ### TRS file format ###
 A TRS file should look like this example
