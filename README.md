@@ -14,7 +14,7 @@ Keep in mind that while this version fixes some issues and introduces new featur
 * Allow wrap arond search.
 
 ### Known Issues ###
-The version detection of the AGS files is hardcoded, as I haven't found a clear pattern. As such, it may fail in games that I haven't tested.
+* The version detection of the AGS files is hardcoded, as I haven't found a clear pattern. As such, it may fail in games that I haven't tested.
 
 ### Changelog ###
 #### 2.1.1 ####
