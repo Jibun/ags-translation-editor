@@ -373,24 +373,24 @@ namespace AGS_TranslationEditor
         {
             OpenFileDialog openExeDialog = new OpenFileDialog() {
                 DefaultExt = "exe",
-                Filter = "AGS EXE File (*.exe)|*.exe",
-                Title = "Game EXE for Translation"
+                Filter = "EXE or AGS File (*.exe;*.ags)|*.exe;*.ags",
+                Title = "Game EXE or AGS for Translation"
             };
 
             if (openExeDialog.ShowDialog() == DialogResult.OK)
             {
-                AgsTranslation.GameInfo gameInfo = null;
-                //fix for unavowed
-                if (openExeDialog.FileName.Contains("Unavowed"))
-                    gameInfo = AgsTranslation.GetGameInfo(openExeDialog.FileName, 1);
-                else
-                    gameInfo = AgsTranslation.GetGameInfo(openExeDialog.FileName, 2);
+                AgsTranslation.GameInfo gameInfo = AgsTranslation.GetGameInfo(openExeDialog.FileName);
 
-                MessageBox.Show(
-                    "AGS Version: " + gameInfo.Version +
-                    "\nGame Title: " + gameInfo.GameTitle +
-                    "\nGame UID: " + gameInfo.GameUID,
-                    "Game Information");
+                if (gameInfo == null) {
+                    MessageBox.Show("The EXE/AGS selected is not compatible",
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                } else {
+                    MessageBox.Show(
+                        "AGS Version: " + gameInfo.Version +
+                        "\nGame Title: " + gameInfo.GameTitle +
+                        "\nGame UID: " + gameInfo.GameUID,
+                        "Game Information");
+                }
             }
         }
 
@@ -398,8 +398,8 @@ namespace AGS_TranslationEditor
         {
             OpenFileDialog openExeDialog = new OpenFileDialog() {
                 DefaultExt = "exe",
-                Filter = "AGS EXE File (*.exe)|*.exe",
-                Title = "Game EXE for Translation"
+                Filter = "EXE or AGS File (*.exe;*.ags)|*.exe;*.ags",
+                Title = "Game EXE or AGS for Translation"
             };
 
             OpenFileDialog openDialog = new OpenFileDialog() {
@@ -418,13 +418,17 @@ namespace AGS_TranslationEditor
             {
                 if (openDialog.ShowDialog() == DialogResult.OK)
                     if (saveDialog.ShowDialog() == DialogResult.OK) {
-                        AgsTranslation.GameInfo info = null;
-                        if (openExeDialog.FileName.Contains("Unavowed"))
-                            info = AgsTranslation.GetGameInfo(openExeDialog.FileName, 1);
-                        else
-                            info = AgsTranslation.GetGameInfo(openExeDialog.FileName, 2);
+                        AgsTranslation.GameInfo info = AgsTranslation.GetGameInfo(openExeDialog.FileName);
+                        if (info == null) {
+                            MessageBox.Show("The EXE/AGS selected is not compatible",
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
                         AgsTranslation.CreateTraFile(info, saveDialog.FileName, 
                             AgsTranslation.ParseTrsTranslation(openDialog.FileName));
+
+                        MessageBox.Show("TRA successfully created",
+                                "Success", MessageBoxButtons.OK);
                     }
             }
         }

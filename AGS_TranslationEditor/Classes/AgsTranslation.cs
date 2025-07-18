@@ -408,23 +408,13 @@ namespace AGS_TranslationEditor
         /// Get Game information (GameTitle and GameUID) from AGS EXE File
         /// </summary>
         /// <param name="filename">Game EXE File</param>
-        public static GameInfo GetGameInfo(string filename, int version = 0)
+        public static GameInfo GetGameInfo(string filename)
         {
             using (FileStream fs = new FileStream(filename, FileMode.Open))
             {
-                //The string we want to search in the AGS Game executable
-                string searchString = "Adventure Creator Game File v2*";
-                switch (version) {
-                    case 0:
-                        searchString = "Adventure Creator Game File v2*";
-                        break;
-                    case 1: //fix for unavowed
-                        searchString = "Adventure Creator Game File v21";
-                        break;
-                    case 2: //fix for AGS 1.7
-                        searchString = "Adventure Creator Game File v22";
-                        break;
-                }
+                //The string we want to search in the AGS Game File or Executable
+                String searchString = "Adventure Creator Game File v2";
+                        
                 // Gameinfo class to hold the information
                 GameInfo info = new GameInfo();
 
@@ -447,15 +437,22 @@ namespace AGS_TranslationEditor
                         startPosition = startPosition + 0x1E + (int)position;
                         fs.Position = startPosition;
 
-                        //Dummy read 4 bytes
-                        br.ReadInt32();
+                        byte versionNextByte = br.ReadByte();
+                        if (versionNextByte == 0x00) {
+                            position = startPosition + 1;
+                            continue;
+                        }
+
+                        //Dummy read 3 bytes
+                        br.ReadBytes(3);
 
                         //Get the AGS version the game was compiled with
                         int versionStringLength = br.ReadInt32();
                         info.Version = new string(br.ReadChars(versionStringLength));
 
-                        //fix for unavowed
-                        if (version == 1 || version == 2)
+                        //fix for newer versions (haven't found a proper pattern)
+                        Char versionNext = (char)versionNextByte;
+                        if (versionNext == '1' || versionNext == '2' || versionNext == '5')
                             br.ReadInt32();
 
                         //Calculate and save GameUID position for later use
