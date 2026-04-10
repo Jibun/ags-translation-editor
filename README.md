@@ -14,9 +14,13 @@ Keep in mind that while this version fixes some issues and introduces new featur
 * Allow wrap arond search.
 
 ### Known Issues ###
-* The version detection of the AGS files is hardcoded, as I haven't found a clear pattern. As such, it may fail in games that I haven't tested.
 
 ### Changelog ###
+#### 2.1.2 ####
+* Fixed stream position reset when skipping invalid GameInfo matches.
+* Corrected game data version detection and dependent parsing.
+* Added warning for unsupported newer game data versions.
+
 #### 2.1.1 ####
 * Fixed TRA creation and Game Information retrieval for old ASG version games (messed up in last update).
 * Added AGS as a supported file format for Game Information retrieval and TRA creation.
