@@ -80,6 +80,8 @@
     <Compile Include="Classes\AudioManager.cs" />
     <Compile Include="Classes\SearchOptions.cs" />
     <Compile Include="Classes\TranslationGridUtils.cs" />
+    <Compile Include="Classes\Utils\GameVersion.cs" />
+    <Compile Include="Classes\Utils\StringUtils.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

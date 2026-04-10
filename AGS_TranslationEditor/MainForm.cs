@@ -385,11 +385,25 @@ namespace AGS_TranslationEditor
                     MessageBox.Show("The EXE/AGS selected is not compatible",
                         "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 } else {
+                    if (gameInfo.DataVersion > Utils.GameDataVersion.kGameVersion_current)
+                    {
+                        MessageBox.Show(
+                            "Warning: This file was created with a newer game data version than this tool supports.\n" +
+                            "Some information may be read incorrectly.",
+                            "Unsupported Version",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning
+                        );
+                    }
+
                     MessageBox.Show(
-                        "AGS Version: " + gameInfo.Version +
-                        "\nGame Title: " + gameInfo.GameTitle +
-                        "\nGame UID: " + gameInfo.GameUID,
-                        "Game Information");
+                        $"AGS Version: {gameInfo.CompiledWith}\n" +
+                        $"Game Title: {gameInfo.GameTitle}\n" +
+                        $"Game UID: {gameInfo.GameUID}",
+                        "Game Information",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
                 }
             }
         }

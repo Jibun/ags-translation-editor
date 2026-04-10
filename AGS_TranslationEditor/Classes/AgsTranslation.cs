@@ -32,6 +32,7 @@
     Programm erhalten haben.Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 */
 
+using AGS_TranslationEditor.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -399,7 +400,8 @@ namespace AGS_TranslationEditor
 
         public class GameInfo
         {
-            public string Version { get; set; }
+            public GameDataVersion DataVersion { get; set; }
+            public string CompiledWith { get; set; }
             public string GameTitle { get; set; }
             public string GameUID { get; set; }
         }
@@ -437,22 +439,26 @@ namespace AGS_TranslationEditor
                         startPosition = startPosition + 0x1E + (int)position;
                         fs.Position = startPosition;
 
-                        byte versionNextByte = br.ReadByte();
-                        if (versionNextByte == 0x00) {
+                        //Obtain the following 4 bytes with the Game data version. Skip if the first one is empty
+                        byte[] versionBytes = br.ReadBytes(4);
+                        if (versionBytes[0] == 0x00)
+                        {
                             position = startPosition + 1;
+                            fs.Position = position;
                             continue;
                         }
+                        GameDataVersion dataVersion = (GameDataVersion) BitConverter.ToInt32(versionBytes, 0);
+                        info.DataVersion = dataVersion;
 
-                        //Dummy read 3 bytes
-                        br.ReadBytes(3);
+                        //If the data version is equal or grater that 230 we can retrieve the compilation version
+                        if (dataVersion >= GameDataVersion.kGameVersion_230)
+                        {
+                            //Get the AGS version the game was compiled with
+                            info.CompiledWith = StringUtils.ReadString(br);
+                        }
 
-                        //Get the AGS version the game was compiled with
-                        int versionStringLength = br.ReadInt32();
-                        info.Version = new string(br.ReadChars(versionStringLength));
-
-                        //fix for newer versions (haven't found a proper pattern)
-                        Char versionNext = (char)versionNextByte;
-                        if (versionNext == '1' || versionNext == '2' || versionNext == '5')
+                        //If the data version is equal or grater than 341, we can skip the following 4 bytes
+                        if (dataVersion >= GameDataVersion.kGameVersion_341)
                             br.ReadInt32();
 
                         //Calculate and save GameUID position for later use
